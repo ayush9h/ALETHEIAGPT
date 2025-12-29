@@ -1,5 +1,6 @@
 'use client'
 import { signIn } from 'next-auth/react'
+import { StarIcon } from '@radix-ui/react-icons'
 
 export default function Landing() {
     return (
@@ -8,21 +9,8 @@ export default function Landing() {
             <div className="flex flex-1 flex-col items-center justify-center">
                 {/* Beta Badge */}
                 <div className="mb-6 flex items-center gap-2 rounded-full px-4 py-1.5 bg-blue-100 border border-blue-300 shadow-sm shadow-blue-200">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="h-4 w-4 text-blue-600"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M11.25 3.75L10.5 9H4.5l6.75 4.5-2.25 6 5.25-3.75 5.25 3.75-2.25-6L19.5 9h-6l-.75-5.25z"
-                        />
-                    </svg>
-                    <span className="text-xs font-paragraph font-medium text-blue-700">
+                    <StarIcon className=''/>
+                    <span className="text-xs font-paragraph font-medium text-primary">
                         Currently in Beta
                     </span>
                 </div>
