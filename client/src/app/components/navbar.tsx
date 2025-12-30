@@ -18,9 +18,9 @@ type NavbarProps = {
 }
 
 const MODELS = [
-  { label: 'Llama3-8B', value: 'llama3-8b-8192' },
-  { label: 'Qwen3-32B', value: 'qwen/qwen3-32b' },
-  { label: 'Gemma2-9B', value: 'gemma2-9b-it' },
+  { label: 'Meta`s Llama3-8B', value: 'llama3-8b-8192' },
+  { label: 'Deepseek`s Qwen3-32B', value: 'qwen/qwen3-32b' },
+  { label: 'Google`s Gemma2-9B', value: 'gemma2-9b-it' },
 ]
 
 export default function Navbar({ selectedModel, setSelectedModel }: NavbarProps) {
@@ -33,15 +33,15 @@ export default function Navbar({ selectedModel, setSelectedModel }: NavbarProps)
 
   return (
     <nav>
-      <div className="flex max-w-6xl mx-auto items-center justify-between p-2.5">
+       <div className="flex items-center justify-between px-6 py-3">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center rounded-md border border-stone-300 bg-white px-3 py-2 text-sm font-mono text-stone-700 hover:bg-stone-50">
+            <button className="flex items-center rounded-md border border-stone-300 bg-white px-3 py-2 text-sm font-paragraph text-stone-700 hover:bg-stone-50">
               {currentModel} <CaretDownIcon className='ml-2'/>
             </button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="start" className="font-mono">
+          <DropdownMenuContent align="start" className="font-paragraph">
             {MODELS.map((model) => (
               <DropdownMenuItem
                 key={model.value}
@@ -63,7 +63,7 @@ export default function Navbar({ selectedModel, setSelectedModel }: NavbarProps)
             />
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="end" className="font-mono">
+          <DropdownMenuContent align="end" className="font-paragraph">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>

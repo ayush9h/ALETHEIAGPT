@@ -14,7 +14,7 @@ export const InitialState: ChatState = {
     input: '',
     selectedModel: 'llama3-8b-8192',
     sessions: [],
-    messages: [{ role: 'assistant', text: 'Hi, how can I help you today' }]
+    messages: [{ role: 'assistant', text: 'Hi, how can I help you today?' }]
 };
 
 export const ChatReducer = (state: ChatState, action: any) =>  {
