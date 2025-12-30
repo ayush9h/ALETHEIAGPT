@@ -85,7 +85,7 @@ export default function Chat() {
 
 
             <main className="flex flex-col h-screen">
-                <div className="border-b border-slate-300 bg-white shadow-sm">
+                <div className="border-b border-stone-300 bg-white">
                     <Navbar selectedModel={state.selectedModel} setSelectedModel={(model) => dispatch({ type: 'SET_MODEL', payload: model })} />
                 </div>
 
