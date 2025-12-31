@@ -13,6 +13,7 @@ import {
   MagnifyingGlassIcon,
   Pencil2Icon,
   ArrowUpIcon,
+  PlusIcon,
 } from '@radix-ui/react-icons';
 
 export default function Chat() {
@@ -98,10 +99,10 @@ export default function Chat() {
 
   return (
     <div
-  className={`grid min-h-screen bg-slate-50 text-slate-800 font-paragraph transition-all duration-300 ${open ? 'grid-cols-[15rem_1fr]' : 'grid-cols-[4rem_1fr]'}`}>
+  className={`grid min-h-screen bg-stone-50 text-stone-800 font-paragraph transition-all duration-300 ${open ? 'grid-cols-[15rem_1fr]' : 'grid-cols-[4rem_1fr]'}`}>
 
       {/* Sidebar */}
-      <aside className="flex flex-col overflow-hidden border-r border-slate-300 bg-slate-100 px-3 py-6 shadow-inner">
+      <aside className="flex flex-col overflow-hidden border-r border-stone-300 bg-stone-100 px-3 py-6 shadow-inner">
         <div
           className="flex cursor-pointer items-center gap-2"
           onClick={() => setOpen((v) => !v)}
@@ -113,7 +114,7 @@ export default function Chat() {
           />
         </div>
 
-        <button className="mt-4 flex items-center gap-2 rounded-md px-2 py-2 text-sm text-stone-800 transition-colors hover:bg-slate-200">
+        <button className="mt-4 flex items-center gap-2 rounded-md px-2 py-2 text-sm text-stone-800 transition-colors hover:bg-stone-200">
           <Pencil2Icon />
           <span
             className={`whitespace-nowrap overflow-hidden transition-all duration-300 ${
@@ -147,7 +148,7 @@ export default function Chat() {
           {state.sessions.map((session, idx) => (
             <li
               key={idx}
-              className="cursor-pointer rounded-md p-2 transition-colors hover:bg-slate-300"
+              className="cursor-pointer rounded-md p-2 transition-colors hover:bg-stone-300"
             >
               <span
                 className={`block whitespace-nowrap overflow-hidden transition-all duration-300 ${
@@ -163,43 +164,47 @@ export default function Chat() {
         </ul>
       </aside>
 
-                  <main className="flex flex-col h-screen">
-                <div className="border-b border-stone-300 bg-white">
-                    <Navbar selectedModel={state.selectedModel} setSelectedModel={(model) => dispatch({ type: 'SET_MODEL', payload: model })} />
-                </div>
+      <div className="flex flex-col h-screen relative">
 
-                <div className="flex max-w-6xl  overflow-y-auto px-6 py-6 space-y-5">
-                    {state.messages.map((msg: Message, idx: number) => (
-                        <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                            <div className={`max-w-lg rounded-md px-5 py-3 shadow text-sm leading-relaxed ${msg.role === 'user' ? 'bg-blue-700 text-white' : 'bg-slate-200 text-slate-900'}`}>
-                                {msg.text}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+        <div className="border-b border-stone-300 bg-white">
+            <Navbar selectedModel={state.selectedModel} setSelectedModel={(model) => dispatch({ type: 'SET_MODEL', payload: model })} />
+        </div>
 
-                <div className="bg-white px-6 py-4 mx-auto max-w-3xl w-full flex flex-col text-center">
-                    <div className="flex items-center rounded-xl border border-slate-300 bg-slate-50 p-3 shadow-xl">
-                        <input
-                            type="text"
-                            value={state.input}
-                            onChange={(e) => dispatch({ type: 'SET_INPUT', payload: e.target.value })}
-                            onKeyDown={handleKeyDown}
-                            placeholder="Ask about cryptocurrency"
-                            className="flex-1 bg-transparent px-3 py-2 text-sm text-slate-800 focus:outline-none placeholder-slate-500"
-                        />
-                        <button
-                            onClick={handleSend}
-                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 transition-colors cursor-pointer"
-                        >
-                            <ArrowUpIcon className="h-4 w-4 text-white" />
-                        </button>
+        <div className="flex flex-col h-[35rem] overflow-y-scroll p-4">
+          <div className='max-w-3xl w-full mx-auto space-y-2'>
+            {state.messages.map((msg: Message, idx: number) => (
+                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`px-4 py-2 text-sm leading-relaxed ${msg.role === 'user' ? 'bg-blue-600 rounded-md text-white' : 'text-stone-900 bg-stone-200 rounded-md'}`}>
+                        {msg.text}
                     </div>
-                    <p className="text-xs mt-2 text-slate-500 font-paragraph">
-                        BLOCKGPT can make mistakes. Check for important info.
-                    </p>
                 </div>
-            </main>
+            ))}
+            </div>
+        </div>
+
+        <div className="absolute inset-x-0 bottom-4 mx-auto max-w-3xl w-full flex flex-col text-center">
+            <div className="flex items-center rounded-full border border-stone-300 bg-stone-50 p-2 shadow-xl">
+                <PlusIcon className='ml-2 h-4 w-4'/>
+                <input
+                    type="text"
+                    value={state.input}
+                    onChange={(e) => dispatch({ type: 'SET_INPUT', payload: e.target.value })}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Ask about cryptocurrency"
+                    className="flex-1 bg-transparent px-3 py-2 text-sm text-stone-800 focus:outline-none placeholder-stone-500"
+                />
+                <button
+                    onClick={handleSend}
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 transition-colors cursor-pointer"
+                >
+                    <ArrowUpIcon className="h-4 w-4 text-white" />
+                </button>
+            </div>
+            <p className="text-xs mt-2 text-stone-500 font-paragraph">
+                BLOCKGPT can make mistakes. Check for important info.
+            </p>
+        </div>
+      </div>
     </div>
   );
 }
