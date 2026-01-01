@@ -11,7 +11,7 @@ import {
   DropdownMenuShortcut
 } from '@/components/ui/dropdown-menu'
 import { CaretDownIcon } from '@radix-ui/react-icons'
-
+import {GearIcon, ExitIcon, PersonIcon,} from '@radix-ui/react-icons'
 type NavbarProps = {
   selectedModel: string
   setSelectedModel: (model: string) => void
@@ -66,13 +66,17 @@ export default function Navbar({ selectedModel, setSelectedModel }: NavbarProps)
           <DropdownMenuContent align="end" className="font-paragraph">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuItem>Profile
+              <DropdownMenuShortcut><PersonIcon className='h-4 w-4'/> </DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Settings
+
+              <DropdownMenuShortcut><GearIcon className='h-4 w-4 shrink-0'/></DropdownMenuShortcut>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={() => signOut({ redirectTo: '/' })}>
               Log out
-              <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+              <DropdownMenuShortcut><ExitIcon className='h-4 w-4 shrink-0'/></DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

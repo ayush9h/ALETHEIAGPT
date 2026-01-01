@@ -1,10 +1,9 @@
-export async function userData(userId: string, sessionId: string) {
+export async function userChats(sessionId: string) {
   const queryParams = new URLSearchParams({
-    user_id: userId,
     session_id: sessionId,
   });
 
-  const response = await fetch(`http://localhost:5000/api/v1/blockgpt/user-session-data?${queryParams.toString()}`, {
+  const response = await fetch(`http://127.0.0.1:8000/v1/chats?${queryParams.toString()}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -14,7 +13,7 @@ export async function userData(userId: string, sessionId: string) {
   }
 
   const data = await response.json()
-  return data.service_output;
+  return data
 }
 
 export async function userSessions(userId: string) {
