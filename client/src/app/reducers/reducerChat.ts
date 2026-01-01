@@ -3,12 +3,17 @@ export type Message = {
     text: string;
 }
 
+export type Session = {
+    session_id: number,
+    session_title:string
+}
 export type ChatState = {
     input:string;
     selectedModel:string;
-    sessions:string[];
+    sessions:Session[];
     messages:Message[]
 }
+
 
 export const InitialState: ChatState = {
     input: '',
@@ -53,7 +58,12 @@ export const ChatReducer = (state: ChatState, action: any) =>  {
             if (state.sessions.includes(action.payload))
                 return state;
             return { ...state, sessions: [...state.sessions, action.payload] };
-            
+        
+        case 'SET_SESSIONS':
+            return {
+              ...state,
+              sessions: action.payload, 
+            };
         default:
             return state
     }

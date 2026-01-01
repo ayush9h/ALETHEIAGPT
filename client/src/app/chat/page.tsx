@@ -3,7 +3,7 @@
 import { useEffect, useReducer, useState } from 'react';
 import Navbar from '../components/navbar';
 import { sendChatMessage } from '../lib/api/chatService';
-import { userData } from '../lib/api/userData';
+import { userData, userSessions } from '../lib/api/userData';
 import {
   ChatReducer,
   InitialState,
@@ -14,7 +14,9 @@ import {
   Pencil2Icon,
   ArrowUpIcon,
   PlusIcon,
+  Cross2Icon,
 } from '@radix-ui/react-icons';
+import { Trash2Icon } from 'lucide-react';
 
 export default function Chat() {
   const [state, dispatch] = useReducer(ChatReducer, InitialState);
@@ -28,14 +30,15 @@ export default function Chat() {
 
     const fetchData = async () => {
       try {
-        const data = await userData(USER_ID, SESSION_ID);
+        const data = await userSessions(USER_ID,);
+
+        console.log(data)
         if (cancelled) return;
 
         dispatch({
-          type: 'ADD_SESSION',
-          payload: `Session #${SESSION_ID}`,
+          type: 'SET_SESSIONS',
+          payload: data, 
         });
-
         const formattedMessages: Message[] = data.messages.flatMap(
           (msg: any) => [
             { role: 'user', text: msg.question },
@@ -145,22 +148,28 @@ export default function Chat() {
             Your Chats
           </p>
 
-          {state.sessions.map((session, idx) => (
+          {state.sessions.map((session: any) => (
             <li
-              key={idx}
-              className="cursor-pointer rounded-md p-2 transition-colors hover:bg-stone-300"
+              key={session.session_id}
+              className="group flex items-center cursor-pointer rounded-md p-2 transition-colors hover:bg-stone-200"
             >
               <span
-                className={`block whitespace-nowrap overflow-hidden transition-all duration-300 ${
+                className={`truncate whitespace-nowrap transition-all duration-300 ${
                   open
-                    ? 'max-w-full opacity-100'
+                    ? 'max-w-[11rem] opacity-100'
                     : 'max-w-0 opacity-0'
                 }`}
+                title={session.session_title} 
               >
-                {session}
+                {session.session_title}
               </span>
+              
+              <Trash2Icon
+                className="ml-auto h-4 w-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100 hover:text-red-500"
+              />
             </li>
           ))}
+
         </ul>
       </aside>
 
