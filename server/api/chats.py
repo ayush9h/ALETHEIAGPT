@@ -1,8 +1,23 @@
 from typing import List
 
 from fastapi import APIRouter
+from schemas.schema import ChatRequest
+from services.agent.chat_service import chatting
 
 chat_router = APIRouter(prefix="/v1")
+
+
+@chat_router.post(
+    "/chat",
+    tags=["test the agentic flow of queries"],
+    description="Answers the question related to the query",
+)
+async def chat(payload: ChatRequest):
+    response = chatting(payload.query)
+    print(f"Got the response:{response}")
+    return {
+        "service_output": response,
+    }
 
 
 @chat_router.get(
@@ -24,7 +39,6 @@ def users_session(user_id: str) -> List:
 
     return sessions
 
-
 @chat_router.get(
     "/chats",
     tags=["Chats in a session"],
@@ -34,7 +48,12 @@ def chats(session_id: str):
     return [
         {
             "role": "user",
-            "text": "Can you explain what blockchain is in simple terms?",
+            "text": (
+                "Can you explain what blockchain is in simple terms?\n\n"
+                "I am new to this space and keep hearing about it in the context "
+                "of cryptocurrencies, decentralization, and Web3, but I do not "
+                "fully understand what it actually does."
+            ),
         },
         {
             "role": "assistant",
@@ -53,7 +72,12 @@ def chats(session_id: str):
         },
         {
             "role": "user",
-            "text": "How is it different from a normal database?",
+            "text": (
+                "How is a blockchain different from a traditional database?\n\n"
+                "I have worked with SQL and NoSQL databases before, so I am trying "
+                "to understand what problems blockchain solves that existing databases "
+                "cannot already handle."
+            ),
         },
         {
             "role": "assistant",
@@ -71,7 +95,12 @@ def chats(session_id: str):
         },
         {
             "role": "user",
-            "text": "Is blockchain only used for cryptocurrencies?",
+            "text": (
+                "Is blockchain technology only useful for cryptocurrencies like Bitcoin "
+                "and Ethereum?\n\n"
+                "Or are there real-world applications where it is being used outside "
+                "of digital currencies and financial systems?"
+            ),
         },
         {
             "role": "assistant",
