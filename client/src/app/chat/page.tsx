@@ -14,12 +14,13 @@ import {
   Pencil2Icon,
   ArrowUpIcon,
   PlusIcon,
-  Cross2Icon,
+  DoubleArrowLeftIcon,
 } from '@radix-ui/react-icons';
 import {
   CopyIcon,
 } from '@radix-ui/react-icons';
 import { ThumbsUpIcon, ThumbsDownIcon, Trash2Icon } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 
 export default function Chat() {
@@ -68,7 +69,9 @@ export default function Chat() {
     dispatch({ type: 'CLEAR_INPUT', payload: '' });
 
     try {
+
       const data = await sendChatMessage(state.selectedModel, input);
+     
       dispatch({
         type: 'ADD_MESSAGE',
         payload: {
@@ -98,19 +101,29 @@ export default function Chat() {
 
   return (
     <div
-      className={`grid min-h-screen bg-stone-50 text-stone-800 font-paragraph transition-all duration-300 ${open ? 'grid-cols-[15rem_1fr]' : 'grid-cols-[4rem_1fr]'}`}>
+      className={`grid min-h-screen bg-stone-2000 text-stone-800 font-paragraph transition-all duration-300 ${open ? 'grid-cols-[15rem_1fr]' : 'grid-cols-[4rem_1fr]'}`}>
 
       {/* Sidebar */}
-      <aside className="flex flex-col overflow-hidden border-r border-stone-300 bg-stone-100 px-3 py-6 shadow-inner">
-        <div
-          className="flex cursor-pointer items-center gap-2"
-          onClick={() => setOpen((v) => !v)}
-        >
+      <aside className="flex flex-col overflow-hidden border-r border-stone-300 bg-stone-100 px-3 py-4 shadow-inner">
+
+        <div className="flex cursor-pointer items-center gap-2 justify-between">
+
+         <div className="flex items-center justify-between gap-2 w-full">
           <img
             src="./logo.png"
             alt="BLOCKGPT"
-            className="h-8 w-8 shrink-0"
+            className="h-8 w-8 shrink-0 cursor-pointer"
+            onClick={!open ? () => setOpen(true) : undefined}
           />
+
+          <DoubleArrowLeftIcon
+            className={`h-4 w-4 cursor-pointer transition-transform duration-200 ${
+              open ? 'opacity-100' : 'opacity-0'
+            }`}
+            onClick={open ? () => setOpen(false) : undefined}
+          />
+        </div>
+
         </div>
 
         <button className="mt-4 flex items-center gap-2 rounded-md px-2 py-2 text-sm text-stone-800 transition-colors hover:bg-stone-200">
@@ -167,12 +180,12 @@ export default function Chat() {
 
       <div className="flex flex-col h-screen relative">
 
-        <div className="border-b border-stone-300 bg-white">
+        <div className="border-b border-stone-100">
           <Navbar selectedModel={state.selectedModel} setSelectedModel={(model) => dispatch({ type: 'SET_MODEL', payload: model })} />
         </div>
 
         <div className="flex flex-col h-[35rem] overflow-y-scroll p-4">
-          <div className="max-w-3xl w-full mx-auto space-y-4">
+          <div className="max-w-3xl mx-auto space-y-4">
             {state.messages.map((msg: Message, idx: number) => (
               <div key={idx}>
                 <div
@@ -180,24 +193,24 @@ export default function Chat() {
                     }`}
                 >
                   <div
-                    className={`px-4 py-2 text-sm leading-relaxed rounded-md ${msg.role === 'user'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-stone-200 text-stone-900'
+                    className={`px-4 py-2 text-sm rounded-md ${msg.role === 'user'
+                        ? 'bg-blue-600 text-white max-w-[60%] '
+                        : 'bg-stone-200 text-stone-900 w-full'
                       }`}
                   >
-                    {msg.text}
+                    <ReactMarkdown>{msg.text}</ReactMarkdown>
                   </div>
                 </div>
 
                 {msg.role === 'assistant' && (
                   <div className="ml-2 mt-1 flex items-center gap-2 text-stone-500 font-paragraph">
-                    <button className="hover:text-stone-800">
+                    <button className="hover:text-stone-800 cursor-pointer">
                       <CopyIcon className="h-4 w-4" />
                     </button>
-                    <button className="hover:text-stone-800">
+                    <button className="hover:text-stone-800 cursor-pointer">
                       <ThumbsUpIcon className="h-4 w-4" />
                     </button>
-                    <button className="hover:text-stone-800">
+                    <button className="hover:text-stone-800 cursor-pointer">
                       <ThumbsDownIcon className="h-4 w-4" />
                     </button>
                   </div>
