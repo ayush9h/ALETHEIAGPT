@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter
 from schemas.schema import ChatRequest
-from services.agent.chat_service import chatting
+from services.agent_flow import chat_service
 
 chat_router = APIRouter(prefix="/v1")
 
@@ -13,8 +13,8 @@ chat_router = APIRouter(prefix="/v1")
     description="Answers the question related to the query",
 )
 async def chat(payload: ChatRequest):
-    response = chatting(payload.query)
-    print(f"Got the response:{response}")
+    response = chat_service(payload.query)
+
     return {
         "service_output": response,
     }
