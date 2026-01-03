@@ -4,35 +4,36 @@ import { StarIcon } from '@radix-ui/react-icons'
 
 export default function Landing() {
     return (
-        <div className="flex min-h-screen flex-col bg-white px-4 py-8">
-            {/* Main Content */}
+        <div className="flex min-h-screen flex-col px-4 py-8">
+        
             <div className="flex flex-1 flex-col items-center justify-center">
-                {/* Beta Badge */}
-                <div className="mb-6 flex items-center gap-2 rounded-full px-4 py-1.5 bg-blue-100 border border-blue-300 shadow-sm shadow-blue-200">
-                    <StarIcon className=''/>
-                    <span className="text-xs font-paragraph font-medium text-primary">
+        
+                
+                <div className="mb-6 flex items-center gap-2 rounded-full border border-stone-300 p-2">
+                    <StarIcon className='h-3 w-3'/>
+                    <span className="text-xs font-paragraph">
                         Currently in Beta
                     </span>
                 </div>
 
                 {/* Title */}
-                <div className="mb-10 text-center">
+                <div className="mb-6 text-center">
                     <h1 className="font-header text-5xl md:text-8xl font-semibold text-blue-500">
                         BLOCKGPT
                     </h1>
                 </div>
 
-                {/* Sign-in Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto max-w-sm sm:max-w-none justify-center">
-                    {/* Google Button */}
+
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto sm:max-w-none justify-center">
+                   
                     <button
                         onClick={() => signIn('google', { redirectTo: '/chat' })}
-                        className="flex items-center justify-center gap-2 rounded-md border border-slate-300 bg-slate-100 px-5 py-3 text-sm font-paragraph font-medium text-slate-800 transition-all duration-150 hover:bg-slate-200 focus:outline-none cursor-pointer"
+                        className="flex items-center justify-center gap-2 rounded-md border border-stone-300 bg-stone-50 p-3 text-sm font-paragraph text-stone-800 transition-all duration-300 hover:bg-stone-200 cursor-pointer"
                     >
                         <img
                             src="https://www.svgrepo.com/show/475656/google-color.svg"
                             alt="Google logo"
-                            className="h-5 w-5"
+                            className="h-4 w-4"
                             loading="lazy"
                         />
                         <span>Sign in with Google</span>
@@ -41,12 +42,12 @@ export default function Landing() {
                     {/* GitHub Button */}
                     <button
                         onClick={() => signIn('github', { redirectTo: '/chat' })}
-                        className="flex items-center justify-center gap-2 rounded-md border border-slate-300 bg-slate-100 px-5 py-3 text-sm font-paragraph font-medium text-slate-800 transition-all duration-150 hover:bg-slate-200 focus:outline-none cursor-pointer"
+                        className="flex items-center justify-center gap-2 rounded-md border border-stone-300 bg-stone-50 p-3 text-sm font-paragraph text-stone-800 transition-all duration-300 hover:bg-stone-200 cursor-pointer"
                     >
                         <img
                             src="https://www.svgrepo.com/show/512317/github-142.svg"
                             alt="GitHub logo"
-                            className="h-5 w-5"
+                            className="h-4 w-4"
                             loading="lazy"
                         />
                         <span>Sign in with GitHub</span>
@@ -54,8 +55,8 @@ export default function Landing() {
                 </div>
             </div>
 
-            <footer className="mt-16 w-full max-w-2xl mx-auto text-center text-sm text-slate-500">
-                <div className="mt-2 font-paragraph text-xs text-slate-400">
+            <footer className="mt-16 w-full max-w-3xl mx-auto text-center">
+                <div className="font-paragraph text-xs text-stone-500">
                     © {new Date().getFullYear()} BLOCKGPT. All rights reserved.
                 </div>
             </footer>
