@@ -1,8 +1,4 @@
 export async function sendChatMessage(selectedModel:string, question: string){
-    console.log(JSON.stringify({
-            model:selectedModel,
-            query:question,
-        }))
     const response = await fetch('http://127.0.0.1:8000/v1/chat', {
         method: "POST",
         headers:{"Content-Type":"application/json"},

@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useReducer, useState } from 'react';
-import Navbar from '../components/navbar';
 import { sendChatMessage } from '../lib/api/chatService';
 import { userChats, userSessions } from '../lib/api/userData';
 import { ChatReducer, InitialState } from '../reducers/reducerChat';
@@ -47,7 +46,7 @@ export default function ChatPage() {
       const res = await sendChatMessage(state.selectedModel, input);
       dispatch({
         type: 'ADD_MESSAGE',
-        payload: { role: 'assistant', text: res.service_output ?? '...' },
+        payload: { role: 'assistant', text: String(res.service_output.response_content  ?? '...'), reasoning: String(res.service_output.reasoning_content ?? '...') },
       });
     } catch {
       dispatch({
