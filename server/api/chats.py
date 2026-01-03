@@ -13,10 +13,13 @@ chat_router = APIRouter(prefix="/v1")
     description="Answers the question related to the query",
 )
 async def chat(payload: ChatRequest):
-    response = chat_service(payload.query)
+    response = await chat_service(payload.query)
 
     return {
-        "service_output": response,
+        "service_output": {
+            "reasoning_content": response.get("reasoning_content", ""),
+            "response_content": response.get("response_content", ""),
+        },
     }
 
 
@@ -45,6 +48,7 @@ def users_session(user_id: str) -> List:
     description="List of chats based on the session id",
 )
 def chats(session_id: str):
+
     return [
         {
             "role": "user",

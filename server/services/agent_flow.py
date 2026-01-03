@@ -1,16 +1,18 @@
-from groq import Groq
+from langchain_groq import ChatGroq
+from services.agent import BlockGPTAgent
 from utils.config import Settings
 
-client = Groq(api_key=Settings.GROQ_API_KEY.value)
+model = ChatGroq(
+    name="BlockAI",
+    model=Settings.GROQ_MODEL.value,
+    api_key=Settings.GROQ_API_KEY.value,
+)
 
 
-def chat_service(question: str):
-    completion = client.chat.completions.create(
-        model="openai/gpt-oss-120b",
-        messages=[
-            {"role": "user", "content": question},
-        ],
-        temperature=0.2,
+async def chat_service(question: str):
+    agent = BlockGPTAgent(
+        system_prompt="You only answer the query",
+        model=model,
     )
-
-    return completion.choices[0].message.content
+    response = await agent.ainvoke(question)
+    return response
