@@ -13,46 +13,84 @@ interface SidebarProps {
 
 export default function Sidebar({ open, onToggle, sessions }: SidebarProps) {
   return (
-    <aside className="border-r bg-stone-100 px-3 py-4 font-paragraph text-sm">
+    <aside className="border-r bg-stone-100 px-3 py-4 font-paragraph text-sm overflow-hidden">
+
       <div className="flex items-center justify-between">
         <img
           src="./logo.png"
-          className="h-8 w-8 cursor-pointer"
+          className="h-8 w-8 cursor-pointer shrink-0"
           onClick={() => !open && onToggle(true)}
         />
-        {open && (
-          <DoubleArrowLeftIcon
-            className="h-4 w-4 cursor-pointer"
-            onClick={() => onToggle(false)}
-          />
-        )}
+
+        <DoubleArrowLeftIcon
+          className={`
+            h-4 w-4 cursor-pointer transition-opacity duration-200
+            ${open ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+          `}
+          onClick={() => onToggle(false)}
+        />
       </div>
 
-      <button className="mt-4 w-full rounded-md cursor-pointer flex items-center gap-2 p-2 hover:bg-stone-200">
-        <Pencil2Icon />
-        {open && <span>New Chat</span>}
+      <button className="mt-4 flex w-full items-center gap-2 rounded-md p-2 hover:bg-stone-200">
+        <Pencil2Icon className="shrink-0" />
+        <span
+          className={`
+            whitespace-nowrap overflow-hidden transition-all duration-300
+            ${open ? 'max-w-[8rem] opacity-100' : 'max-w-0 opacity-0'}
+          `}
+        >
+          New Chat
+        </span>
       </button>
 
+
       <div className="flex items-center gap-2 p-2">
-        <MagnifyingGlassIcon />
-        {open && <span>Search Chats</span>}
+        <MagnifyingGlassIcon className="shrink-0" />
+        <span
+          className={`
+            whitespace-nowrap overflow-hidden transition-all duration-300
+            ${open ? 'max-w-[10rem] opacity-100' : 'max-w-0 opacity-0'}
+          `}
+        >
+          Search Chats
+        </span>
       </div>
 
-      {open && (<>
-        <p className='mt-5 text-xs text-stone-600'>Your Chats</p>
-        <ul className="mt-2 space-y-2">
-          {sessions.map((s) => (
-            <li
-              key={s.session_id}
-              className="group flex items-center p-2 hover:bg-stone-200 rounded-md cursor-pointer"
+      {/* Chats */}
+      <p
+        className={`
+          mt-5 text-xs text-stone-600 transition-all duration-300
+          ${open ? 'opacity-100 max-h-6' : 'opacity-0 max-h-0'}
+        `}
+      >
+        Your Chats
+      </p>
+
+      <ul className="mt-2 space-y-1">
+        {sessions.map((s) => (
+          <li
+            key={s.session_id}
+            className="group flex items-center rounded-md p-2 hover:bg-stone-200 cursor-pointer"
+          >
+            <span
+              className={`
+                truncate whitespace-nowrap transition-all duration-300
+                ${open ? 'max-w-[11rem] opacity-100' : 'max-w-0 opacity-0'}
+              `}
             >
-              <span className="truncate  whitespace-nowrap max-w-[11rem]">{s.session_title}</span>
-              <Trash2Icon className="ml-auto h-4 w-4 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-all" />
-            </li>
-          ))}
-        </ul>
-        </>
-      )}
+              {s.session_title}
+            </span>
+
+            <Trash2Icon
+              className={`
+                ml-auto h-4 w-4 transition-all
+                ${open ? 'opacity-0 group-hover:opacity-100' : 'opacity-0'}
+                hover:text-red-500
+              `}
+            />
+          </li>
+        ))}
+      </ul>
     </aside>
   );
 }
