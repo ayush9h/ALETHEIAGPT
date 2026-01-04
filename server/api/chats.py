@@ -65,13 +65,12 @@ def chats(session_id: str):
                 "Blockchain is a distributed digital ledger that records transactions "
                 "across a network of computers. Instead of storing data in a single "
                 "centralized database, each participant (called a node) maintains a "
-                "copy of the ledger.\n\n"
-                "Transactions are grouped into blocks, and each block is cryptographically "
-                "linked to the previous one. This creates a chain of blocks — hence the "
-                "name blockchain. Once a block is added, altering its data would require "
-                "changing all subsequent blocks, which is computationally impractical.\n\n"
-                "This design makes blockchain highly secure, transparent, and resistant "
-                "to tampering."
+                "copy of the ledger."
+            ),
+            "reasoning_content": (
+                "The user is asking for a beginner-friendly explanation. "
+                "Avoid technical jargon and focus on core concepts like decentralization, "
+                "shared records, and trust without a central authority."
             ),
         },
         {
@@ -86,15 +85,15 @@ def chats(session_id: str):
         {
             "role": "assistant",
             "text": (
-                "A traditional database is typically controlled by a single organization "
-                "that has full authority over the data. It allows records to be created, "
-                "updated, or deleted at any time.\n\n"
-                "In contrast, a blockchain is decentralized and append-only. Once data "
-                "is written, it cannot be changed or deleted without network consensus. "
-                "This immutability is what makes blockchain suitable for trustless systems.\n\n"
-                "Additionally, blockchains rely on consensus mechanisms (such as Proof of Work "
-                "or Proof of Stake) to validate transactions, rather than trusting a central "
-                "administrator."
+                "A traditional database is usually controlled by a single organization "
+                "and allows data to be modified or deleted. Blockchain, by contrast, "
+                "is decentralized and append-only, meaning records cannot be altered "
+                "once written."
+            ),
+            "reasoning_content": (
+                "The user has technical background, so comparison-based reasoning works best. "
+                "Highlight control, mutability, and trust differences instead of re-explaining "
+                "basic database concepts."
             ),
         },
         {
@@ -109,15 +108,14 @@ def chats(session_id: str):
         {
             "role": "assistant",
             "text": (
-                "No. Cryptocurrencies are just the most well-known application of blockchain "
-                "technology.\n\n"
-                "Blockchains are widely used in supply chain tracking, where they help "
-                "verify the origin and authenticity of goods. They are also used in "
-                "identity management systems, allowing users to control their digital identity "
-                "without relying on a central authority.\n\n"
-                "Another major use case is smart contracts — self-executing programs that run "
-                "on the blockchain and automatically enforce agreements once conditions are met. "
-                "These are widely used in decentralized finance (DeFi) and other applications."
+                "No. Cryptocurrencies are just one application of blockchain technology. "
+                "Other uses include supply chain tracking, digital identity systems, "
+                "and smart contracts that automatically enforce agreements."
+            ),
+            "reasoning_content": (
+                "The intent is to broaden understanding beyond crypto. "
+                "Provide concrete real-world examples to counter the common misconception "
+                "that blockchain equals cryptocurrency."
             ),
         },
     ]

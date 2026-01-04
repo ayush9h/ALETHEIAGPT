@@ -3,6 +3,11 @@ from typing import Any, Dict
 from langchain.agents import create_agent
 from langchain.chat_models import BaseChatModel
 from langchain_core.messages import HumanMessage, SystemMessage
+from langgraph.graph import END, START, StateGraph
+from services.agent_state import AgentState
+
+builder = StateGraph(AgentState)
+graph = builder.compile()
 
 
 class BlockGPTAgent:
