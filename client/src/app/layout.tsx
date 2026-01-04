@@ -20,19 +20,18 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,session,
+  children,
+  session,
 }: Readonly<{
   children: React.ReactNode;
-  session: Session
+  session: Session;
 }>) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider session={session}>
-        {children}
-        </SessionProvider>
+        <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>
   );

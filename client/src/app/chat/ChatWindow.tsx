@@ -1,7 +1,7 @@
-import Navbar from '../components/navbar';
-import MessageList from './MessageList';
-import ChatInput from './ChatInput';
-import { Message } from '../reducers/reducerChat';
+import Navbar from "../components/navbar";
+import MessageList from "./MessageList";
+import ChatInput from "./ChatInput";
+import { Message } from "../reducers/reducerChat";
 
 interface Props {
   messages: Message[];
@@ -19,21 +19,17 @@ export default function ChatWindow({
   onSend,
 }: Props) {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex h-screen flex-col">
       <Navbar
         selectedModel={selectedModel}
-        setSelectedModel={(m) =>
-          dispatch({ type: 'SET_MODEL', payload: m })
-        }
+        setSelectedModel={(m) => dispatch({ type: "SET_MODEL", payload: m })}
       />
 
       <MessageList messages={messages} />
 
       <ChatInput
         value={input}
-        onChange={(v) =>
-          dispatch({ type: 'SET_INPUT', payload: v })
-        }
+        onChange={(v) => dispatch({ type: "SET_INPUT", payload: v })}
         onSend={onSend}
       />
     </div>

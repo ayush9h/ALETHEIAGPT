@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useEffect, useReducer, useState } from 'react';
-import { sendChatMessage } from '../lib/api/chatService';
-import { userChats, userSessions } from '../lib/api/userData';
-import { ChatReducer, InitialState } from '../reducers/reducerChat';
+import { useEffect, useReducer, useState } from "react";
+import { sendChatMessage } from "../lib/api/chatService";
+import { userChats, userSessions } from "../lib/api/userData";
+import { ChatReducer, InitialState } from "../reducers/reducerChat";
 
-import Sidebar from './Sidebar';
-import ChatWindow from './ChatWindow';
+import Sidebar from "./Sidebar";
+import ChatWindow from "./ChatWindow";
 
-const USER_ID = '123';
-const SESSION_ID = '423';
+const USER_ID = "123";
+const SESSION_ID = "423";
 
 export default function ChatPage() {
   const [state, dispatch] = useReducer(ChatReducer, InitialState);
@@ -24,8 +24,8 @@ export default function ChatPage() {
         const messages = await userChats(SESSION_ID);
         if (cancelled) return;
 
-        dispatch({ type: 'SET_SESSIONS', payload: sessions });
-        dispatch({ type: 'SET_MESSAGES', payload: messages });
+        dispatch({ type: "SET_SESSIONS", payload: sessions });
+        dispatch({ type: "SET_MESSAGES", payload: messages });
       } catch {}
     }
 
@@ -39,19 +39,23 @@ export default function ChatPage() {
     const input = state.input.trim();
     if (!input) return;
 
-    dispatch({ type: 'ADD_MESSAGE', payload: { role: 'user', text: input } });
-    dispatch({ type: 'CLEAR_INPUT', payload: '' });
+    dispatch({ type: "ADD_MESSAGE", payload: { role: "user", text: input } });
+    dispatch({ type: "CLEAR_INPUT", payload: "" });
 
     try {
       const res = await sendChatMessage(state.selectedModel, input);
       dispatch({
-        type: 'ADD_MESSAGE',
-        payload: { role: 'assistant', text: String(res.service_output.response_content  ?? '...'), reasoning: String(res.service_output.reasoning_content ?? '...') },
+        type: "ADD_MESSAGE",
+        payload: {
+          role: "assistant",
+          text: String(res.service_output.response_content ?? "..."),
+          reasoning: String(res.service_output.reasoning_content ?? "..."),
+        },
       });
     } catch {
       dispatch({
-        type: 'ADD_MESSAGE',
-        payload: { role: 'assistant', text: 'Error getting response from API' },
+        type: "ADD_MESSAGE",
+        payload: { role: "assistant", text: "Error getting response from API" },
       });
     }
   };
@@ -59,7 +63,7 @@ export default function ChatPage() {
   return (
     <div
       className={`grid min-h-screen transition-all duration-300 ${
-        sidebarOpen ? 'grid-cols-[15rem_1fr]' : 'grid-cols-[4rem_1fr]'
+        sidebarOpen ? "grid-cols-[15rem_1fr]" : "grid-cols-[4rem_1fr]"
       }`}
     >
       <Sidebar
