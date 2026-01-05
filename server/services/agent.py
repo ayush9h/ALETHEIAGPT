@@ -7,7 +7,7 @@ from langgraph.graph import END, START, StateGraph
 from services.agent_state import AgentState
 
 builder = StateGraph(AgentState)
-graph = builder.compile()
+graph = builder.compile()   
 
 
 class BlockGPTAgent:
