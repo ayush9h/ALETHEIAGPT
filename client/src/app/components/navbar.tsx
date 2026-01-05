@@ -13,18 +13,9 @@ import {
 import {
   GearIcon,
   ExitIcon,
-  FaceIcon,
   CaretDownIcon,
 } from "@radix-ui/react-icons";
-import {
-  Dialog,
-  DialogHeader,
-  DialogDescription,
-  DialogTitle,
-  DialogContent,
-} from "@/components/ui/dialog";
 import { useState } from "react";
-import { DatabaseIcon } from "lucide-react";
 import { SettingsDialog } from "./settings-dialog";
 
 type NavbarProps = {
