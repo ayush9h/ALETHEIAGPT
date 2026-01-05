@@ -1,31 +1,50 @@
-from typing import Any, Dict
-
 from langchain.agents import create_agent
-from langchain.chat_models import BaseChatModel
 from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_groq import ChatGroq
 from langgraph.graph import END, START, StateGraph
 from services.agent_state import AgentState
+from services.prompts import ORCHESTRATOR_PROMPT
+from utils.config import Settings
+
+
+async def generate_session_title(state: AgentState) -> str:
+    user_input = state.get("user_input", "")
+    client = ChatGroq(
+        api_key=Settings.GROQ_API_KEY.value,
+        model=state.get("user_model", ""),
+    )
+
+    response = await client.ainvoke(user_input)
+
+    state["session_title"] = str(response.content)
+    return state["session_title"]
+
+
+async def orchestrator(state: AgentState) -> AgentState:
+    agent = create_agent(
+        model=state["user_model"],
+        system_prompt=SystemMessage(content=ORCHESTRATOR_PROMPT),
+    )
+
+    result = await agent.ainvoke(
+        {
+            "messages": [HumanMessage(content=state["user_input"])],
+        }
+    )
+
+    reasoning_kwargs = result.get("messages", [])[-1].additional_kwargs.get(
+        "reasoning_content", ""
+    )
+    response_kwargs = result.get("messages", [])[-1].content
+    state["reasoning_kwargs"] = reasoning_kwargs
+    state["reasoning_kwargs"] = response_kwargs
+
+    return state
+
 
 builder = StateGraph(AgentState)
-graph = builder.compile()   
+builder.add_node(generate_session_title)
 
-
-class BlockGPTAgent:
-    def __init__(self, system_prompt: str, model: BaseChatModel):
-        self.agent = create_agent(
-            model=model,
-            system_prompt=SystemMessage(content=system_prompt),
-        )
-
-    async def ainvoke(self, query: str) -> Dict[str, Any]:
-        result = await self.agent.ainvoke({"messages": [HumanMessage(content=query)]})
-
-        reasoning_kwargs = result.get("messages", [])[-1].additional_kwargs.get(
-            "reasoning_content", ""
-        )
-        response_kwargs = result.get("messages", [])[-1].content
-
-        return {
-            "reasoning_content": reasoning_kwargs,
-            "response_content": response_kwargs,
-        }
+builder.add_edge(START, "generate_session_title")
+builder.add_edge("generate_session_title", END)
+graph = builder.compile()
