@@ -3,7 +3,6 @@ from typing import List
 from fastapi import APIRouter
 from schemas.schema import ChatRequest
 from services.agent import graph
-from services.agent_state import AgentState
 
 chat_router = APIRouter(prefix="/v1")
 
@@ -20,7 +19,7 @@ async def chat(payload: ChatRequest):
 
     return {
         "service_output": {
-            "reasoning_content": response.get("reasoning_content", ""),
+            "reasoning_content": response.get("reasoning_kwargs", ""),
             "response_content": response.get("response_content", ""),
         },
     }

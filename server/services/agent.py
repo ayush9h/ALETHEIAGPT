@@ -7,7 +7,7 @@ from services.prompts import ORCHESTRATOR_PROMPT
 from utils.config import Settings
 
 
-async def generate_session_title(state: AgentState) -> str:
+async def generate_session_title(state: AgentState) -> AgentState:
     user_input = state.get("user_input", "")
     client = ChatGroq(
         api_key=Settings.GROQ_API_KEY.value,
@@ -17,12 +17,15 @@ async def generate_session_title(state: AgentState) -> str:
     response = await client.ainvoke(user_input)
 
     state["session_title"] = str(response.content)
-    return state["session_title"]
+    return state
 
 
 async def orchestrator(state: AgentState) -> AgentState:
     agent = create_agent(
-        model=state["user_model"],
+        model=ChatGroq(
+            api_key=Settings.GROQ_API_KEY.value,
+            model=state.get("user_model", ""),
+        ),
         system_prompt=SystemMessage(content=ORCHESTRATOR_PROMPT),
     )
 
@@ -44,7 +47,9 @@ async def orchestrator(state: AgentState) -> AgentState:
 
 builder = StateGraph(AgentState)
 builder.add_node(generate_session_title)
+builder.add_node(orchestrator)
 
 builder.add_edge(START, "generate_session_title")
-builder.add_edge("generate_session_title", END)
+builder.add_edge("generate_session_title", "orchestrator")
+builder.add_edge("orchestrator", END)
 graph = builder.compile()
