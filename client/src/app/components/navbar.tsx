@@ -13,7 +13,6 @@ import {
 import {
   GearIcon,
   ExitIcon,
-  PersonIcon,
   FaceIcon,
   CaretDownIcon,
 } from "@radix-ui/react-icons";
@@ -26,6 +25,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { DatabaseIcon } from "lucide-react";
+import { SettingsDialog } from "./settings-dialog";
 
 type NavbarProps = {
   selectedModel: string;
@@ -84,12 +84,7 @@ export default function Navbar({
           <DropdownMenuContent align="end" className="font-paragraph">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              Profile
-              <DropdownMenuShortcut>
-                <PersonIcon className="h-4 w-4" />{" "}
-              </DropdownMenuShortcut>
-            </DropdownMenuItem>
+           
 
             <DropdownMenuItem
               onSelect={(e) => {
@@ -113,63 +108,7 @@ export default function Navbar({
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
-          <DialogContent className="font-paragraph">
-            <div className="flex">
-              <aside className="w-32 bg-stone-50 p-2">
-                <div className="space-y-2 text-xs">
-                  <button className="flex w-full items-center justify-center gap-1 rounded-md bg-stone-200 p-2">
-                    <FaceIcon className="h-3 w-3" />
-                    Personalization
-                  </button>
-                  <button className="flex w-full items-center justify-center gap-1 rounded-md p-2 text-stone-600 hover:bg-stone-100">
-                    <DatabaseIcon className="h-3 w-3" />
-                    Data controls
-                  </button>
-                </div>
-              </aside>
-
-              <main className="flex-1 overflow-y-auto px-6 py-6">
-                <DialogHeader>
-                  <DialogTitle className="text-lg">Personalization</DialogTitle>
-                  <DialogDescription>
-                    Customize how the assistant responds to you.
-                  </DialogDescription>
-                </DialogHeader>
-
-                <div className="mt-6 space-y-6">
-                  <div className="space-y-2">
-                    <label className="text-sm">Custom instructions</label>
-                    <textarea
-                      placeholder="Additional behavior, style, and tone preferences"
-                      className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"
-                      rows={3}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm">Nickname</label>
-                    <input
-                      placeholder="What should the assistant call you?"
-                      className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">
-                      More about you
-                    </label>
-                    <textarea
-                      placeholder="Interests, values, or preferences to keep in mind"
-                      className="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"
-                      rows={3}
-                    />
-                  </div>
-                </div>
-              </main>
-            </div>
-          </DialogContent>
-        </Dialog>
+       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen}/>
       </div>
     </nav>
   );
