@@ -48,8 +48,8 @@ export default function ChatPage() {
         type: "ADD_MESSAGE",
         payload: {
           role: "assistant",
-          text: String(res.service_output.response_content ?? "..."),
-          reasoning: String(res.service_output.reasoning_content ?? "..."),
+          text: String(res.data.service_output.response_content ?? "..."),
+          reasoning: String(res.data.service_output.reasoning_content ?? "..."),
         },
       });
     } catch {

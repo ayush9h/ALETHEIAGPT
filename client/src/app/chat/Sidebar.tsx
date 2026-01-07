@@ -13,7 +13,7 @@ interface SidebarProps {
 
 export default function Sidebar({ open, onToggle, sessions }: SidebarProps) {
   return (
-    <aside className="font-paragraph overflow-hidden border-r bg-stone-100 px-3 py-4 text-sm">
+    <aside className="font-paragraph p-4 border-r bg-stone-100 text-sm">
       <div className="flex items-center justify-between">
         <img
           src="./logo.png"
