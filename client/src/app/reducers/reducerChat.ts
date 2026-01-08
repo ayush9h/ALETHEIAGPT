@@ -1,3 +1,4 @@
+import { UserPrefProps } from "../types/userPref";
 export type Message = {
   role: "user" | "assistant";
   text: string;
@@ -13,7 +14,7 @@ export type ChatState = {
   selectedModel: string;
   sessions: Session[];
   messages: Message[];
-  userPref:string,
+  userPref:UserPrefProps,
 };
 
 export const InitialState: ChatState = {
@@ -23,7 +24,11 @@ export const InitialState: ChatState = {
   messages: [
     { role: "assistant", text: "Hi, how can I help you today?", reasoning: "" },
   ],
-  userPref: ""
+  userPref: {
+  userCustomInstruction: "",
+  userPronouns: "",
+  userHobbies: "",
+}, 
 };
 
 export const ChatReducer = (state: ChatState, action: any) => {

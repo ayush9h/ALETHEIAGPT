@@ -9,12 +9,14 @@ import {
 } from "@/components/ui/dialog";
 import { FaceIcon } from "@radix-ui/react-icons";
 import { DatabaseIcon } from "lucide-react";
+import { UserPrefProps } from "../types/userPref";
+
 
 type SettingsDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  userPref:string;
-  setUserPref: (userPref:string)=>void
+  userPref:UserPrefProps;
+  setUserPref: (userPref:UserPrefProps)=>void
 };
 
 export function SettingsDialog({
@@ -57,9 +59,9 @@ export function SettingsDialog({
                 <label className="text-sm">Custom instructions</label>
                 <textarea
                   className="w-full rounded-md border px-3 py-2 text-sm"
-                  onChange={(e)=>setUserPref(e.target.value)}
+                  onChange={(e)=>setUserPref({...userPref, userCustomInstruction:e.target.value})}
                   rows={3}
-                  value={userPref}
+                  value={userPref.userCustomInstruction}
                 />
               </div>
 
@@ -67,6 +69,8 @@ export function SettingsDialog({
                 <label className="text-sm">Nickname</label>
                 <input
                   className="w-full rounded-md border px-3 py-2 text-sm"
+                  onChange={(e)=>(setUserPref({...userPref, userPronouns: e.target.value}))}
+                  value={userPref.userPronouns}
                 />
               </div>
 
@@ -74,6 +78,11 @@ export function SettingsDialog({
                 <label className="text-sm">More about you</label>
                 <textarea
                   className="w-full rounded-md border px-3 py-2 text-sm"
+                  onChange={(e) =>
+                    setUserPref({ ...userPref, userHobbies: e.target.value })
+                  }
+
+                  value={userPref.userHobbies}
                   rows={3}  
                 />
               </div>

@@ -2,13 +2,13 @@ import Navbar from "../components/navbar";
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
 import { Message } from "../reducers/reducerChat";
-
+import { UserPrefProps } from "../types/userPref";
 interface Props {
   messages: Message[];
   input: string;
   selectedModel: string;
   dispatch: any;
-  userPref:string;
+  userPref:UserPrefProps;
   onSend: () => void;
 }
 

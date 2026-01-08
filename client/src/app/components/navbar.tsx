@@ -20,12 +20,13 @@ import {
 } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { SettingsDialog } from "./settings-dialog";
+import { UserPrefProps } from "../types/userPref";
 
 type NavbarProps = {
   selectedModel: string;
   setSelectedModel: (model: string) => void;
-  userPref: string;
-  setUserPref:(userPref:string) => void;
+  userPref: UserPrefProps;
+  setUserPref:(userPref:UserPrefProps) => void;
 };
 
 const MODELS = [
