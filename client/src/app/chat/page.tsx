@@ -21,11 +21,12 @@ export default function ChatPage() {
     async function load() {
       try {
         const sessions = await userSessions(USER_ID);
+        // console.log(sessions)
         const messages = await userChats(SESSION_ID);
         if (cancelled) return;
 
-        dispatch({ type: "SET_SESSIONS", payload: sessions });
-        dispatch({ type: "SET_MESSAGES", payload: messages });
+        dispatch({ type: "SET_SESSIONS", payload: sessions.data });
+        dispatch({ type: "SET_MESSAGES", payload: messages.data });
       } catch {}
     }
 
@@ -43,7 +44,8 @@ export default function ChatPage() {
     dispatch({ type: "CLEAR_INPUT", payload: "" });
 
     try {
-      const res = await sendChatMessage(state.selectedModel, input);
+      console.log(state.userPref)
+      const res = await sendChatMessage(state.selectedModel, input, state.userPref);
       dispatch({
         type: "ADD_MESSAGE",
         payload: {
@@ -75,6 +77,7 @@ export default function ChatPage() {
       <ChatWindow
         messages={state.messages}
         input={state.input}
+        userPref={state.userPref}
         selectedModel={state.selectedModel}
         dispatch={dispatch}
         onSend={handleSend}

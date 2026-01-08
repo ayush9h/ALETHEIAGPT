@@ -13,12 +13,18 @@ import { DatabaseIcon } from "lucide-react";
 type SettingsDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  userPref:string;
+  setUserPref: (userPref:string)=>void
 };
 
 export function SettingsDialog({
   open,
   onOpenChange,
+  userPref,
+  setUserPref
 }: SettingsDialogProps) {
+
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="font-paragraph">
@@ -51,7 +57,9 @@ export function SettingsDialog({
                 <label className="text-sm">Custom instructions</label>
                 <textarea
                   className="w-full rounded-md border px-3 py-2 text-sm"
+                  onChange={(e)=>setUserPref(e.target.value)}
                   rows={3}
+                  value={userPref}
                 />
               </div>
 

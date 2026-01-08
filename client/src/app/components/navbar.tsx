@@ -21,6 +21,8 @@ import { SettingsDialog } from "./settings-dialog";
 type NavbarProps = {
   selectedModel: string;
   setSelectedModel: (model: string) => void;
+  userPref: string;
+  setUserPref:(userPref:string) => void;
 };
 
 const MODELS = [
@@ -32,6 +34,8 @@ const MODELS = [
 export default function Navbar({
   selectedModel,
   setSelectedModel,
+  userPref,
+  setUserPref,
 }: NavbarProps) {
   const { data: session } = useSession();
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -99,7 +103,7 @@ export default function Navbar({
           </DropdownMenuContent>
         </DropdownMenu>
 
-       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen}/>
+       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} userPref={userPref} setUserPref={setUserPref}/>
       </div>
     </nav>
   );

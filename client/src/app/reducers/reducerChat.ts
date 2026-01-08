@@ -13,6 +13,7 @@ export type ChatState = {
   selectedModel: string;
   sessions: Session[];
   messages: Message[];
+  userPref:string,
 };
 
 export const InitialState: ChatState = {
@@ -22,6 +23,7 @@ export const InitialState: ChatState = {
   messages: [
     { role: "assistant", text: "Hi, how can I help you today?", reasoning: "" },
   ],
+  userPref: ""
 };
 
 export const ChatReducer = (state: ChatState, action: any) => {
@@ -64,6 +66,12 @@ export const ChatReducer = (state: ChatState, action: any) => {
       return {
         ...state,
         sessions: action.payload,
+      };
+
+    case "SET_USER_PREF":
+      return {
+        ...state,
+        userPref: action.payload,
       };
     default:
       return state;

@@ -8,6 +8,7 @@ interface Props {
   input: string;
   selectedModel: string;
   dispatch: any;
+  userPref:string;
   onSend: () => void;
 }
 
@@ -16,6 +17,7 @@ export default function ChatWindow({
   input,
   selectedModel,
   dispatch,
+  userPref,
   onSend,
 }: Props) {
   return (
@@ -23,6 +25,8 @@ export default function ChatWindow({
       <Navbar
         selectedModel={selectedModel}
         setSelectedModel={(m) => dispatch({ type: "SET_MODEL", payload: m })}
+        userPref={userPref}
+        setUserPref={(v) => dispatch({ type: "SET_USER_PREF", payload: v })}
       />
 
       <MessageList messages={messages} />
