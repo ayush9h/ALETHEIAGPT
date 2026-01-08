@@ -1,1 +1,3 @@
-ORCHESTRATOR_PROMPT = """You tell the answer to the query"""
+ORCHESTRATOR_BASE_PROMPT = """
+You answer the user's query correctly and completely.
+"""

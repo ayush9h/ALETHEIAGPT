@@ -13,7 +13,11 @@ chat_router = APIRouter(prefix="/v1")
     description="Answers the question related to the query",
 )
 async def chat(payload: ChatRequest):
-    input_state = {"user_input": payload.query, "user_model": payload.model}
+    input_state = {
+        "user_input": payload.query,
+        "user_model": payload.model,
+        "user_preference": payload.userPref,
+    }
 
     response = await graph.ainvoke(input=input_state)  # type: ignore
 

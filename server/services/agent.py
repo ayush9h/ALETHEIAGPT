@@ -3,7 +3,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_groq import ChatGroq
 from langgraph.graph import END, START, StateGraph
 from services.agent_state import AgentState
-from services.prompts import ORCHESTRATOR_PROMPT
+from services.prompts import ORCHESTRATOR_BASE_PROMPT
 from utils.config import Settings
 
 
@@ -26,12 +26,13 @@ async def orchestrator(state: AgentState) -> AgentState:
             api_key=Settings.GROQ_API_KEY.value,
             model=state.get("user_model", ""),
         ),
-        system_prompt=SystemMessage(content=ORCHESTRATOR_PROMPT),
+        system_prompt=SystemMessage(content=ORCHESTRATOR_BASE_PROMPT),
     )
 
     result = await agent.ainvoke(
         {
-            "messages": [HumanMessage(content=state["user_input"])],
+            "messages": state["user_input"]
+            + [SystemMessage(content=state["user_preference"])],  # type: ignore
         }
     )
 

@@ -16,3 +16,4 @@ class ChatRequest(BaseModel):
         ...,
         description="The user's query",
     )
+    userPref: str | None = Field(..., description="User preferences of response")
