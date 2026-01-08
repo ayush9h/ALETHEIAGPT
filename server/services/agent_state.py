@@ -1,6 +1,7 @@
 from typing import Annotated, List, TypedDict
 
 from langgraph.graph.message import BaseMessage, add_messages
+from schemas.schema import UserPref
 
 
 class AgentState(TypedDict):
@@ -9,4 +10,4 @@ class AgentState(TypedDict):
     user_model: str
     reasoning_kwargs: str
     response_content: str
-    user_preference: str
+    user_preference: UserPref

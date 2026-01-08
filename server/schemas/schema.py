@@ -1,13 +1,28 @@
-from typing import Literal
+from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
 
+class UserPref(BaseModel):
+    userCustomInstruction: str = Field(
+        "",
+        description="Custom system instructions provided by the user",
+    )
+    userPronouns: str = Field(
+        "",
+        description="User nickname or pronouns",
+    )
+    userHobbies: str = Field(
+        "",
+        description="Additional personal context about the user",
+    )
+
+
 class ChatRequest(BaseModel):
     model: Literal[
-        "llama3-8b-8192",
+        "openai/gpt-oss-120b",
         "qwen/qwen3-32b",
-        "gemma2-9b-it",
+        "llama-3.1-8b-instant",
     ] = Field(
         ...,
         description="The user requested model",
@@ -16,4 +31,7 @@ class ChatRequest(BaseModel):
         ...,
         description="The user's query",
     )
-    userPref: str | None = Field(..., description="User preferences of response")
+    userPref: Optional[UserPref] = Field(
+        None,
+        description="User preferences that influence assistant responses",
+    )
