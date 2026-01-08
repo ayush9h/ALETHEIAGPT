@@ -18,7 +18,7 @@ export type ChatState = {
 
 export const InitialState: ChatState = {
   input: "",
-  selectedModel: "llama3-8b-8192",
+  selectedModel: "openai/gpt-oss-120b",
   sessions: [],
   messages: [
     { role: "assistant", text: "Hi, how can I help you today?", reasoning: "" },

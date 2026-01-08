@@ -14,6 +14,9 @@ import {
   GearIcon,
   ExitIcon,
   CaretDownIcon,
+  CubeIcon,
+  GlobeIcon,
+  RocketIcon
 } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { SettingsDialog } from "./settings-dialog";
@@ -26,9 +29,21 @@ type NavbarProps = {
 };
 
 const MODELS = [
-  { label: "Meta`s Llama3-8B", value: "llama3-8b-8192" },
-  { label: "Deepseek`s Qwen3-32B", value: "qwen/qwen3-32b" },
-  { label: "Google`s Gemma2-9B", value: "gemma2-9b-it" },
+  {
+    label: "OpenAI`s GPT-OSS-120B",
+    value: "openai/gpt-oss-120b",
+    icon: RocketIcon,
+  },
+  {
+    label: "Deepseek`s Qwen3-32B",
+    value: "qwen/qwen3-32b",
+    icon: CubeIcon,
+  },
+  {
+    label: "Meta`s Llama-3.1-8B",
+    value: "llama-3.1-8b-instant",
+    icon: GlobeIcon,
+  },
 ];
 
 export default function Navbar({
@@ -60,10 +75,14 @@ export default function Navbar({
               <DropdownMenuItem
                 key={model.value}
                 onSelect={() => setSelectedModel(model.value)}
+                className="flex items-center gap-2"
               >
-                {model.label}
+                <model.icon className="h-3 w-3 text-stone-600" />
+                <span>{model.label}</span>
               </DropdownMenuItem>
+
             ))}
+            
           </DropdownMenuContent>
         </DropdownMenu>
 
