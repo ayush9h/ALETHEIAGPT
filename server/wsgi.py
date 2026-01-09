@@ -1,4 +1,4 @@
-from api.chats import chat_router
+from app.api.chats import chat_router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 

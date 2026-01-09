@@ -1,5 +1,5 @@
+from app.schemas.user_pref import UserPrefs
 from fastapi import APIRouter
-from schemas.user_pref import UserPrefs
 
 user_router = APIRouter(prefix="/v1/users")
 

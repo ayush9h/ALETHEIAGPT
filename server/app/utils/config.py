@@ -4,7 +4,7 @@ from enum import Enum
 from dotenv import load_dotenv
 from pydantic import SecretStr
 
-load_dotenv(dotenv_path="./.env")
+load_dotenv(dotenv_path="../.env")
 
 
 class Settings(Enum):

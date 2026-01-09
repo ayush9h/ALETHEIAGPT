@@ -1,7 +1,7 @@
 from typing import Annotated, List, TypedDict
 
+from app.schemas.schema import UserPref
 from langgraph.graph.message import BaseMessage, add_messages
-from schemas.schema import UserPref
 
 
 class AgentState(TypedDict):

@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Dependency managers
+pip-wheel-metadata/
+dist/
+build/
+
+# Logs
+*.log
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Tests & docs (remove if needed in image)
+tests/
+docs/
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Docker
+Dockerfile
+docker-compose.yml
+

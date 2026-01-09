@@ -1,8 +1,8 @@
 from typing import List
 
+from app.schemas.schema import ChatRequest
+from app.services.agent import graph
 from fastapi import APIRouter
-from schemas.schema import ChatRequest
-from services.agent import graph
 
 chat_router = APIRouter(prefix="/v1")
 
@@ -47,6 +47,7 @@ def users_session(user_id: str) -> List:
     ]
 
     return sessions
+
 
 @chat_router.get(
     "/chats",
