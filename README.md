@@ -1,46 +1,45 @@
+<h1 align="center" id="title">BLOCKGPT</h1>
 
-## BLOCKGPT V2.0
+<p align="center"><img src="https://lh3.googleusercontent.com/d/130Wt-cJt_U4iHTOwGJFFGlZapD48ZdYU=w50?authuser=0" alt="project-image"></p>
 
-Assistant for BlockChain Domain. Internship project during May-2023 to Aug-2023.
 
-![BLOCKGPT Demo](https://github.com/ayush9h/BLOCKGPT-V2.0/blob/main/client/public/demo.jpg)
+<p id="description">BLOCKGPT, an assistant for blockchain domain. Built using Langgraph, FastAPI, Groq, it serves as an LLM-powered tool that understands and responds to queries specific to blockchain concepts, protocols, and development workflows. The project integrates custom-trained datasets relevant to decentralized systems, smart contracts, and on-chain terminology to provide more accurate, domain-focused insights than general-purpose language models.</p>
 
-How to use BLOCKGPT on your local systems.
 
-**Step 1:** Install Necessary Packages
-```
-pip install requests flask langchain axios
-```
+<h2>Project Screenshots:</h2>
 
-**Step 2:** Create your flask environment and activate it:
-```
-python -m venv </Your Environment name>
-```
+<img src="https://lh3.googleusercontent.com/d/1idKlj1lBEnAqN_WHMaGutLcOJ3uVSUIz=w1000?authuser=0" alt="project-screenshot" width="1000" height="400/">
 
-**Step 3:** Create your OPENAI API key and paste it in the .env file:
+<img src="https://lh3.googleusercontent.com/d/1yRclZaOz9Tfw2a_xkEf3eRPjboISxTDy=w1000?authuser=0" alt="project-screenshot" width="1000" height="400/">
+
+<h2>🛠️ Installation Steps:</h2>
+
+<p>1. Create virtual environment</p>
+
 ```
-OPENAI= "<YOUR API_KEY>"
-```
-**Step 4:** Navigate to client directory and run the below command:
-```
-npm start
-```
-**Step 5:** Navigate to server directory and run the below command:
-```
-python Langchain_V1.py
+python -m venv .venv
 ```
 
-## Acknowledgements
+<p>2. Activate virtual environment</p>
 
- - [OpenAI API](https://openai.com/blog/openai-api)
- - [Langchain Docs](https://python.langchain.com/docs/get_started/introduction)
-## Tech Stack
+```
+./.venv/Scripts/activate
+```
 
-**FrontEnd:** ReactJS, CSS3 
+<p>3. Set environment variables</p>
 
-**BackEnd:** MongoDB, Express, Node
+```
+GROQ_API_KEY=
+```
 
-**Scripts:** LangChain, Flask, OPENAI
+<p>4. Build Command</p>
 
+```
+docker build -t server .
+```
 
+<p>5. Run build command</p>
 
+```
+docker run -p 8080:8080 server
+```
