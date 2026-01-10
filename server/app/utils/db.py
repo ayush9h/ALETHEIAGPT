@@ -1,13 +1,8 @@
 from typing import Optional
 
-from app.utils.config import Settings
-from sqlmodel import Field, Session, SQLModel, create_engine
+from app.utils.config import settings
+from sqlalchemy.ext.asyncio import create_async_engine
 
-engine = create_engine(
-    url=Settings.DB_URL.value,
+engine = create_async_engine(
+    url=settings.DB_POSTGRES_URL,
 )
-
-SQLModel.metadata.create_all(engine)
-
-with Session(engine) as session:
-    print("True connecting with the DB")

@@ -1,6 +1,6 @@
 from app.services.agent_state import AgentState
 from app.services.prompts import ORCHESTRATOR_BASE_PROMPT
-from app.utils.config import Settings
+from app.utils.config import settings
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_groq import ChatGroq
@@ -10,7 +10,7 @@ from langgraph.graph import END, START, StateGraph
 async def generate_session_title(state: AgentState) -> AgentState:
     user_input = state.get("user_input", "")
     client = ChatGroq(
-        api_key=Settings.GROQ_API_KEY.value,
+        api_key=settings.GROQ_API_KEY,
         model=state.get("user_model", ""),
     )
 
@@ -21,9 +21,10 @@ async def generate_session_title(state: AgentState) -> AgentState:
 
 
 async def orchestrator(state: AgentState) -> AgentState:
+
     agent = create_agent(
         model=ChatGroq(
-            api_key=Settings.GROQ_API_KEY.value,
+            api_key=settings.GROQ_API_KEY,
             model=state.get("user_model", ""),
         ),
         system_prompt=SystemMessage(content=ORCHESTRATOR_BASE_PROMPT),
