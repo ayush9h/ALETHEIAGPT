@@ -9,4 +9,4 @@ load_dotenv(dotenv_path="../.env")
 
 class Settings(Enum):
     GROQ_API_KEY = SecretStr(os.environ.get("GROQ_API_KEY", ""))
-    GROQ_MODEL = os.environ.get("GROQ_MODEL", "")
+    DB_URL = os.environ.get("DB_URL", "")
