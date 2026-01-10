@@ -7,7 +7,7 @@ export async function sendChatMessage(
   question: string,
   userPref: UserPrefProps
 ) {
-  console.log(userPref)
+  console.log(api.getUri())
   return api.post("/chat", {
     model: selectedModel,
     query: question,
