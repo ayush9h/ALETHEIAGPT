@@ -1,10 +1,11 @@
-from app.services.agent_state import AgentState
-from app.services.prompts import ORCHESTRATOR_BASE_PROMPT
-from app.utils.config import settings
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_groq import ChatGroq
 from langgraph.graph import END, START, StateGraph
+
+from app.services.agent_state import AgentState
+from app.services.prompts import ORCHESTRATOR_BASE_PROMPT
+from app.utils.config import settings
 
 
 async def generate_session_title(state: AgentState) -> AgentState:
