@@ -1,9 +1,8 @@
 from typing import List
 
-from fastapi import APIRouter
-
-from app.schemas.schema import ChatRequest
+from app.schemas.chat_schema import ChatRequest
 from app.services.agent import graph
+from fastapi import APIRouter
 
 chat_router = APIRouter(prefix="/v1")
 

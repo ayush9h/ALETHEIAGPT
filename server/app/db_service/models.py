@@ -28,5 +28,5 @@ class UserSessions(SQLModel, table=True):
     __tablename__ = "user_sessions"  # type: ignore
 
     user_id: int
-    session_id: int
+    session_id: int = Field(primary_key=True)
     session_title: str

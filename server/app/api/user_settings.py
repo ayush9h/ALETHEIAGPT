@@ -1,6 +1,5 @@
+from app.schemas.user_pref import UserPref
 from fastapi import APIRouter
-
-from app.schemas.user_pref import UserPrefs
 
 user_router = APIRouter(prefix="/v1/users")
 
@@ -10,7 +9,7 @@ user_router = APIRouter(prefix="/v1/users")
     tags=["user_preferences"],
     description="Store the updated user preference",
 )
-async def store_user_pref(payload: UserPrefs):
+async def store_user_pref(payload: UserPref):
     try:
         # response = store_user_preferences(payload)
         # Function which would store the user prefernces in a database, and fetcehd from redis.
