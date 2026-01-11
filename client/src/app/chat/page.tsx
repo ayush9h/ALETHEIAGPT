@@ -44,7 +44,6 @@ export default function ChatPage() {
     dispatch({ type: "CLEAR_INPUT", payload: "" });
 
     try {
-      console.log(state.userPref)
       const res = await sendChatMessage(state.selectedModel, input, state.userPref);
       dispatch({
         type: "ADD_MESSAGE",
@@ -52,6 +51,8 @@ export default function ChatPage() {
           role: "assistant",
           text: String(res.data.service_output.response_content ?? "..."),
           reasoning: String(res.data.service_output.reasoning_content ?? "..."),
+          duration: res.data.service_output.duration ?? "...",
+          tokens_consumed: res.data.service_output.tokens_consumed ?? "...",
         },
       });
     } catch {
