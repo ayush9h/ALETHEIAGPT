@@ -25,6 +25,8 @@ async def chat(payload: ChatRequest):
         "service_output": {
             "reasoning_content": response.get("reasoning_kwargs", ""),
             "response_content": response.get("response_content", ""),
+            "duration": response.get("duration", ""),
+            "tokens_consumed": response.get("tokens_consumed", ""),
         },
     }
 
