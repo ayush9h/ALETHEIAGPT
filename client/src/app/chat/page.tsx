@@ -21,8 +21,8 @@ export default function ChatPage() {
     async function load() {
       try {
         const sessions = await userSessions(USER_ID);
-        // console.log(sessions)
         const messages = await userChats(SESSION_ID);
+
         if (cancelled) return;
 
         dispatch({ type: "SET_SESSIONS", payload: sessions.data });

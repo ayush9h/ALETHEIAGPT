@@ -3,8 +3,8 @@ export type Message = {
   role: "user" | "assistant";
   text: string;
   reasoning: string;
-  duration: any | null
-  tokens_consumed : any | null
+  duration: number ;
+  tokens_consumed : number;
 };
 
 export type Session = {
@@ -24,7 +24,7 @@ export const InitialState: ChatState = {
   selectedModel: "openai/gpt-oss-120b",
   sessions: [],
   messages: [
-    { role: "assistant", text: "Hi, how can I help you today?", reasoning: "", duration:"", tokens_consumed:"" },
+    { role: "assistant", text: "Hi, how can I help you today?", reasoning: "", duration:0, tokens_consumed:0 },
   ],
   userPref: {
   userCustomInstruction: "",
