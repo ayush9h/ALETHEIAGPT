@@ -8,9 +8,7 @@ import { ChatReducer, InitialState } from "../reducers/reducerChat";
 import Sidebar from "./Sidebar";
 import ChatWindow from "./ChatWindow";
 
-const USER_ID = "123";
-const SESSION_ID = "423";
-
+const USER_ID = "423";
 export default function ChatPage() {
   const [state, dispatch] = useReducer(ChatReducer, InitialState);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,13 +18,18 @@ export default function ChatPage() {
 
     async function load() {
       try {
-        const sessions = await userSessions(USER_ID);
-        const messages = await userChats(SESSION_ID);
+        const sessionsRes = await userSessions(USER_ID);
+        const sessions = sessionsRes.data;
 
-        if (cancelled) return;
+        if (cancelled || !sessions.length) return;
 
-        dispatch({ type: "SET_SESSIONS", payload: sessions.data });
-        dispatch({ type: "SET_MESSAGES", payload: messages.data });
+        const topSession = sessions[0];
+
+        dispatch({ type: "SET_SESSIONS", payload: sessions });
+        dispatch({ type: "SET_SELECTED_SESSION", payload: topSession.session_id });
+
+        const chatsRes = await userChats(topSession.session_id);
+        dispatch({ type: "SET_MESSAGES", payload: chatsRes.data });
       } catch {}
     }
 
@@ -44,7 +47,7 @@ export default function ChatPage() {
     dispatch({ type: "CLEAR_INPUT", payload: "" });
 
     try {
-      const res = await sendChatMessage(state.selectedModel, input, state.userPref);
+      const res = await sendChatMessage(state.selectedModel, input, state.userPref, state.selectedSessionId);
       dispatch({
         type: "ADD_MESSAGE",
         payload: {
@@ -63,6 +66,19 @@ export default function ChatPage() {
     }
   };
 
+
+  const handleSessionSelect = async (sessionId: number) => {
+  dispatch({ type: "SET_SELECTED_SESSION", payload: sessionId });
+
+  try {
+    const res = await userChats(sessionId);
+    dispatch({ type: "SET_MESSAGES", payload: res.data });
+  } catch {
+    dispatch({ type: "SET_MESSAGES", payload: [] });
+  }
+};
+
+
   return (
     <div
       className={`grid min-h-screen transition-all duration-300 ${
@@ -73,6 +89,8 @@ export default function ChatPage() {
         open={sidebarOpen}
         onToggle={setSidebarOpen}
         sessions={state.sessions}
+        selectedSessionId={state.selectedSessionId}
+        onSelectSession={handleSessionSelect}
       />
 
       <ChatWindow

@@ -16,12 +16,14 @@ export type ChatState = {
   selectedModel: string;
   sessions: Session[];
   messages: Message[];
+  selectedSessionId: number | null;
   userPref:UserPrefProps,
 };
 
 export const InitialState: ChatState = {
   input: "",
   selectedModel: "openai/gpt-oss-120b",
+  selectedSessionId: null,
   sessions: [],
   messages: [
     { role: "assistant", text: "Hi, how can I help you today?", reasoning: "", duration:0, tokens_consumed:0 },
@@ -74,6 +76,13 @@ export const ChatReducer = (state: ChatState, action: any) => {
         ...state,
         sessions: action.payload,
       };
+
+    case "SET_SELECTED_SESSION":
+      return {
+        ...state,
+        selectedSessionId: action.payload,
+      };
+
 
     case "SET_USER_PREF":
       return {

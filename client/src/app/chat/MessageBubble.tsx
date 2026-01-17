@@ -8,6 +8,7 @@ import {
   AccordionContent,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import remarkGfm from "remark-gfm";
 
 export default function MessageBubble({ message }: { message: Message }) {
   const isUser = message.role === "user";
@@ -20,7 +21,7 @@ export default function MessageBubble({ message }: { message: Message }) {
         }`}
       >
         <div
-          className={`rounded-md text-sm ${
+          className={`rounded-md text-sm  ${
             isUser
               ? "max-w-[60%] bg-blue-600 text-white px-4 py-2"
               : "w-full   text-stone-800"
@@ -30,7 +31,7 @@ export default function MessageBubble({ message }: { message: Message }) {
             <Accordion
               type="single"
               collapsible
-              className="mb-2 flex flex-col rounded-md border border-stone-100 bg-stone-100 p-2"
+              className="mb-4 flex flex-col rounded-md border border-stone-100 bg-stone-100 p-2"
             >
               <AccordionItem value="reasoning">
                 <AccordionTrigger
@@ -50,7 +51,10 @@ export default function MessageBubble({ message }: { message: Message }) {
             </Accordion>
           )}
 
-          <ReactMarkdown>{String(message.text)}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {String(message.text)}
+          </ReactMarkdown>
+
         </div>
 
       </div>

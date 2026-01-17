@@ -1,5 +1,5 @@
 import { api } from "./axiosRoute";
-export async function userChats(sessionId: string) {
+export async function userChats(sessionId: number) {
   return api.get("/chats", {
     params: {
       session_id: sessionId,

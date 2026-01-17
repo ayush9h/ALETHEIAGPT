@@ -9,9 +9,11 @@ interface SidebarProps {
   open: boolean;
   onToggle: (open: boolean) => void;
   sessions: any[];
+  selectedSessionId: number | null;
+  onSelectSession: (id: number) => void;
 }
 
-export default function Sidebar({ open, onToggle, sessions }: SidebarProps) {
+export default function Sidebar({ open, onToggle, sessions, onSelectSession, selectedSessionId }: SidebarProps) {
   return (
     <aside className="font-paragraph p-4 border-r bg-stone-100 text-sm">
       <div className="flex items-center justify-between">
@@ -68,7 +70,11 @@ export default function Sidebar({ open, onToggle, sessions }: SidebarProps) {
         {sessions.map((s) => (
           <li
             key={s.session_id}
-            className="group flex cursor-pointer items-center rounded-md p-2 hover:bg-stone-200"
+            onClick={() => onSelectSession(s.session_id)}
+            className={`
+              group flex cursor-pointer items-center rounded-md p-2
+              ${selectedSessionId === s.session_id ? "bg-stone-200" : "hover:bg-stone-200"}
+            `}
           >
             <span
               className={`
@@ -78,7 +84,7 @@ export default function Sidebar({ open, onToggle, sessions }: SidebarProps) {
             >
               {s.session_title}
             </span>
-
+              
             <Trash2Icon
               className={`
                 ml-auto h-4 w-4 transition-all
@@ -89,6 +95,7 @@ export default function Sidebar({ open, onToggle, sessions }: SidebarProps) {
           </li>
         ))}
       </ul>
+
     </aside>
   );
 }
