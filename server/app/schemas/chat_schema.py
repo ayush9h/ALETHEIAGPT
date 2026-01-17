@@ -17,6 +17,11 @@ class ChatRequest(BaseModel):
         ...,
         description="The user's query",
     )
+    selectedSessionId: Optional[int] = Field(
+        None,
+        description="Existing session ID. Null means create new session.",
+    )
+
     userPref: Optional[UserPref] = Field(
         None,
         description="User preferences that influence assistant responses",

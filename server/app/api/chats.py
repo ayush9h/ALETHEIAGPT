@@ -17,6 +17,9 @@ chat_router = APIRouter(prefix="/v1")
     description="Answers the question related to the query",
 )
 async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_session)):
+
+    user_id = 423
+
     input_state = {
         "user_input": payload.query,
         "user_model": payload.model,
@@ -25,21 +28,25 @@ async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_session
 
     response = await graph.ainvoke(input=input_state)  # type: ignore
 
-    stmt = select(UserSessions).where(UserSessions.session_id == 456)
-    result = await session.execute(stmt)
-    chat_session = result.scalar_one_or_none()
-
-    if not chat_session:
+    if payload.selectedSessionId:
+        stmt = select(UserSessions).where(
+            UserSessions.session_id == payload.selectedSessionId,
+            UserSessions.user_id == user_id,
+        )
+        result = await session.execute(stmt)
+        chat_session = result.scalar_one()
+    else:
         chat_session = UserSessions(
-            session_id=456,
-            user_id=423,
+            session_id=payload.selectedSessionId,
+            user_id=user_id,
             session_title=response.get("session_title", ""),
         )
         session.add(chat_session)
         await session.commit()
+        await session.refresh(chat_session)
 
     chat = UserChats(
-        session_id=456,
+        session_id=chat_session.session_id,
         user_query=payload.query,
         assistant_response=response.get("response_content", ""),
         assistant_reasoning=response.get("reasoning_kwargs"),
@@ -71,7 +78,7 @@ async def users_session(
 ) -> List[dict]:
     stmt = (
         select(UserSessions)
-        .where(UserSessions.user_id == 423)
+        .where(UserSessions.user_id == user_id)
         .order_by(UserSessions.created_at.desc())  # type: ignore
     )
 
@@ -99,7 +106,7 @@ async def chats(
 ) -> List[dict]:
     stmt = (
         select(UserChats)
-        .where(UserChats.session_id == 456)
+        .where(UserChats.session_id == session_id)
         .order_by(UserChats.created_at.asc())  # type:ignore
     )
 
