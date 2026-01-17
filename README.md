@@ -1,16 +1,17 @@
-<h1 align="center" id="title">BLOCKGPT</h1>
+<h1 align="center" id="title">ALETHEIAGPT</h1>
 
 <p align="center"><img src="https://lh3.googleusercontent.com/d/130Wt-cJt_U4iHTOwGJFFGlZapD48ZdYU=w50?authuser=0" alt="project-image"></p>
 
 
-<p id="description">BLOCKGPT, an assistant for blockchain domain. Built using Langgraph, FastAPI, Groq, it serves as an LLM-powered tool that understands and responds to queries specific to blockchain concepts, protocols, and development workflows. The project integrates custom-trained datasets relevant to decentralized systems, smart contracts, and on-chain terminology to provide more accurate, domain-focused insights than general-purpose language models.</p>
-
-
+<p id="description">ALETHEIA, an assistant for your everyday tasks. Built using Langgraph, FastAPI, Groq, it serves as an LLM-powered tool that understands and responds to queries.</p>
 <h2>Project Screenshots:</h2>
 
-<img src="https://lh3.googleusercontent.com/d/1idKlj1lBEnAqN_WHMaGutLcOJ3uVSUIz=w1000?authuser=0" alt="project-screenshot" width="1000" height="400/">
+<img src="https://lh3.googleusercontent.com/d/1QK8ycOhrPpTPmTRBqwbdwP9bxTmgufeE=w1000?authuser=0" alt="project-screenshot" width="1000" height="400/">
 
-<img src="https://lh3.googleusercontent.com/d/1yRclZaOz9Tfw2a_xkEf3eRPjboISxTDy=w1000?authuser=0" alt="project-screenshot" width="1000" height="400/">
+<img src="https://lh3.googleusercontent.com/d/1T6aYmd-a-irddYY4T_OUsuy7ih3C8XXb=w1000?authuser=0" alt="project-screenshot" width="1000" height="400/">
+
+<img src="https://lh3.googleusercontent.com/d/1uRXIxNlxtiiHbFXmi_Yx-h-aTmBXW-ID=w1000?authuser=0" alt="project-screenshot" width="1000" height="400/">
+
 
 <h2>🛠️ Installation Steps:</h2>
 
