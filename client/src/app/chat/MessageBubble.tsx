@@ -20,17 +20,17 @@ export default function MessageBubble({ message }: { message: Message }) {
         }`}
       >
         <div
-          className={`rounded-md px-4 py-2 text-sm ${
+          className={`rounded-md text-sm ${
             isUser
-              ? "max-w-[60%] bg-blue-600 text-white"
-              : "w-full border border-stone-200 text-stone-800"
+              ? "max-w-[60%] bg-blue-600 text-white px-4 py-2"
+              : "w-full   text-stone-800"
           }`}
         >
           {!isUser && message.reasoning && (
             <Accordion
               type="single"
               collapsible
-              className="mb-2 flex flex-col rounded-md border border-stone-50 bg-stone-100 p-2"
+              className="mb-2 flex flex-col rounded-md border border-stone-100 bg-stone-100 p-2"
             >
               <AccordionItem value="reasoning">
                 <AccordionTrigger
@@ -56,7 +56,7 @@ export default function MessageBubble({ message }: { message: Message }) {
       </div>
 
       {!isUser && (
-        <div className="ml-2 mt-1 flex justify-between gap-2 text-stone-500">
+        <div className="mt-2.5 flex justify-between gap-2 text-stone-500">
           <div className="flex gap-2">          <CopyIcon className="h-4 w-4 cursor-pointer hover:text-stone-800" />
           <ThumbsUpIcon className="h-4 w-4 cursor-pointer hover:text-stone-800" />
           <ThumbsDownIcon className="h-4 w-4 cursor-pointer hover:text-stone-800" /></div>
