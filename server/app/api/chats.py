@@ -81,6 +81,8 @@ def chats(session_id: str):
                 "Avoid technical jargon and focus on core concepts like decentralization, "
                 "shared records, and trust without a central authority."
             ),
+            "duration": 2,
+            "tokens_consumed": 512,
         },
         {
             "role": "user",
@@ -99,11 +101,13 @@ def chats(session_id: str):
                 "is decentralized and append-only, meaning records cannot be altered "
                 "once written."
             ),
-            "reasoning_content": (
+            "reasoning": (
                 "The user has technical background, so comparison-based reasoning works best. "
                 "Highlight control, mutability, and trust differences instead of re-explaining "
                 "basic database concepts."
             ),
+            "duration": 1,
+            "tokens_consumed": 312,
         },
         {
             "role": "user",
@@ -121,10 +125,12 @@ def chats(session_id: str):
                 "Other uses include supply chain tracking, digital identity systems, "
                 "and smart contracts that automatically enforce agreements."
             ),
-            "reasoning_content": (
+            "reasoning": (
                 "The intent is to broaden understanding beyond crypto. "
                 "Provide concrete real-world examples to counter the common misconception "
                 "that blockchain equals cryptocurrency."
             ),
+            "duration": 2,
+            "tokens_consumed": 273,
         },
     ]

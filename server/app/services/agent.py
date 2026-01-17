@@ -8,13 +8,16 @@ from langgraph.graph import END, START, StateGraph
 
 
 async def generate_session_title(state: AgentState) -> AgentState:
-    user_input = state.get("user_input", "")
     client = ChatGroq(
         api_key=settings.GROQ_API_KEY,
         model=state.get("user_model", ""),
     )
 
-    response = await client.ainvoke(user_input)
+    response = await client.ainvoke(
+        state["user_input"]
+        + [SystemMessage(content=f"""Generate a short session title max 15 words""")]
+        # type:ignore
+    )
 
     state["session_title"] = str(response.content)
     return state
@@ -48,7 +51,7 @@ async def orchestrator(state: AgentState) -> AgentState:
     )
     response_kwargs = result.get("messages", [])[-1].content
     state["reasoning_kwargs"] = reasoning_kwargs
-    state["reasoning_kwargs"] = response_kwargs
+    state["response_content"] = response_kwargs
 
     state["tokens_consumed"] = (
         result.get("messages", [])[-1]
