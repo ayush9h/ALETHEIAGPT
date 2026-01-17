@@ -14,7 +14,7 @@ export default function Landing() {
         {/* Title */}
         <div className="mb-6 text-center">
           <h1 className="font-header text-5xl font-semibold text-blue-500 md:text-8xl">
-            BLOCKGPT
+            AletheiaGPT 
           </h1>
         </div>
 
@@ -50,7 +50,7 @@ export default function Landing() {
 
       <footer className="mx-auto mt-16 w-full max-w-3xl text-center">
         <div className="font-paragraph text-xs text-stone-500">
-          © {new Date().getFullYear()} BLOCKGPT. All rights reserved.
+          © {new Date().getFullYear()} AletheiaGPT. All rights reserved.
         </div>
       </footer>
     </div>

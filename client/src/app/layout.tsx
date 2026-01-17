@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BLOCKGPT",
-  description: "Assistant for Blockchain Domain",
+  title: "Aletheia",
+  description: "Your everyday assistant",
 };
 
 export default function RootLayout({
