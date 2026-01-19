@@ -18,7 +18,7 @@ class UserChats(SQLModel, table=True):
     __tablename__ = "user_chats"  # type: ignore
 
     chat_id: int | None = Field(default=None, primary_key=True)
-    session_id: int = Field(index=True)
+    session_id: int | None = Field(index=True)
 
     user_query: str
     assistant_response: str
@@ -33,7 +33,7 @@ class UserChats(SQLModel, table=True):
 class UserSessions(SQLModel, table=True):
     __tablename__ = "user_sessions"  # type: ignore
 
+    session_id: int | None = Field(default=None, primary_key=True)
     user_id: int
-    session_id: int = Field(primary_key=True)
     session_title: str
     created_at: datetime = Field(default_factory=datetime.utcnow)

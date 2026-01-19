@@ -37,7 +37,6 @@ async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_session
         chat_session = result.scalar_one()
     else:
         chat_session = UserSessions(
-            session_id=payload.selectedSessionId,
             user_id=user_id,
             session_title=response.get("session_title", ""),
         )
@@ -51,7 +50,7 @@ async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_session
         assistant_response=response.get("response_content", ""),
         assistant_reasoning=response.get("reasoning_kwargs"),
         tokens_consumed=response.get("tokens_consumed", 0),
-        duration=response.get("duration", 0.0),
+        duration=round(response.get("duration", 0.0), 2),
     )
 
     session.add(chat)
@@ -61,38 +60,10 @@ async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_session
         "service_output": {
             "reasoning_content": response.get("reasoning_kwargs", ""),
             "response_content": response.get("response_content", ""),
-            "duration": response.get("duration", ""),
+            "duration": round(response.get("duration", ""), 2),
             "tokens_consumed": response.get("tokens_consumed", ""),
         },
     }
-
-
-@chat_router.get(
-    "/sessions",
-    tags=["Sessions for a particular user"],
-    description="Get all sessions for a given user_id",
-)
-async def users_session(
-    user_id: int,
-    session: AsyncSession = Depends(get_session),
-) -> List[dict]:
-    stmt = (
-        select(UserSessions)
-        .where(UserSessions.user_id == user_id)
-        .order_by(UserSessions.created_at.desc())  # type: ignore
-    )
-
-    result = await session.execute(stmt)
-    sessions = result.scalars().all()
-
-    return [
-        {
-            "session_id": s.session_id,
-            "session_title": s.session_title,
-            "created_at": s.created_at,
-        }
-        for s in sessions
-    ]
 
 
 @chat_router.get(
