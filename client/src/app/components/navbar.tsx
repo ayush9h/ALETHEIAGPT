@@ -29,23 +29,39 @@ type NavbarProps = {
   setUserPref:(userPref:UserPrefProps) => void;
 };
 
-const MODELS = [
+const MODEL_GROUPS = [
   {
-    label: "OpenAI`s GPT-OSS-120B",
-    value: "openai/gpt-oss-120b",
+    provider: "OpenAI",
     icon: RocketIcon,
+    models: [
+      {
+        label: "GPT-OSS-120B",
+        value: "openai/gpt-oss-120b",
+      },
+    ],
   },
   {
-    label: "Deepseek`s Qwen3-32B",
-    value: "qwen/qwen3-32b",
+    provider: "DeepSeek",
     icon: CubeIcon,
+    models: [
+      {
+        label: "Qwen3-32B",
+        value: "qwen/qwen3-32b",
+      },
+    ],
   },
   {
-    label: "Meta`s Llama-3.1-8B",
-    value: "llama-3.1-8b-instant",
+    provider: "Meta",
     icon: GlobeIcon,
+    models: [
+      {
+        label: "Llama-3.1-8B",
+        value: "llama-3.1-8b-instant",
+      },
+    ],
   },
 ];
+
 
 export default function Navbar({
   selectedModel,
@@ -59,7 +75,9 @@ export default function Navbar({
   if (!session?.user) return null;
 
   const currentModel =
-    MODELS.find((m) => m.value === selectedModel)?.label ?? "Select model";
+  MODEL_GROUPS.flatMap((g) => g.models)
+    .find((m) => m.value === selectedModel)?.label ?? "Select model";
+
 
   return (
     <nav>
@@ -71,20 +89,28 @@ export default function Navbar({
             </button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="start" className="font-paragraph">
-            {MODELS.map((model) => (
-              <DropdownMenuItem
-                key={model.value}
-                onSelect={() => setSelectedModel(model.value)}
-                className="flex items-center gap-2"
-              >
-                <model.icon className="h-3 w-3 text-stone-600" />
-                <span>{model.label}</span>
-              </DropdownMenuItem>
+         <DropdownMenuContent align="start" className="font-paragraph w-56">
+          {MODEL_GROUPS.map((group) => (
+            <div key={group.provider}>
+              <DropdownMenuLabel className="flex items-center gap-2 text-xs text-stone-500">
+                <group.icon className="h-3 w-3" />
+                {group.provider}
+              </DropdownMenuLabel>
+          
+              {group.models.map((model) => (
+                <DropdownMenuItem
+                  key={model.value}
+                  onSelect={() => setSelectedModel(model.value)}
+                  className="pl-8"
+                >
+                  {model.label}
+                </DropdownMenuItem>
+              ))}
+            </div>
 
-            ))}
-            
-          </DropdownMenuContent>
+          ))}
+        </DropdownMenuContent>
+
         </DropdownMenu>
 
         <DropdownMenu>
