@@ -91,6 +91,7 @@ export default function ChatPage() {
         sessions={state.sessions}
         selectedSessionId={state.selectedSessionId}
         onSelectSession={handleSessionSelect}
+        dispatch={dispatch}
       />
 
       <ChatWindow

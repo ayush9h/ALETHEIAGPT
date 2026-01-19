@@ -4,6 +4,7 @@ import {
   DoubleArrowLeftIcon,
 } from "@radix-ui/react-icons";
 import { Trash2Icon } from "lucide-react";
+import { createSession } from "../lib/api/userData";
 
 interface SidebarProps {
   open: boolean;
@@ -11,9 +12,34 @@ interface SidebarProps {
   sessions: any[];
   selectedSessionId: number | null;
   onSelectSession: (id: number) => void;
+  dispatch: any
 }
 
-export default function Sidebar({ open, onToggle, sessions, onSelectSession, selectedSessionId }: SidebarProps) {
+export default function Sidebar({ open, onToggle, sessions, onSelectSession, selectedSessionId, dispatch }: SidebarProps) {
+
+  const handleNewChat = async () => {
+  const res = await createSession(423); 
+
+  dispatch({ type: "ADD_SESSION", payload: res });
+  dispatch({ type: "SET_SELECTED_SESSION", payload: res.session_id });
+
+  dispatch({
+    type: "SET_MESSAGES",
+    payload: [
+      {
+        role: "assistant",
+        text: "Hi, how can I help you today?",
+        reasoning: "",
+        duration: 0,
+        tokens_consumed: 0,
+      },
+    ],
+  });
+
+  dispatch({ type: "CLEAR_INPUT" });
+};
+
+
   return (
     <aside className="font-paragraph p-4 border-r bg-stone-100 text-sm">
       <div className="flex items-center justify-between">
@@ -32,7 +58,7 @@ export default function Sidebar({ open, onToggle, sessions, onSelectSession, sel
         />
       </div>
 
-      <button className="mt-4 flex w-full items-center gap-2 rounded-md p-2 hover:bg-stone-200">
+      <button className="mt-4 flex w-full items-center gap-2 rounded-md p-2 hover:bg-stone-200"  onClick={handleNewChat}>
         <Pencil2Icon className="shrink-0" />
         <span
           className={`

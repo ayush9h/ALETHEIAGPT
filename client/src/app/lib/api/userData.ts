@@ -14,3 +14,11 @@ export async function userSessions(userId: string) {
     },
   });
 }
+
+export async function createSession(userId: number) {
+  const res = await api.post("/sessions", {
+    user_id: userId,
+  });
+
+  return res.data;
+}
