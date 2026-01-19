@@ -15,7 +15,7 @@ export async function userSessions(userId: string) {
   });
 }
 
-export async function createSession(userId: number) {
+export async function createSession(userId: string) {
   const res = await api.post("/sessions", {
     user_id: userId,
   });

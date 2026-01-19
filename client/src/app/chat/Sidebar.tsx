@@ -5,7 +5,7 @@ import {
 } from "@radix-ui/react-icons";
 import { Trash2Icon } from "lucide-react";
 import { createSession } from "../lib/api/userData";
-
+import { useSession} from "next-auth/react";
 interface SidebarProps {
   open: boolean;
   onToggle: (open: boolean) => void;
@@ -16,9 +16,11 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ open, onToggle, sessions, onSelectSession, selectedSessionId, dispatch }: SidebarProps) {
-
+  const { data: session } = useSession();
+  const userId = session?.user?.id
+  
   const handleNewChat = async () => {
-  const res = await createSession(423); 
+  const res = await createSession(userId as string); 
 
   dispatch({ type: "ADD_SESSION", payload: res });
   dispatch({ type: "SET_SELECTED_SESSION", payload: res.session_id });

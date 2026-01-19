@@ -6,13 +6,15 @@ export async function sendChatMessage(
   selectedModel: string,
   question: string,
   userPref: UserPrefProps,
-  selectedSessionId: number
+  selectedSessionId: number,
+  userId: string
 ) {
 
   return api.post("/chat", {
     model: selectedModel,
     query: question,
     userPref: userPref,
-    selectedSessionId: selectedSessionId
+    selectedSessionId: selectedSessionId,
+    userId: userId,
   });
 }

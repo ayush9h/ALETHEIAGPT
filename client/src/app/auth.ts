@@ -10,5 +10,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
   ],
+  session:{
+    strategy:"jwt"
+  },
+  callbacks: {
+    async jwt({ token, account, profile }) {
+      if (account?.provider === "github" && profile) {
+        token.githubId = profile.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = String(token.githubId); 
+      }
+      return session;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
 });

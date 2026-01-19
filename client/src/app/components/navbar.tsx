@@ -55,7 +55,7 @@ export default function Navbar({
 }: NavbarProps) {
   const { data: session } = useSession();
   const [settingsOpen, setSettingsOpen] = useState(false);
-
+  
   if (!session?.user) return null;
 
   const currentModel =

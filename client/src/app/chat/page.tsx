@@ -5,20 +5,26 @@ import { sendChatMessage } from "../lib/api/chatService";
 import { userChats, userSessions } from "../lib/api/userData";
 import { ChatReducer, InitialState } from "../reducers/reducerChat";
 
+import { useSession} from "next-auth/react";
 import Sidebar from "./Sidebar";
 import ChatWindow from "./ChatWindow";
 
-const USER_ID = "423";
+
 export default function ChatPage() {
+  const { data: session, status } = useSession();
   const [state, dispatch] = useReducer(ChatReducer, InitialState);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
+    
+    const userId = session?.user?.id
+    if (!userId) return;
+
 
     async function load() {
       try {
-        const sessionsRes = await userSessions(USER_ID);
+        const sessionsRes = await userSessions(userId as string);
         const sessions = sessionsRes.data;
 
         if (cancelled || !sessions.length) return;
@@ -37,17 +43,23 @@ export default function ChatPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [session?.user?.id]);
 
   const handleSend = async () => {
+    
+    
+    
+    
     const input = state.input.trim();
     if (!input) return;
+    const userId = session?.user?.id;
+    if (!userId) return;
 
     dispatch({ type: "ADD_MESSAGE", payload: { role: "user", text: input } });
     dispatch({ type: "CLEAR_INPUT", payload: "" });
 
     try {
-      const res = await sendChatMessage(state.selectedModel, input, state.userPref, state.selectedSessionId);
+      const res = await sendChatMessage(state.selectedModel, input, state.userPref, state.selectedSessionId, userId as string);
       dispatch({
         type: "ADD_MESSAGE",
         payload: {
