@@ -26,3 +26,6 @@ class ChatRequest(BaseModel):
         None,
         description="User preferences that influence assistant responses",
     )
+    userId: Optional[str] = Field(
+        ..., description="The id of the user asking the question"
+    )

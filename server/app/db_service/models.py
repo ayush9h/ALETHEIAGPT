@@ -7,7 +7,7 @@ from sqlmodel import Field, SQLModel
 class UserPrefs(SQLModel, table=True):
     __tablename__ = "user_prefs"  # type: ignore
 
-    user_id: int = Field(primary_key=True, index=True)
+    user_id: str = Field(primary_key=True, index=True)
     alias: str
     assistant_behavior: str
     user_personal_description: str
@@ -34,6 +34,6 @@ class UserSessions(SQLModel, table=True):
     __tablename__ = "user_sessions"  # type: ignore
 
     session_id: int | None = Field(default=None, primary_key=True)
-    user_id: int
+    user_id: str
     session_title: str
     created_at: datetime = Field(default_factory=datetime.utcnow)

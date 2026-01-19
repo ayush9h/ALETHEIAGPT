@@ -18,8 +18,6 @@ chat_router = APIRouter(prefix="/v1")
 )
 async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_session)):
 
-    user_id = 423
-
     input_state = {
         "user_input": payload.query,
         "user_model": payload.model,
@@ -31,13 +29,13 @@ async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_session
     if payload.selectedSessionId:
         stmt = select(UserSessions).where(
             UserSessions.session_id == payload.selectedSessionId,
-            UserSessions.user_id == user_id,
+            UserSessions.user_id == payload.userId,
         )
         result = await session.execute(stmt)
         chat_session = result.scalar_one()
     else:
         chat_session = UserSessions(
-            user_id=user_id,
+            user_id=payload.userId,
             session_title=response.get("session_title", ""),
         )
         session.add(chat_session)

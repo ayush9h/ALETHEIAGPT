@@ -16,7 +16,7 @@ session_router = APIRouter(prefix="/v1")
     description="Get all sessions for a given user_id",
 )
 async def users_session(
-    user_id: int,
+    user_id: str,
     session: AsyncSession = Depends(get_session),
 ) -> List[dict]:
     stmt = (
