@@ -38,7 +38,7 @@ async def orchestrator(state: AgentState) -> AgentState:
             "messages": state["user_input"]
             + [
                 SystemMessage(
-                    content=f"""Remember the user preferences while answering to the query: **User Custom Instruction**{state["user_preference"].userCustomInstruction} + **User Preference** {state['user_preference'].userHobbies} + **User Hobbies**{state['user_preference'].userPronouns}
+                    content=f"""Remember the user preferences while answering to the query: **User Custom Instruction**{state["user_preference"].userCustomInstruction} + **User Hobbies** {state['user_preference'].userHobbies} + **User Pronouns/Other Names**{state['user_preference'].userPronouns}
 
 """
                 )

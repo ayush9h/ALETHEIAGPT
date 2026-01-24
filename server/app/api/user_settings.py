@@ -29,8 +29,8 @@ async def store_user_pref(
         else:
             pref = UserPrefs(
                 user_id=payload.userId,
-                alias=payload.userCustomInstruction,
-                assistant_behavior=payload.userPronouns,
+                alias=payload.userPronouns,
+                assistant_behavior=payload.userCustomInstruction,
                 user_personal_description=payload.userHobbies,
             )
             session.add(pref)
@@ -50,3 +50,32 @@ async def store_user_pref(
             "message": f"Error occurred: {e}",
             "code": 400,
         }
+
+
+@user_router.get(
+    "/preferences",
+    tags=["user_preferences"],
+    description="Get user preferences by user ID",
+)
+async def get_user_pref(
+    user_id: str,
+    session: AsyncSession = Depends(get_session),
+):
+    stmt = select(UserPrefs).where(UserPrefs.user_id == user_id)
+    result = await session.execute(stmt)
+    pref = result.scalar_one_or_none()
+
+    if not pref:
+        return {
+            "userId": user_id,
+            "userCustomInstruction": "",
+            "userPronouns": "",
+            "userHobbies": "",
+        }
+
+    return {
+        "userId": pref.user_id,
+        "userCustomInstruction": pref.assistant_behavior or "",
+        "userPronouns": pref.alias or "",
+        "userHobbies": pref.user_personal_description or "",
+    }
