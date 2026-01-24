@@ -1,15 +1,12 @@
 "use client";
 
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState, useCallback } from "react";
 import { sendChatMessage } from "../lib/api/chatService";
-import { userChats, userSessions } from "../lib/api/userData";
+import { userChats, userSessions, getUserPref } from "../lib/api/userData";
 import { ChatReducer, InitialState } from "../reducers/reducerChat";
-
-import { useSession} from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Sidebar from "./Sidebar";
 import ChatWindow from "./ChatWindow";
-import { getUserPref } from "../lib/api/userData";
-
 
 export default function ChatPage() {
   const { data: session } = useSession();
@@ -18,10 +15,8 @@ export default function ChatPage() {
 
   useEffect(() => {
     let cancelled = false;
-    
-    const userId = session?.user?.id
+    const userId = session?.user?.id;
     if (!userId) return;
-
 
     async function load() {
       try {
@@ -31,7 +26,6 @@ export default function ChatPage() {
         if (cancelled || !sessions.length) return;
 
         const topSession = sessions[0];
-
         dispatch({ type: "SET_SESSIONS", payload: sessions });
         dispatch({ type: "SET_SELECTED_SESSION", payload: topSession.session_id });
 
@@ -46,8 +40,7 @@ export default function ChatPage() {
     };
   }, [session?.user?.id]);
 
-  const handleSend = async () => {
-    
+  const handleSend = useCallback(async () => {
     const input = state.input.trim();
     if (!input) return;
     const userId = session?.user?.id;
@@ -57,7 +50,14 @@ export default function ChatPage() {
     dispatch({ type: "CLEAR_INPUT", payload: "" });
 
     try {
-      const res = await sendChatMessage(state.selectedModel, input, state.userPref, state.selectedSessionId, userId as string);
+      const res = await sendChatMessage(
+        state.selectedModel,
+        input,
+        state.userPref,
+        state.selectedSessionId,
+        userId
+      );
+
       dispatch({
         type: "ADD_MESSAGE",
         payload: {
@@ -74,22 +74,26 @@ export default function ChatPage() {
         payload: { role: "assistant", text: "Error getting response from API" },
       });
     }
-  };
+  }, [
+    state.input,
+    state.selectedModel,
+    state.userPref,
+    state.selectedSessionId,
+    session?.user?.id,
+  ]);
 
+  const handleSessionSelect = useCallback(async (sessionId: number) => {
+    dispatch({ type: "SET_SELECTED_SESSION", payload: sessionId });
 
-  const handleSessionSelect = async (sessionId: number) => {
-  dispatch({ type: "SET_SELECTED_SESSION", payload: sessionId });
+    try {
+      const res = await userChats(sessionId);
+      dispatch({ type: "SET_MESSAGES", payload: res.data });
+    } catch {
+      dispatch({ type: "SET_MESSAGES", payload: [] });
+    }
+  }, []);
 
-  try {
-    const res = await userChats(sessionId);
-    dispatch({ type: "SET_MESSAGES", payload: res.data });
-  } catch {
-    dispatch({ type: "SET_MESSAGES", payload: [] });
-  }
-};
-
-
-    useEffect(() => {
+  useEffect(() => {
     const userId = session?.user?.id;
     if (!userId) return;
 
@@ -108,8 +112,6 @@ export default function ChatPage() {
         });
       });
   }, [session?.user?.id]);
-
-
 
   return (
     <div

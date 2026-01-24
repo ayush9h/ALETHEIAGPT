@@ -87,7 +87,11 @@ export const ChatReducer = (state: ChatState, action: any) => {
     case "SET_USER_PREF":
       return {
         ...state,
-        userPref: action.payload,
+        userPref: {
+        userCustomInstruction: action.payload?.userCustomInstruction ?? "",
+        userPronouns: action.payload?.userPronouns ?? "",
+        userHobbies: action.payload?.userHobbies ?? "",
+    },
       };
     default:
       return state;

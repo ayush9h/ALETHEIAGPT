@@ -13,6 +13,9 @@ import { UserPrefProps } from "../types/userPref";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { saveUserPref } from "../lib/api/userData";
+
+
+import { useCallback } from "react";
 type SettingsDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -30,7 +33,7 @@ export function SettingsDialog({
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
-  const handleSave = async () => {
+  const handleSave = useCallback( async () => {
     if (!userId) return;
 
     await saveUserPref({
@@ -39,7 +42,7 @@ export function SettingsDialog({
     });
 
     onOpenChange(false);
-  };
+  },[userId]);
 
 
   return (
@@ -102,11 +105,11 @@ export function SettingsDialog({
           </main>
           
         </div>
-        <div className="mt-4 flex justify-end gap-2">
+        <div className="mt-4 flex justify-end gap-2 cursor-pointer">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={handleSave}>
+          <Button className="bg-blue-500 hover:bg-blue-600 cursor-pointer" onClick={handleSave}>
             Save
           </Button>
         </div>

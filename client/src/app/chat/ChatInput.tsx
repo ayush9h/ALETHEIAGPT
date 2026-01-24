@@ -8,8 +8,8 @@ interface Props {
 
 export default function ChatInput({ value, onChange, onSend }: Props) {
   return (
-    <div className="font-paragraph mx-auto w-full max-w-3xl p-4">
-      <div className="flex items-center rounded-full border p-2">
+    <div className="font-paragraph mx-auto w-full max-w-3xl pb-4">
+      <div className="flex items-center rounded-full border p-2 ">
         <PlusIcon className="ml-2 h-4 w-4 hover:cursor-not-allowed" />
         <input
           value={value}
@@ -20,7 +20,7 @@ export default function ChatInput({ value, onChange, onSend }: Props) {
         />
         <button
           onClick={onSend}
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600"
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 cursor-pointer"
         >
           <ArrowUpIcon className="h-4 w-4 text-stone-100" />
         </button>

@@ -9,8 +9,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import remarkGfm from "remark-gfm";
+import { memo } from "react";
 
-export default function MessageBubble({ message }: { message: Message }) {
+
+const MessageBubble = memo(function MessageBubble({ message }: { message: Message }) {
   const isUser = message.role === "user";
 
   return (
@@ -23,7 +25,7 @@ export default function MessageBubble({ message }: { message: Message }) {
         <div
           className={`rounded-md text-sm  ${
             isUser
-              ? "max-w-[60%] bg-blue-600 text-white px-4 py-2"
+              ? "max-w-[60%] bg-blue-500 text-white px-4 py-2"
               : "w-full   text-stone-800"
           }`}
         >
@@ -61,12 +63,11 @@ export default function MessageBubble({ message }: { message: Message }) {
 
       {!isUser && (
         <div className="mt-2.5 flex justify-between gap-2 text-stone-500">
-          <div className="flex gap-2">          <CopyIcon className="h-4 w-4 cursor-pointer hover:text-stone-800" />
-          <ThumbsUpIcon className="h-4 w-4 cursor-pointer hover:text-stone-800" />
-          <ThumbsDownIcon className="h-4 w-4 cursor-pointer hover:text-stone-800" /></div>
+          <div className="flex gap-2">          
+            <CopyIcon className="h-4 w-4 cursor-pointer hover:text-stone-800" />
+          </div>
 
-
-          <div className="flex items-center gap-2 text-xs text-stone-500">
+          <div className="flex items-center gap-2 text-xs text-stone-500 font-paragraph">
             <div title="Time taken" className="flex items-center gap-1">
               <Clock10Icon className="h-3.5 w-3.5" />
               <span>{message.duration}s</span>
@@ -81,4 +82,5 @@ export default function MessageBubble({ message }: { message: Message }) {
       )}
     </div>
   );
-}
+})
+export default MessageBubble;

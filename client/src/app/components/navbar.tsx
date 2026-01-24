@@ -21,7 +21,7 @@ import {
 import { useState } from "react";
 import { SettingsDialog } from "./settings-dialog";
 import { UserPrefProps } from "../types/userPref";
-
+import { useMemo } from "react";
 type NavbarProps = {
   selectedModel: string;
   setSelectedModel: (model: string) => void;
@@ -72,12 +72,11 @@ export default function Navbar({
   const { data: session } = useSession();
   const [settingsOpen, setSettingsOpen] = useState(false);
   
+  const currentModel = useMemo(()=>{
+    return MODEL_GROUPS.flatMap((g) => g.models).find((m) => m.value === selectedModel)?.label ?? "Select model";
+    },[selectedModel])
+
   if (!session?.user) return null;
-
-  const currentModel =
-  MODEL_GROUPS.flatMap((g) => g.models)
-    .find((m) => m.value === selectedModel)?.label ?? "Select model";
-
 
   return (
     <nav>
