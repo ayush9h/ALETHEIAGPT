@@ -36,23 +36,3 @@ async def users_session(
         }
         for s in sessions
     ]
-
-
-@session_router.post("/sessions")
-async def create_session(
-    payload: CreateSessionRequest,
-    session: AsyncSession = Depends(get_session),
-):
-    session_detail = UserSessions(
-        user_id=payload.user_id,
-        session_title="New Chat",
-    )
-
-    session.add(session_detail)
-    await session.commit()
-    await session.refresh(session_detail)
-
-    return {
-        "session_id": session_detail.session_id,
-        "session_title": session_detail.session_title,
-    }
