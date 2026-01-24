@@ -1,22 +1,20 @@
 <h1 align="center" id="title" style="display:flex; align-items:center; justify-content:center; gap:12px;">
   ALETHEIAGPT
-  <img src="https://lh3.googleusercontent.com/d/130Wt-cJt_U4iHTOwGJFFGlZapD48ZdYU=w50?authuser=0" alt="project-logo">
 </h1>
 
 <p align="center">
 ALETHEIAGPT is a modern web-based platform for interacting with an AI-powered conversational system. It provides a responsive, component-driven UI optimized for real-time chat, analytics visualization, and rich, markdown-based AI responses.
 </p>
 
-<div align="center" style="display:flex; justify-content:center; gap:24px; margin-top:10px;">
 
-  <img src="https://www.infralovers.com/images/posts/ai-for-devops-engineers/langchain_logo.png" height="50" alt="LangGraph / LangChain"/>
-  <img src="https://www.drupal.org/files/project-images/groq.jpg" height="50" alt="Groq"/>
-  <img src="https://cdn.worldvectorlogo.com/logos/nextjs-2.svg" height="50" alt="Next.js"/>
-  <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" height="50" alt="FastAPI"/>
-  <img src="https://cdn.worldvectorlogo.com/logos/postgresql.svg" height="50" alt="PostgreSQL"/>
-  <img src="https://www.opc-router.de/wp-content/uploads/2023/07/Docker_150x150px-01-01-01.png" height="50", alt="Docker">
-</div>
-
+<p align="center">
+  <img src="https://www.infralovers.com/images/posts/ai-for-devops-engineers/langchain_logo.png" height="45" alt="LangGraph / LangChain"/>
+  <img src="https://miro.medium.com/1*b9wiAr_HG6ct7uYtCnf0xA.png" height="28" alt="Groq"/>
+  <img src="https://assets.vercel.com/image/upload/v1662130559/nextjs/Icon_light_background.png" height="45" alt="Next.js"/>
+  <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" height="45" alt="FastAPI"/>
+  <img src="https://cdn.worldvectorlogo.com/logos/postgresql.svg" height="45" alt="PostgreSQL"/>
+  <img src="https://brandlogos.net/wp-content/uploads/2025/10/docker_mark-logo_brandlogos.net_yetav.png" height="45" alt="Docker"/>
+</p>>
 
 <figure align="center">
   <img src="https://lh3.googleusercontent.com/d/1sfIfVvmuJ2UJuvEdxr1S4zRv62r96GFx=w1000?authuser=0" alt="Model Selection Interface" width="1000">
