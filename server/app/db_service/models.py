@@ -34,6 +34,6 @@ class UserSessions(SQLModel, table=True):
     __tablename__ = "user_sessions"  # type: ignore
 
     session_id: int | None = Field(default=None, primary_key=True)
-    user_id: str
+    user_id: str | None
     session_title: str
     created_at: datetime = Field(default_factory=datetime.utcnow)

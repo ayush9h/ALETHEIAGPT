@@ -1,5 +1,9 @@
+from app.db_service.db import get_session
+from app.db_service.models import UserPrefs
 from app.schemas.user_pref import UserPref
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlmodel import select
 
 user_router = APIRouter(prefix="/v1/users")
 
@@ -9,20 +13,40 @@ user_router = APIRouter(prefix="/v1/users")
     tags=["user_preferences"],
     description="Store the updated user preference",
 )
-async def store_user_pref(payload: UserPref):
+async def store_user_pref(
+    payload: UserPref,
+    session: AsyncSession = Depends(get_session),
+):
     try:
-        # response = store_user_preferences(payload)
-        # Function which would store the user prefernces in a database, and fetcehd from redis.
-        # If there is an update to the preferences, remove from redis.
+        stmt = select(UserPrefs).where(UserPrefs.user_id == payload.userId)
+        result = await session.execute(stmt)
+        pref = result.scalar_one_or_none()
+
+        if pref:
+            pref.user_custom_instruction = payload.userCustomInstruction
+            pref.user_pronouns = payload.userPronouns
+            pref.user_hobbies = payload.userHobbies
+        else:
+            pref = UserPrefs(
+                user_id=payload.userId,
+                alias=payload.userCustomInstruction,
+                assistant_behavior=payload.userPronouns,
+                user_personal_description=payload.userHobbies,
+            )
+            session.add(pref)
+
+        await session.commit()
 
         return {
             "status": "success",
             "message": "User preferences updated successfully",
             "code": 200,
         }
+
     except Exception as e:
+        await session.rollback()
         return {
             "status": "failure",
-            "message": f"Error occurred due to {e}",
+            "message": f"Error occurred: {e}",
             "code": 400,
         }
