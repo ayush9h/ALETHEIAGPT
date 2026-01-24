@@ -8,10 +8,11 @@ import { ChatReducer, InitialState } from "../reducers/reducerChat";
 import { useSession} from "next-auth/react";
 import Sidebar from "./Sidebar";
 import ChatWindow from "./ChatWindow";
+import { getUserPref } from "../lib/api/userData";
 
 
 export default function ChatPage() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [state, dispatch] = useReducer(ChatReducer, InitialState);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -86,6 +87,28 @@ export default function ChatPage() {
     dispatch({ type: "SET_MESSAGES", payload: [] });
   }
 };
+
+
+    useEffect(() => {
+    const userId = session?.user?.id;
+    if (!userId) return;
+
+    getUserPref(userId)
+      .then((res) => {
+        dispatch({ type: "SET_USER_PREF", payload: res.data });
+      })
+      .catch(() => {
+        dispatch({
+          type: "SET_USER_PREF",
+          payload: {
+            userCustomInstruction: "",
+            userPronouns: "",
+            userHobbies: "",
+          },
+        });
+      });
+  }, [session?.user?.id]);
+
 
 
   return (

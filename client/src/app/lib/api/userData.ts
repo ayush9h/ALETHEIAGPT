@@ -15,10 +15,19 @@ export async function userSessions(userId: string) {
   });
 }
 
-// export async function createSession(userId: string) {
-//   const res = await api.post("/sessions", {
-//     user_id: userId,
-//   });
 
-//   return res.data;
-// }
+export async function saveUserPref(userPref: {
+  userId: string;
+  userCustomInstruction: string;
+  userPronouns: string;
+  userHobbies: string;
+}) {
+  return api.post("/users/preferences", userPref);
+}
+
+
+export async function getUserPref(userId: string) {
+
+  return api.get("/users/preferences", {params:{user_id: userId}});
+
+}
