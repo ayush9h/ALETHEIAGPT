@@ -47,9 +47,6 @@ export default function ChatPage() {
 
   const handleSend = async () => {
     
-    
-    
-    
     const input = state.input.trim();
     if (!input) return;
     const userId = session?.user?.id;

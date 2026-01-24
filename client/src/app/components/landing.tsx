@@ -19,7 +19,7 @@ export default function Landing() {
         </div>
 
         <div className="flex w-full flex-col justify-center gap-4 sm:w-auto sm:max-w-none sm:flex-row">
-          <button
+          {/* <button
             onClick={() => signIn("google", { redirectTo: "/chat" })}
             className="font-paragraph flex cursor-pointer items-center justify-center gap-2 rounded-md border border-stone-300 bg-stone-50 p-3 text-sm text-stone-800 transition-all duration-300 hover:bg-stone-200"
           >
@@ -30,7 +30,7 @@ export default function Landing() {
               loading="lazy"
             />
             <span>Sign in with Google</span>
-          </button>
+          </button> */}
 
           {/* GitHub Button */}
           <button

@@ -37,10 +37,7 @@ export function SettingsDialog({
                 <FaceIcon className="h-3 w-3" />
                 Personalization
               </button>
-              <button className="flex w-full items-center justify-center gap-1 rounded-md p-2 text-stone-600 hover:bg-stone-100">
-                <DatabaseIcon className="h-3 w-3" />
-                Data controls
-              </button>
+             
             </div>
           </aside>
 

@@ -4,43 +4,32 @@ import {
   DoubleArrowLeftIcon,
 } from "@radix-ui/react-icons";
 import { Trash2Icon } from "lucide-react";
-import { createSession } from "../lib/api/userData";
-import { useSession} from "next-auth/react";
+import { useSession } from "next-auth/react";
+
 interface SidebarProps {
   open: boolean;
   onToggle: (open: boolean) => void;
   sessions: any[];
   selectedSessionId: number | null;
   onSelectSession: (id: number) => void;
-  dispatch: any
+  dispatch: any;
 }
 
-export default function Sidebar({ open, onToggle, sessions, onSelectSession, selectedSessionId, dispatch }: SidebarProps) {
+export default function Sidebar({
+  open,
+  onToggle,
+  sessions,
+  onSelectSession,
+  selectedSessionId,
+  dispatch,
+}: SidebarProps) {
   const { data: session } = useSession();
-  const userId = session?.user?.id
-  
-  const handleNewChat = async () => {
-  const res = await createSession(userId as string); 
 
-  dispatch({ type: "ADD_SESSION", payload: res });
-  dispatch({ type: "SET_SELECTED_SESSION", payload: res.session_id });
-
-  dispatch({
-    type: "SET_MESSAGES",
-    payload: [
-      {
-        role: "assistant",
-        text: "Hi, how can I help you today?",
-        reasoning: "",
-        duration: 0,
-        tokens_consumed: 0,
-      },
-    ],
-  });
-
-  dispatch({ type: "CLEAR_INPUT" });
-};
-
+  const handleNewChat = () => {
+    dispatch({ type: "SET_SELECTED_SESSION", payload: null });
+    dispatch({ type: "SET_MESSAGES", payload: [] });
+    dispatch({ type: "CLEAR_INPUT" });
+  };
 
   return (
     <aside className="font-paragraph p-4 border-r bg-stone-100 text-sm">
@@ -60,7 +49,11 @@ export default function Sidebar({ open, onToggle, sessions, onSelectSession, sel
         />
       </div>
 
-      <button className="mt-4 flex w-full items-center gap-2 rounded-md p-2 hover:bg-stone-200"  onClick={handleNewChat}>
+      {/* New Chat */}
+      <button
+        className="mt-4 flex w-full items-center gap-2 rounded-md p-2 hover:bg-stone-200"
+        onClick={handleNewChat}
+      >
         <Pencil2Icon className="shrink-0" />
         <span
           className={`
@@ -72,6 +65,7 @@ export default function Sidebar({ open, onToggle, sessions, onSelectSession, sel
         </span>
       </button>
 
+      {/* Search placeholder */}
       <div className="flex items-center gap-2 p-2">
         <MagnifyingGlassIcon className="shrink-0" />
         <span
@@ -101,18 +95,23 @@ export default function Sidebar({ open, onToggle, sessions, onSelectSession, sel
             onClick={() => onSelectSession(s.session_id)}
             className={`
               group flex cursor-pointer items-center rounded-md p-2
-              ${selectedSessionId === s.session_id ? "bg-stone-200" : "hover:bg-stone-200"}
+              ${
+                selectedSessionId === s.session_id
+                  ? "bg-stone-200"
+                  : "hover:bg-stone-200"
+              }
             `}
           >
             <span
+              title={s.session_title}
               className={`
                 truncate whitespace-nowrap transition-all duration-300
                 ${open ? "max-w-[11rem] opacity-100" : "max-w-0 opacity-0"}
               `}
             >
-              {s.session_title}
+              {s.session_title || "New Chat"}
             </span>
-              
+
             <Trash2Icon
               className={`
                 ml-auto h-4 w-4 transition-all
@@ -123,7 +122,6 @@ export default function Sidebar({ open, onToggle, sessions, onSelectSession, sel
           </li>
         ))}
       </ul>
-
     </aside>
   );
 }

@@ -10,7 +10,7 @@ export default function ChatInput({ value, onChange, onSend }: Props) {
   return (
     <div className="font-paragraph mx-auto w-full max-w-3xl p-4">
       <div className="flex items-center rounded-full border p-2">
-        <PlusIcon className="ml-2 h-4 w-4" />
+        <PlusIcon className="ml-2 h-4 w-4 hover:cursor-not-allowed" />
         <input
           value={value}
           onChange={(e) => onChange(e.target.value)}

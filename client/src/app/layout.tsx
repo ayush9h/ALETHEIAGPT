@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ALETHEIAGPT",
-  description: "Your everyday assistant",
+  title: "AletheiaGPT",
+  description: "Your assistant for daily productivity",
 };
 
 export default function RootLayout({
