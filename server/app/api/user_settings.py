@@ -17,15 +17,18 @@ async def store_user_pref(
     payload: UserPref,
     session: AsyncSession = Depends(get_session),
 ):
+
+    print(payload)
+
     try:
         stmt = select(UserPrefs).where(UserPrefs.user_id == payload.userId)
         result = await session.execute(stmt)
         pref = result.scalar_one_or_none()
 
         if pref:
-            pref.user_custom_instruction = payload.userCustomInstruction
-            pref.user_pronouns = payload.userPronouns
-            pref.user_hobbies = payload.userHobbies
+            pref.assistant_behavior = payload.userCustomInstruction
+            pref.alias = payload.userPronouns
+            pref.user_personal_description = payload.userHobbies
         else:
             pref = UserPrefs(
                 user_id=payload.userId,
