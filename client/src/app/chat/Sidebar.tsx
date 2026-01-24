@@ -32,12 +32,11 @@ export default function Sidebar({
   };
 
   return (
-    <aside className="font-paragraph p-4 border-r bg-stone-100 text-sm">
-      <div className="flex items-center justify-between">
+    <aside className={`font-paragraph p-4 border-r bg-stone-100 text-sm ${open ? 'cursor-pointer':'cursor-col-resize'}`} onClick={() => !open && onToggle(true)}>
+      <div className={`flex items-center justify-between `}>
         <img
           src="./logo.png"
           className="h-8 w-8 shrink-0 cursor-pointer"
-          onClick={() => !open && onToggle(true)}
         />
 
         <DoubleArrowLeftIcon
@@ -66,7 +65,7 @@ export default function Sidebar({
       </button>
 
       {/* Search placeholder */}
-      <div className="flex items-center gap-2 p-2">
+      <div className="flex items-center gap-2 p-2 hover:cursor-not-allowed">
         <MagnifyingGlassIcon className="shrink-0" />
         <span
           className={`
@@ -94,12 +93,12 @@ export default function Sidebar({
             key={s.session_id}
             onClick={() => onSelectSession(s.session_id)}
             className={`
-              group flex cursor-pointer items-center rounded-md p-2
-              ${
+              group flex items-center rounded-md p-2
+              ${open ? `${
                 selectedSessionId === s.session_id
                   ? "bg-stone-200"
                   : "hover:bg-stone-200"
-              }
+              }`: `opacity-0` }
             `}
           >
             <span
