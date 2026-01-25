@@ -14,7 +14,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
-
+import { useCallback } from "react";
 
 
 interface SidebarProps {
@@ -36,25 +36,28 @@ export default function Sidebar({
 }: SidebarProps) {
 
 
-  const {data:session} = useSession()
+  const { data: auth } = useSession();
 
-  const handleDeleteSession = async (sessionId: number) => {
-  if (!session?.user?.id) return;
-
-  try {
-    await deleteUserSession(sessionId, session.user.id);
-
-    dispatch({ type: "DELETE_SESSION", payload: sessionId });
-
-    if (selectedSessionId === sessionId) {
-      dispatch({ type: "SET_SELECTED_SESSION", payload: null });
-      dispatch({ type: "SET_MESSAGES", payload: [] });
-    }
-  } catch (err) {
-    console.error("Failed to delete session", err);
-    }
-  };
-
+  const handleDeleteSession = useCallback(
+    async (sessionId: number) => {
+      if (!auth?.user?.id) return;
+    
+      try {
+        await deleteUserSession(sessionId, auth.user.id);
+      
+        dispatch({ type: "DELETE_SESSION", payload: sessionId });
+      
+        if (selectedSessionId === sessionId) {
+          dispatch({ type: "SET_SELECTED_SESSION", payload: null });
+          dispatch({ type: "SET_MESSAGES", payload: [] });
+        }
+      } catch (err) {
+        console.error("Failed to delete session", err);
+      }
+    },
+    [auth?.user?.id, dispatch, selectedSessionId]
+  );
+  
   const handleNewChat = () => {
     dispatch({ type: "SET_SELECTED_SESSION", payload: null });
     dispatch({ type: "SET_MESSAGES", payload: [] });
