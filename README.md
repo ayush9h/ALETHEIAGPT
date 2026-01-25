@@ -14,7 +14,7 @@ ALETHEIAGPT is a modern web-based platform for interacting with an AI-powered co
   <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" height="45" alt="FastAPI"/>
   <img src="https://cdn.worldvectorlogo.com/logos/postgresql.svg" height="45" alt="PostgreSQL"/>
   <img src="https://brandlogos.net/wp-content/uploads/2025/10/docker_mark-logo_brandlogos.net_yetav.png" height="45" alt="Docker"/>
-</p>>
+</p>
 
 <figure align="center">
   <img src="https://lh3.googleusercontent.com/d/1sfIfVvmuJ2UJuvEdxr1S4zRv62r96GFx=w1000?authuser=0" alt="Model Selection Interface" width="1000">
