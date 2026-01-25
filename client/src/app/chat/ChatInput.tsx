@@ -1,4 +1,5 @@
 import { ArrowUpIcon, PlusIcon } from "@radix-ui/react-icons";
+import TextareaAutosize from "react-textarea-autosize";
 
 interface Props {
   value: string;
@@ -9,21 +10,34 @@ interface Props {
 export default function ChatInput({ value, onChange, onSend }: Props) {
   return (
     <div className="font-paragraph mx-auto w-full max-w-3xl pb-4">
-      <div className="flex items-center rounded-full border p-2 ">
-        <PlusIcon className="ml-2 h-4 w-4 hover:cursor-not-allowed" />
-        <input
+      <div className="flex flex-col rounded-2xl border p-3 gap-2">
+
+        <TextareaAutosize
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && onSend()}
-          className="flex-1 bg-transparent px-3 py-2 text-sm outline-none"
-          placeholder="Ask about cryptocurrency"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              onSend();
+            }
+          }}
+          className="w-full resize-none bg-transparent text-sm outline-none max-h-[10rem] overflow-y-auto"
+          minRows={1}
+          maxRows={5}
+          placeholder="Ask anything"
         />
-        <button
-          onClick={onSend}
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 cursor-pointer"
-        >
-          <ArrowUpIcon className="h-4 w-4 text-stone-100" />
-        </button>
+
+        <div className="flex items-center justify-between">
+          <PlusIcon className="h-4 w-4 cursor-not-allowed" />
+
+          <button
+            onClick={onSend}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 cursor-pointer"
+          >
+            <ArrowUpIcon className="h-4 w-4 text-stone-100" />
+          </button>
+        </div>
+
       </div>
     </div>
   );
