@@ -73,7 +73,7 @@ export function SettingsDialog({
               <div className="space-y-2">
                 <label className="text-sm">Custom instructions</label>
                 <textarea
-                  className="w-full rounded-md border px-3 py-2 text-sm"
+                  className="w-full rounded-md border px-3 py-2 text-sm resize-none"
                   onChange={(e)=>setUserPref({...userPref, userCustomInstruction:e.target.value})}
                   rows={3}
                   value={userPref.userCustomInstruction}
@@ -92,7 +92,7 @@ export function SettingsDialog({
               <div className="space-y-2">
                 <label className="text-sm">More about you</label>
                 <textarea
-                  className="w-full rounded-md border px-3 py-2 text-sm"
+                  className="w-full rounded-md border px-3 py-2 text-sm resize-none"
                   onChange={(e) =>
                     setUserPref({ ...userPref, userHobbies: e.target.value })
                   }

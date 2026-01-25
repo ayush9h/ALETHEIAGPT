@@ -9,7 +9,7 @@ interface Props {
 
 export default function ChatInput({ value, onChange, onSend }: Props) {
   return (
-    <div className="font-paragraph mx-auto w-full max-w-3xl pb-4">
+    <div className="font-paragraph mx-auto w-full max-w-3xl pb-2">
       <div className="flex flex-col rounded-2xl border p-3 gap-2">
 
         <TextareaAutosize
@@ -23,7 +23,7 @@ export default function ChatInput({ value, onChange, onSend }: Props) {
           }}
           className="w-full resize-none bg-transparent text-sm outline-none max-h-[10rem] overflow-y-auto"
           minRows={1}
-          maxRows={5}
+          maxRows={6}
           placeholder="Ask anything"
         />
 
@@ -37,8 +37,10 @@ export default function ChatInput({ value, onChange, onSend }: Props) {
             <ArrowUpIcon className="h-4 w-4 text-stone-100" />
           </button>
         </div>
-
+        
       </div>
+
+      <p className="text-center text-xs font-paragraph mt-2 text-stone-500">AletheiaGPT is currently being developed. Some features may not be functional. It can make mistakes. Check important info.</p>
     </div>
   );
 }

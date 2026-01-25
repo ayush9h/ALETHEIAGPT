@@ -97,18 +97,7 @@ export default function Sidebar({
         </span>
       </button>
 
-      {/* Search placeholder */}
-      <div className="flex items-center gap-2 p-2 hover:cursor-not-allowed">
-        <MagnifyingGlassIcon className="shrink-0" />
-        <span
-          className={`
-            overflow-hidden whitespace-nowrap transition-all duration-300
-            ${open ? "max-w-[10rem] opacity-100" : "max-w-0 opacity-0"}
-          `}
-        >
-          Search Chats
-        </span>
-      </div>
+      
 
       {/* Chats */}
       <p
@@ -166,17 +155,7 @@ export default function Sidebar({
                   align="start"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <DropdownMenuItem
-                    className="flex items-center gap-2"
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Pencil2Icon className="h-4 w-4" />
-                    Edit
-                  </DropdownMenuItem>
-                  
+
                   <DropdownMenuItem
                     className="flex items-center gap-2 text-red-500 focus:text-red-600"
                     onSelect={(e) => {

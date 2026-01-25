@@ -1,6 +1,5 @@
 import ReactMarkdown from "react-markdown";
-import { CopyIcon } from "@radix-ui/react-icons";
-import { ThumbsUpIcon, ThumbsDownIcon, Clock10Icon, ZapIcon } from "lucide-react";
+import { CopyIcon, ClockIcon, LightningBoltIcon, CheckIcon } from "@radix-ui/react-icons";
 import { Message } from "../reducers/reducerChat";
 import {
   Accordion,
@@ -9,11 +8,23 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import remarkGfm from "remark-gfm";
-import { memo } from "react";
+import { memo, useCallback, useState } from "react";
 
 
 const MessageBubble = memo(function MessageBubble({ message }: { message: Message }) {
   const isUser = message.role === "user";
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(String(message.text));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1000);
+    } catch (e) {
+      console.error("Copy failed", e);
+    }
+  }, [message.text]);
+
 
   return (
     <div>
@@ -63,18 +74,23 @@ const MessageBubble = memo(function MessageBubble({ message }: { message: Messag
 
       {!isUser && (
         <div className="mt-2.5 flex justify-between gap-2 text-stone-500">
-          <div className="flex gap-2">          
-            <CopyIcon className="h-4 w-4 cursor-pointer hover:text-stone-800" />
+          <div className="flex gap-2">   
+            {copied ? <CheckIcon className="h-4 w-4"/> : <> 
+              <CopyIcon
+               onClick={handleCopy}
+               className="h-4 w-4 cursor-pointer hover:text-stone-800"
+             /></>}       
+          
           </div>
 
           <div className="flex items-center gap-2 text-xs text-stone-500 font-paragraph">
             <div title="Time taken" className="flex items-center gap-1">
-              <Clock10Icon className="h-3.5 w-3.5" />
+              <ClockIcon className="h-3.5 w-3.5" />
               <span>{message.duration}s</span>
             </div>
 
             <div title="Tokens consumed" className="flex items-center gap-1">
-              <ZapIcon className="h-3.5 w-3.5" />
+              <LightningBoltIcon className="h-3.5 w-3.5" />
               <span>{message.tokens_consumed}</span>
             </div>
           </div>
