@@ -18,7 +18,6 @@ async def store_user_pref(
     session: AsyncSession = Depends(get_session),
 ):
 
-    print(payload)
 
     try:
         stmt = select(UserPrefs).where(UserPrefs.user_id == payload.userId)

@@ -36,3 +36,30 @@ async def users_session(
         }
         for s in sessions
     ]
+
+
+@session_router.delete(
+    "/sessions/{session_id}",
+    tags=["Sessions for a particular user"],
+    description="Delete a session by session_id for a given user",
+)
+async def delete_session(
+    session_id: int,
+    user_id: str,
+    session: AsyncSession = Depends(get_session),
+):
+    stmt = select(UserSessions).where(
+        UserSessions.session_id == session_id,
+        UserSessions.user_id == user_id,
+    )
+    result = await session.execute(stmt)
+    db_session = result.scalar_one_or_none()
+
+    if not db_session:
+        return {
+            "status": "Exception",
+            "message": f"Exception occurred : Session not found",
+            "code": 404,
+        }
+    await session.delete(db_session)
+    await session.commit()
