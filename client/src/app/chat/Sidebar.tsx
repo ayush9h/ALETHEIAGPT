@@ -2,9 +2,20 @@ import {
   MagnifyingGlassIcon,
   Pencil2Icon,
   DoubleArrowLeftIcon,
+  DotsHorizontalIcon,
+  TrashIcon
 } from "@radix-ui/react-icons";
-import { Trash2Icon } from "lucide-react";
+import { deleteUserSession } from "../lib/api/userData";
 import { useSession } from "next-auth/react";
+
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem
+} from "@/components/ui/dropdown-menu";
+
+
 
 interface SidebarProps {
   open: boolean;
@@ -23,7 +34,26 @@ export default function Sidebar({
   selectedSessionId,
   dispatch,
 }: SidebarProps) {
-  const { data: session } = useSession();
+
+
+  const {data:session} = useSession()
+
+  const handleDeleteSession = async (sessionId: number) => {
+  if (!session?.user?.id) return;
+
+  try {
+    await deleteUserSession(sessionId, session.user.id);
+
+    dispatch({ type: "DELETE_SESSION", payload: sessionId });
+
+    if (selectedSessionId === sessionId) {
+      dispatch({ type: "SET_SELECTED_SESSION", payload: null });
+      dispatch({ type: "SET_MESSAGES", payload: [] });
+    }
+  } catch (err) {
+    console.error("Failed to delete session", err);
+    }
+  };
 
   const handleNewChat = () => {
     dispatch({ type: "SET_SELECTED_SESSION", payload: null });
@@ -93,31 +123,71 @@ export default function Sidebar({
             key={s.session_id}
             onClick={() => onSelectSession(s.session_id)}
             className={`
-              group flex items-center rounded-md p-2
-              ${open ? `${
-                selectedSessionId === s.session_id
-                  ? "bg-stone-200"
-                  : "hover:bg-stone-200"
-              }`: `opacity-0` }
+              group rounded-md cursor-pointer
+              ${
+                open
+                  ? selectedSessionId === s.session_id
+                    ? "bg-stone-200"
+                    : "hover:bg-stone-200"
+                  : "opacity-0"
+              }
             `}
           >
-            <span
-              title={s.session_title}
-              className={`
-                truncate whitespace-nowrap transition-all duration-300
-                ${open ? "max-w-[11rem] opacity-100" : "max-w-0 opacity-0"}
-              `}
-            >
-              {s.session_title || "New Chat"}
-            </span>
-
-            <Trash2Icon
-              className={`
-                ml-auto h-4 w-4 transition-all
-                ${open ? "opacity-0 group-hover:opacity-100" : "opacity-0"}
-                hover:text-red-500
-              `}
-            />
+            <div className="flex w-full items-center gap-2 p-2">
+              <span
+                title={s.session_title}
+                className={`
+                  truncate whitespace-nowrap transition-all duration-300
+                  ${open ? "max-w-[10rem] opacity-100" : "max-w-0 opacity-0"}
+                `}
+              >
+                {s.session_title || "New Chat"}
+              </span>
+                
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className={`
+                      ml-auto flex h-6 w-6 items-center justify-center rounded
+                      text-stone-500 hover:text-stone-800 hover:bg-stone-300 transition
+                      ${open ? "opacity-0 group-hover:opacity-100" : "opacity-0"}
+                    `}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <DotsHorizontalIcon />
+                  </button>
+                </DropdownMenuTrigger>
+                    
+                <DropdownMenuContent
+                  side="right"
+                  align="start"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <DropdownMenuItem
+                    className="flex items-center gap-2"
+                    onSelect={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    <Pencil2Icon className="h-4 w-4" />
+                    Edit
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuItem
+                    className="flex items-center gap-2 text-red-500 focus:text-red-600"
+                    onSelect={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleDeleteSession(s.session_id);
+                    }}
+                  >
+                    <TrashIcon className="h-4 w-4 text-red-500 focus:text-red-600" />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </li>
         ))}
       </ul>

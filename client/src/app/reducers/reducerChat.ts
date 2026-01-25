@@ -82,7 +82,15 @@ export const ChatReducer = (state: ChatState, action: any) => {
         ...state,
         selectedSessionId: action.payload,
       };
-
+    
+    case "DELETE_SESSION":
+      return {
+        ...state,
+        sessions: state.sessions.filter(
+          (s) => s.session_id !== action.payload
+        ),
+      };
+    
 
     case "SET_USER_PREF":
       return {

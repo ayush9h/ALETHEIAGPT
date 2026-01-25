@@ -31,3 +31,12 @@ export async function getUserPref(userId: string) {
   return api.get("/users/preferences", {params:{user_id: userId}});
 
 }
+
+
+export async function deleteUserSession(sessionId: number, userId: string) {
+  return api.delete(`/sessions/${sessionId}`, {
+    params: {
+      user_id: userId,
+    },
+  });
+}
