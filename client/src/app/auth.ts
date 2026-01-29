@@ -1,4 +1,5 @@
 import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from 'next-auth/providers/google'
 import NextAuth from "next-auth"
  
 
@@ -8,15 +9,26 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    })
   ],
   session:{
     strategy:"jwt"
   },
   callbacks: {
     async jwt({ token, account, profile }) {
-      if (account?.provider === "github" && profile) {
-        token.githubId = profile.id;
+      if(account && profile){
+        if (account?.provider === "github") {
+          token.githubId = profile.id;
       }
+
+        if (account?.provider === "google") {
+          token.userId = profile.sub;
+        }
+      }
+      
       return token;
     },
     async session({ session, token }) {
