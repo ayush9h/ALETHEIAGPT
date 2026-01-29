@@ -8,7 +8,6 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { FaceIcon } from "@radix-ui/react-icons";
-import { DatabaseIcon } from "lucide-react";
 import { UserPrefProps } from "../types/userPref";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
@@ -42,7 +41,7 @@ export function SettingsDialog({
     });
 
     onOpenChange(false);
-  },[userId]);
+  },[userId, onOpenChange, userPref]);
 
 
   return (

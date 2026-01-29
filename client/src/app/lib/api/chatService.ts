@@ -6,7 +6,7 @@ export async function sendChatMessage(
   selectedModel: string,
   question: string,
   userPref: UserPrefProps,
-  selectedSessionId: number,
+  selectedSessionId: number | null,
   userId: string
 ) {
 

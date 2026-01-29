@@ -1,13 +1,13 @@
 import Navbar from "../components/navbar";
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
-import { Message } from "../reducers/reducerChat";
+import { Message, ChatAction } from "../reducers/reducerChat";
 import { UserPrefProps } from "../types/userPref";
 interface Props {
   messages: Message[];
   input: string;
   selectedModel: string;
-  dispatch: any;
+  dispatch: React.Dispatch<ChatAction>;
   userPref:UserPrefProps;
   onSend: () => void;
 }

@@ -20,6 +20,29 @@ export type ChatState = {
   userPref:UserPrefProps,
 };
 
+
+export type ChatAction =
+  | { type: "SET_INPUT"; payload: string }
+  | { type: "CLEAR_INPUT" }
+  | { type: "SET_MODEL"; payload: string }
+  | { type: "ADD_MESSAGE"; payload: Message }
+  | { type: "SET_MESSAGES"; payload: Message[] }
+  | { type: "ADD_SESSION"; payload: Session }
+  | { type: "SET_SESSIONS"; payload: Session[] }
+  | { type: "SET_SELECTED_SESSION"; payload: number | null }
+  | { type: "DELETE_SESSION"; payload: number }
+  | {
+      type: "SET_USER_PREF";
+      payload?: {
+        userCustomInstruction?: string;
+        userPronouns?: string;
+        userHobbies?: string;
+      };
+    };
+
+
+
+
 export const InitialState: ChatState = {
   input: "",
   selectedModel: "openai/gpt-oss-120b",
@@ -35,7 +58,7 @@ export const InitialState: ChatState = {
 }, 
 };
 
-export const ChatReducer = (state: ChatState, action: any) => {
+export const ChatReducer = (state: ChatState, action: ChatAction) => {
   switch (action.type) {
     case "SET_INPUT":
       return {

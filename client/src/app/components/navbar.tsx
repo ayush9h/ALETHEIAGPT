@@ -18,6 +18,7 @@ import {
   GlobeIcon,
   RocketIcon
 } from "@radix-ui/react-icons";
+import Image from "next/image";
 import { useState } from "react";
 import { SettingsDialog } from "./settings-dialog";
 import { UserPrefProps } from "../types/userPref";
@@ -114,7 +115,7 @@ export default function Navbar({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <img
+            <Image
               src={session.user.image as string}
               alt="User avatar"
               className="h-10 w-10 cursor-pointer rounded-full bg-stone-200 p-1 hover:bg-stone-300"

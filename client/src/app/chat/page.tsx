@@ -46,8 +46,13 @@ export default function ChatPage() {
     const userId = session?.user?.id;
     if (!userId) return;
 
-    dispatch({ type: "ADD_MESSAGE", payload: { role: "user", text: input } });
-    dispatch({ type: "CLEAR_INPUT", payload: "" });
+    dispatch({ type: "ADD_MESSAGE", payload: {
+      role: "user", text: input,
+      reasoning: "",
+      duration: 0,
+      tokens_consumed: 0
+    } });
+    dispatch({ type: "CLEAR_INPUT"});
 
     try {
       const res = await sendChatMessage(
@@ -71,7 +76,12 @@ export default function ChatPage() {
     } catch {
       dispatch({
         type: "ADD_MESSAGE",
-        payload: { role: "assistant", text: "Error getting response from API" },
+        payload: {
+          role: "assistant", text: "Error getting response from API",
+          reasoning: "",
+          duration: 0,
+          tokens_consumed: 0
+        },
       });
     }
   }, [

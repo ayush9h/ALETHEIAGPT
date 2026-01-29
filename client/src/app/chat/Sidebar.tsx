@@ -1,5 +1,4 @@
 import {
-  MagnifyingGlassIcon,
   Pencil2Icon,
   DoubleArrowLeftIcon,
   DotsHorizontalIcon,
@@ -15,15 +14,16 @@ import {
   DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
 import { useCallback } from "react";
+import Image from "next/image";
 
-
+import { ChatAction, Session } from "../reducers/reducerChat";
 interface SidebarProps {
   open: boolean;
   onToggle: (open: boolean) => void;
-  sessions: any[];
+  sessions: Session[];
   selectedSessionId: number | null;
   onSelectSession: (id: number) => void;
-  dispatch: any;
+  dispatch:  React.Dispatch<ChatAction>;
 }
 
 export default function Sidebar({
@@ -67,9 +67,10 @@ export default function Sidebar({
   return (
     <aside className={`font-paragraph p-4 border-r bg-stone-100 text-sm ${open ? 'cursor-pointer':'cursor-col-resize'}`} onClick={() => !open && onToggle(true)}>
       <div className={`flex items-center justify-between `}>
-        <img
+        <Image
           src="./logo.png"
           className="h-8 w-8 shrink-0 cursor-pointer"
+          alt="Logo"
         />
 
         <DoubleArrowLeftIcon

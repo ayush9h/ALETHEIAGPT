@@ -1,5 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 import { StarIcon } from "@radix-ui/react-icons";
 
 export default function Landing() {
@@ -37,7 +38,7 @@ export default function Landing() {
             onClick={() => signIn("github", { redirectTo: "/chat" })}
             className="font-paragraph flex cursor-pointer items-center justify-center gap-2 rounded-md border border-stone-300 bg-stone-50 p-3 text-sm text-stone-800 transition-all duration-300 hover:bg-stone-200"
           >
-            <img
+            <Image
               src="https://www.svgrepo.com/show/512317/github-142.svg"
               alt="GitHub logo"
               className="h-4 w-4"
