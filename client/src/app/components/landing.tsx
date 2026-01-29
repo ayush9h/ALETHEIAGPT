@@ -41,7 +41,8 @@ export default function Landing() {
             <Image
               src="https://www.svgrepo.com/show/512317/github-142.svg"
               alt="GitHub logo"
-              className="h-4 w-4"
+              width={15}
+              height={15}
               loading="lazy"
             />
             <span>Sign in with GitHub</span>

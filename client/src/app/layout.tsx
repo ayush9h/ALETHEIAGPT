@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {Fjalla_One, Outfit} from "next/font/google"
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "./auth";
 
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const headerFont = Fjalla_One({
   subsets: ["latin"],
+  weight: "400",
+  variable: "--font-header",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const paragraphFont = Outfit({
   subsets: ["latin"],
+  variable: "--font-paragraph",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -30,7 +33,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      className={`${headerFont.variable} ${paragraphFont.variable} antialiased`}
       >
         <SessionProvider session={session}>{children}</SessionProvider>
       </body>

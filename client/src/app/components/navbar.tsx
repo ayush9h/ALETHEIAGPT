@@ -118,8 +118,8 @@ export default function Navbar({
             <Image
               src={session.user.image as string}
               alt="User avatar"
-              width={32}
-              height={32}
+              width={40}
+              height={40}
               className="cursor-pointer rounded-full bg-stone-200 p-1 hover:bg-stone-300"
             />
           </DropdownMenuTrigger>
