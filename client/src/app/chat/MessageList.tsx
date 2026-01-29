@@ -1,4 +1,4 @@
-import { Message } from "../reducers/reducerChat";
+import { Message } from "../types/userMessage";
 import MessageBubble from "./MessageBubble";
 import { memo } from "react";
 

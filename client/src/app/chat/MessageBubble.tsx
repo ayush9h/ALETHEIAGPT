@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import { CopyIcon, ClockIcon, LightningBoltIcon, CheckIcon } from "@radix-ui/react-icons";
-import { Message } from "../reducers/reducerChat";
+import { Message } from "../types/userMessage";
 import {
   Accordion,
   AccordionItem,

@@ -16,7 +16,9 @@ import {
 import { useCallback } from "react";
 import Image from "next/image";
 
-import { ChatAction, Session } from "../reducers/reducerChat";
+
+import { ChatAction } from "../types/userChat";
+import { Session } from "../types/userMessage";
 interface SidebarProps {
   open: boolean;
   onToggle: (open: boolean) => void;
@@ -68,9 +70,11 @@ export default function Sidebar({
     <aside className={`font-paragraph p-4 border-r bg-stone-100 text-sm ${open ? 'cursor-pointer':'cursor-col-resize'}`} onClick={() => !open && onToggle(true)}>
       <div className={`flex items-center justify-between `}>
         <Image
-          src="./logo.png"
-          className="h-8 w-8 shrink-0 cursor-pointer"
+          src="/logo.png"
+          className="shrink-0 cursor-pointer"
           alt="Logo"
+          width={32}
+          height={32}
         />
 
         <DoubleArrowLeftIcon

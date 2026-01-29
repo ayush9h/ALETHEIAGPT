@@ -1,7 +1,8 @@
 import Navbar from "../components/navbar";
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
-import { Message, ChatAction } from "../reducers/reducerChat";
+import { Message } from "../types/userMessage";
+import { ChatAction } from "../types/userChat";
 import { UserPrefProps } from "../types/userPref";
 interface Props {
   messages: Message[];

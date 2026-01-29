@@ -3,7 +3,8 @@
 import { useEffect, useReducer, useState, useCallback } from "react";
 import { sendChatMessage } from "../lib/api/chatService";
 import { userChats, userSessions, getUserPref } from "../lib/api/userData";
-import { ChatReducer, InitialState } from "../reducers/reducerChat";
+import { ChatReducer } from "../reducers/reducerChat";
+import { InitialState } from "../types/userChat";
 import { useSession } from "next-auth/react";
 import Sidebar from "./Sidebar";
 import ChatWindow from "./ChatWindow";
