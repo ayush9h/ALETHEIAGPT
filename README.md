@@ -16,6 +16,10 @@ ALETHEIAGPT is a modern web-based platform for interacting with an AI-powered co
   <img src="https://brandlogos.net/wp-content/uploads/2025/10/docker_mark-logo_brandlogos.net_yetav.png" height="45" alt="Docker"/>
 </p>
 
+
+
+
+
 <figure align="center">
   <img src="https://lh3.googleusercontent.com/d/1sfIfVvmuJ2UJuvEdxr1S4zRv62r96GFx=w1000?authuser=0" alt="Model Selection Interface" width="1000">
   <figcaption><b>Figure 1:</b> Model Selection Interface</figcaption>
@@ -30,6 +34,24 @@ ALETHEIAGPT is a modern web-based platform for interacting with an AI-powered co
   <img src="https://lh3.googleusercontent.com/d/1pi-U99cqAePW2lhJbvrQFif9JvBlyXak=w1000?authuser=0" alt="Chat Interface" width="1000">
   <figcaption><b>Figure 3:</b> Chat Interface</figcaption>
 </figure>
+
+<h2>Current Issues</h2>
+## 1. New Chat Session Visibility Issue
+
+- When a **new chat session** is created, it does **not immediately appear** in the session list.
+- A **manual page refresh** is required to view the newly created chat session.
+- **Cause:** Client-side state is not synchronizing instantly with the backend session store.
+
+## 2. NeonDB Free Tier Inactivity
+
+- The application currently uses **NeonDB (Free Tier)** for persistence.
+- NeonDB may **automatically suspend the database after inactivity**, which can result in:
+  - Initial request failures
+- **Cause:** Free-tier sleep behavior enforced by NeonDB.
+- **Workaround:**
+  - Retry the request after a short delay, or
+  - Trigger a warm-up query on application startup.
+
 
 <h2>🛠️ Installation Steps:</h2>
 
