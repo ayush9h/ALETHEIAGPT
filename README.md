@@ -36,6 +36,7 @@ ALETHEIAGPT is a modern web-based platform for interacting with an AI-powered co
 </figure>
 
 <h2>Current Issues</h2>
+
 ## 1. New Chat Session Visibility Issue
 
 - When a **new chat session** is created, it does **not immediately appear** in the session list.
