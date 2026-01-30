@@ -47,10 +47,10 @@ export function SettingsDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="font-paragraph">
-        <div className="flex">
-          <aside className="w-32">
+        <div className="flex  gap-4">
+          <aside className="w-28">
             <div className="space-y-2 text-xs">
-              <button className="flex w-full items-center justify-center gap-1 rounded-md bg-stone-200 p-2">
+              <button className="flex items-center w-full gap-1 rounded-md bg-stone-200 p-2">
                 <FaceIcon className="h-3 w-3" />
                 Personalization
               </button>
@@ -58,9 +58,9 @@ export function SettingsDialog({
             </div>
           </aside>
 
-          <main className="flex-1 overflow-y-auto px-4">
+          <main className="flex-1 overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className="text-lg">
+              <DialogTitle className="text-xl">
                 Personalization
               </DialogTitle>
               <DialogDescription>
@@ -104,7 +104,7 @@ export function SettingsDialog({
           </main>
           
         </div>
-        <div className="mt-4 flex justify-end gap-2 cursor-pointer">
+        <div className="flex justify-end gap-2 cursor-pointer">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
