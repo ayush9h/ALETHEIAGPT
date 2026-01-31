@@ -1,0 +1,40 @@
+name: Backend PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "server/**"
+
+jobs:
+  run_tests:
+    name: Run Backend Tests (PR)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Create virtual environment
+        run: |
+          cd server
+          uv venv
+
+      - name: Install Dependencies
+        run: | 
+          cd server 
+          uv pip install -r requirements.txt
+
+      - name: Run tests with coverage
+        run: |
+          cd server
+          uv run pytest --cov=app
