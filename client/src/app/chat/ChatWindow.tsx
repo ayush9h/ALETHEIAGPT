@@ -4,6 +4,7 @@ import ChatInput from "./ChatInput";
 import { Message } from "../types/userMessage";
 import { ChatAction } from "../types/userChat";
 import { UserPrefProps } from "../types/userPref";
+import { AutoScroll } from "../reducers/autoScrollhook";
 interface Props {
   messages: Message[];
   input: string;
@@ -21,6 +22,9 @@ export default function ChatWindow({
   userPref,
   onSend,
 }: Props) {
+
+  const {containerRef, bottomRef} = AutoScroll<HTMLDivElement>([messages.length]);
+
   return (
     <div className="flex h-screen flex-col">
       <Navbar
@@ -30,7 +34,10 @@ export default function ChatWindow({
         setUserPref={(v) => dispatch({ type: "SET_USER_PREF", payload: v })}
       />
 
-      <MessageList messages={messages} />
+      <div ref={containerRef} className="flex-1 overflow-y-auto">
+        <MessageList messages={messages} />
+        <div ref={bottomRef} />
+      </div>
 
       <ChatInput
         value={input}
