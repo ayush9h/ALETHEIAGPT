@@ -37,13 +37,7 @@ ALETHEIAGPT is a modern web-based platform for interacting with an AI-powered co
 
 <h2>Current Issues</h2>
 
-## 1. New Chat Session Visibility Issue
-
-- When a **new chat session** is created, it does **not immediately appear** in the session list.
-- A **manual page refresh** is required to view the newly created chat session.
-- **Cause:** Client-side state is not synchronizing instantly with the backend session store.
-
-## 2. NeonDB Free Tier Inactivity
+## 1. NeonDB Free Tier Inactivity
 
 - The application currently uses **NeonDB (Free Tier)** for persistence.
 - NeonDB may **automatically suspend the database after inactivity**, which can result in:
