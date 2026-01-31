@@ -64,6 +64,15 @@ export default function ChatPage() {
         userId
       );
 
+      const newSession = res.data.session
+      if (!state.selectedSessionId && newSession) {
+        dispatch({ type: "SET_SELECTED_SESSION", payload: newSession.session_id });
+        dispatch({
+          type: "SET_SESSIONS",
+          payload: [newSession, ...state.sessions],
+        });
+      }
+
       dispatch({
         type: "ADD_MESSAGE",
         payload: {

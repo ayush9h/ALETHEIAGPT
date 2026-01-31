@@ -21,7 +21,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async jwt({ token, account, profile }) {
       if(account && profile){
         if (account?.provider === "github") {
-          token.githubId = profile.id;
+          token.userId = profile.id;
       }
 
         if (account?.provider === "google") {
@@ -33,7 +33,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = String(token.githubId); 
+        session.user.id = String(token.userId); 
       }
       return session;
     },

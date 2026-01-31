@@ -61,6 +61,10 @@ async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_session
             "duration": round(response.get("duration", ""), 2),
             "tokens_consumed": response.get("tokens_consumed", ""),
         },
+        "session": {
+            "session_id": chat_session.session_id,
+            "session_title": chat_session.session_title,
+        },
     }
 
 

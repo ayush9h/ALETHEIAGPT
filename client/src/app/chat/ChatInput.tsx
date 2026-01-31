@@ -9,7 +9,7 @@ interface Props {
 
 export default function ChatInput({ value, onChange, onSend }: Props) {
   return (
-    <div className="font-paragraph mx-auto w-full max-w-3xl pb-2">
+    <div className="font-paragraph mx-auto w-full max-w-3xl pb-2 rounded-2xl" >
       <div className="flex flex-col rounded-2xl border p-3 gap-2">
 
         <TextareaAutosize
