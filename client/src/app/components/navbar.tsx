@@ -1,6 +1,9 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
+import { useState, useMemo } from "react";
+import Image from "next/image";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,54 +17,19 @@ import {
   GearIcon,
   ExitIcon,
   CaretDownIcon,
-  CubeIcon,
-  GlobeIcon,
-  RocketIcon
 } from "@radix-ui/react-icons";
-import Image from "next/image";
-import { useState } from "react";
+
 import { SettingsDialog } from "./settings-dialog";
 import { UserPrefProps } from "../types/userPref";
-import { useMemo } from "react";
+import { MODEL_GROUPS } from "../config/models";
+
+
 type NavbarProps = {
   selectedModel: string;
   setSelectedModel: (model: string) => void;
   userPref: UserPrefProps;
   setUserPref:(userPref:UserPrefProps) => void;
 };
-
-const MODEL_GROUPS = [
-  {
-    provider: "OpenAI",
-    icon: RocketIcon,
-    models: [
-      {
-        label: "GPT-OSS-120B",
-        value: "openai/gpt-oss-120b",
-      },
-    ],
-  },
-  {
-    provider: "DeepSeek",
-    icon: CubeIcon,
-    models: [
-      {
-        label: "Qwen3-32B",
-        value: "qwen/qwen3-32b",
-      },
-    ],
-  },
-  {
-    provider: "Meta",
-    icon: GlobeIcon,
-    models: [
-      {
-        label: "Llama-3.1-8B",
-        value: "llama-3.1-8b-instant",
-      },
-    ],
-  },
-];
 
 
 export default function Navbar({
@@ -70,6 +38,7 @@ export default function Navbar({
   userPref,
   setUserPref,
 }: NavbarProps) {
+  
   const { data: session } = useSession();
   const [settingsOpen, setSettingsOpen] = useState(false);
   
@@ -93,7 +62,7 @@ export default function Navbar({
           {MODEL_GROUPS.map((group) => (
             <div key={group.provider}>
               <DropdownMenuLabel className="flex items-center gap-2 text-xs text-stone-500">
-                <group.icon className="h-3 w-3" />
+                <img src={group.url} className="h-3 w-3" />
                 {group.provider}
               </DropdownMenuLabel>
           
@@ -101,7 +70,7 @@ export default function Navbar({
                 <DropdownMenuItem
                   key={model.value}
                   onSelect={() => setSelectedModel(model.value)}
-                  className="pl-8"
+                  className="pl-8 cursor-pointer"
                 >
                   {model.label}
                 </DropdownMenuItem>

@@ -1,26 +1,27 @@
 import type { Metadata } from "next";
-import {Fjalla_One, Outfit} from "next/font/google"
+import {Poiret_One, Quicksand} from "next/font/google"
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "./auth";
 
 
-const headerFont = Fjalla_One({
+const headerFont = Poiret_One({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-header",
   display: "swap",
 });
 
-const paragraphFont = Outfit({
+const paragraphFont = Quicksand({
   subsets: ["latin"],
   variable: "--font-paragraph",
   display: "swap",
+  weight:"500",
 });
 
 export const metadata: Metadata = {
-  title: "AletheiaGPT",
-  description: "Your assistant for daily productivity",
+  title: "Aletheia",
+  description: "Your assistant for your   daily tasks",
 };
 
 export default async function RootLayout({

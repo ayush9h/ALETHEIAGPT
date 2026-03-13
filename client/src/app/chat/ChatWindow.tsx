@@ -26,7 +26,7 @@ export default function ChatWindow({
   const {containerRef, bottomRef} = AutoScroll<HTMLDivElement>([messages.length]);
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col shadow-xl">
       <Navbar
         selectedModel={selectedModel}
         setSelectedModel={(m) => dispatch({ type: "SET_MODEL", payload: m })}

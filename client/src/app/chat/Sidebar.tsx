@@ -1,11 +1,5 @@
-import {
-  Pencil2Icon,
-  DoubleArrowLeftIcon,
-  DotsHorizontalIcon,
-  TrashIcon
-} from "@radix-ui/react-icons";
-import { deleteUserSession } from "../lib/api/userData";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 import {
   DropdownMenu,
@@ -13,12 +7,17 @@ import {
   DropdownMenuContent,
   DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
-import { useCallback } from "react";
-import Image from "next/image";
+import {
+  Pencil2Icon,
+  DotsHorizontalIcon,
+  TrashIcon
+} from "@radix-ui/react-icons";
+import { PanelLeftIcon } from "lucide-react";
 
 
 import { ChatAction } from "../types/userChat";
 import { Session } from "../types/userMessage";
+import { useChatSession } from "../hooks/useChatSession";
 interface SidebarProps {
   open: boolean;
   onToggle: (open: boolean) => void;
@@ -39,27 +38,8 @@ export default function Sidebar({
 
 
   const { data: auth } = useSession();
+  const handleDeleteSession = useChatSession(auth?.user?.id, dispatch, selectedSessionId)
 
-  const handleDeleteSession = useCallback(
-    async (sessionId: number) => {
-      if (!auth?.user?.id) return;
-    
-      try {
-        await deleteUserSession(sessionId, auth.user.id);
-      
-        dispatch({ type: "DELETE_SESSION", payload: sessionId });
-      
-        if (selectedSessionId === sessionId) {
-          dispatch({ type: "SET_SELECTED_SESSION", payload: null });
-          dispatch({ type: "SET_MESSAGES", payload: [] });
-        }
-      } catch (err) {
-        console.error("Failed to delete session", err);
-      }
-    },
-    [auth?.user?.id, dispatch, selectedSessionId]
-  );
-  
   const handleNewChat = () => {
     dispatch({ type: "SET_SELECTED_SESSION", payload: null });
     dispatch({ type: "SET_MESSAGES", payload: [] });
@@ -77,7 +57,7 @@ export default function Sidebar({
           height={32}
         />
 
-        <DoubleArrowLeftIcon
+        <PanelLeftIcon
           className={`
             h-4 w-4 cursor-pointer transition-opacity duration-200
             ${open ? "opacity-100" : "pointer-events-none opacity-0"}
@@ -98,7 +78,7 @@ export default function Sidebar({
             ${open ? "max-w-[8rem] opacity-100" : "max-w-0 opacity-0"}
           `}
         >
-          New Chat
+          New Thread
         </span>
       </button>
 

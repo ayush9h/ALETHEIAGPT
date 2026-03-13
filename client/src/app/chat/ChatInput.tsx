@@ -32,7 +32,7 @@ export default function ChatInput({ value, onChange, onSend }: Props) {
 
           <button
             onClick={onSend}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 hover:bg-blue-600 cursor-pointer"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 cursor-pointer"
           >
             <ArrowUpIcon className="h-4 w-4 text-stone-100" />
           </button>
@@ -40,7 +40,7 @@ export default function ChatInput({ value, onChange, onSend }: Props) {
         
       </div>
 
-      <p className="text-center text-xs font-paragraph mt-2 text-stone-500">AletheiaGPT is currently being developed. Some features may not be functional. It can make mistakes. Check important info.</p>
+      <p className="text-center text-xs font-paragraph mt-2 text-stone-500">Aletheia is currently being developed. Some features may not be functional. It can make mistakes. Check important info.</p>
     </div>
   );
 }
