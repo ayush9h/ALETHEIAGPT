@@ -67,6 +67,7 @@ export default function ChatPage() {
         selectedModel={state.selectedModel}
         dispatch={dispatch}
         onSend={handleSend}
+        userName={session?.user?.name as string}
       />
     </div>
   );

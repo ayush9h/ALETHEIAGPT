@@ -38,7 +38,6 @@ export const InitialState: ChatState = {
   selectedSessionId: null,
   sessions: [],
   messages: [
-    { role: "assistant", text: "Hi, how can I help you today?", reasoning: "", duration:0, tokens_consumed:0 },
   ],
   userPref: {
   userCustomInstruction: "",

@@ -12,6 +12,7 @@ interface Props {
   dispatch: React.Dispatch<ChatAction>;
   userPref:UserPrefProps;
   onSend: () => void;
+  userName:string
 }
 
 export default function ChatWindow({
@@ -21,6 +22,7 @@ export default function ChatWindow({
   dispatch,
   userPref,
   onSend,
+  userName,
 }: Props) {
 
   const {containerRef, bottomRef} = AutoScroll<HTMLDivElement>([messages.length]);
@@ -35,7 +37,7 @@ export default function ChatWindow({
       />
 
       <div ref={containerRef} className="flex-1 overflow-y-auto">
-        <MessageList messages={messages} />
+        <MessageList messages={messages} userName={userName} />
         <div ref={bottomRef} />
       </div>
 

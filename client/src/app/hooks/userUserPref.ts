@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, Dispatch } from "react";
 import { saveUserPref } from "../lib/api/userData";
 import { getUserPref } from "../lib/api/userData";
 import { ChatAction } from "../types/userChat";
@@ -6,7 +6,7 @@ import { UserPrefProps } from "../types/userPref";
 
 export function useUserPreferences(
   userId: string | undefined,
-  dispatch: React.Dispatch<ChatAction>
+  dispatch: Dispatch<ChatAction>
 ) {
   useEffect(() => {
     if (!userId) return;
