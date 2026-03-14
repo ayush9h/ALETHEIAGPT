@@ -19,7 +19,6 @@ chat_router = APIRouter(prefix="/v1")
 )
 async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_session)):
 
-
     # Check if it is a new session or a pre-existing session
     if payload.selectedSessionId:
         stmt = select(UserSessions).where(
@@ -47,11 +46,12 @@ async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_session
 
     response = await graph.ainvoke(input=input_state)  # type: ignore
 
-    # Update the session title
+    # Update the session title after the request complete
     if not payload.selectedSessionId:
         chat_session.session_title = response.get("session_title", "")
         await session.commit()
 
+    # Store the details in the DB
     chat = UserChats(
         session_id=chat_session.session_id,
         user_query=payload.query,
@@ -87,7 +87,13 @@ async def chats(
     session_id: int,
     session: AsyncSession = Depends(get_session),
 ) -> List[dict]:
-    
+    """
+    Returns the chats in a session
+
+    Args:
+        session_id: Session Id number
+    """
+
     stmt = (
         select(UserChats)
         .where(UserChats.session_id == session_id)
