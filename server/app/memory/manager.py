@@ -1,15 +1,20 @@
 from typing import Dict, List
 
+from app.db_service.retriever import PineconeRetriever
 from app.memory.note import MemoryNote
 from app.prompts.mem import ANALYSE_PROMPT, EVOLUTION_PROMPT
 from app.schemas.mem.evolve_schema import EvolveSchema
 from app.schemas.mem.note_schema import NoteSchema
+from app.utils.config import settings
 from langchain_groq import ChatGroq
 
 
 class MemoryManager:
     def __init__(self, llm_client: ChatGroq, evo_threshold: int = 100):
         self.llm_client = llm_client
+        self.retriever = PineconeRetriever(
+            api_key=settings.PINECONE_API_KEY,
+        )
         self.evo_threshold = evo_threshold
         self.memories = {}
         self.evo_cnt = 0
@@ -37,7 +42,7 @@ class MemoryManager:
 
         note = MemoryNote(content=content, **kwargs)
 
-        needs_analysis: tuple[bool] = (
+        needs_analysis = (
             not note.keywords or note.context == "General" or not note.tags,
         )
 
@@ -70,7 +75,8 @@ class MemoryManager:
             "tags": note.tags,
         }
 
-        # self.retriever.add_document(note.content, metadata, note.id)
+        self.retriever.add_document(note.content, metadata, note.id)
+
         if evo_label == True:
             self.evo_cnt += 1
             if self.evo_cnt % self.evo_threshold == 0:
@@ -80,7 +86,6 @@ class MemoryManager:
         return note.id
 
     def consolidate_memories(self):
-        # self.retriever = ChromaRetriever(collection_name="memories",model_name=self.model_name)
         for memory in self.memories.values():
             metadata = {
                 "id": memory.id,
@@ -95,32 +100,32 @@ class MemoryManager:
                 "category": memory.category,
                 "tags": memory.tags,
             }
-            # self.retriever.add_document(memory.content, metadata, memory.id)
+            self.retriever.add_document(memory.content, metadata, memory.id)
 
     def find_related_memories(self, query: str, k: int = 5) -> tuple[str, List[str]]:
         if not self.memories:
             return "", []
 
         try:
-            # results = self.retriever.search(query, k)
+            results = self.retriever.search(query, k)
 
             memory_str = ""
             memory_ids = []
 
-            if (
-                "ids" in results
-                and results["ids"]
-                and len(results["ids"]) > 0
-                and len(results["ids"][0]) > 0
-            ):
-                for i, doc_id in enumerate(results["ids"][0]):
-                    # Get metadata from ChromaDB results
+            for match in results["matches"]:
+                meta = match["metadata"]
+                doc_id = meta["id"]
 
-                    if i < len(results["metadatas"][0]):
-                        metadata = results["metadatas"][0][i]
+                memory_str += (
+                    f"memory_id:{doc_id}\t"
+                    f"time:{meta.get('timestamp','')}\t"
+                    f"content:{meta.get('content','')}\t"
+                    f"context:{meta.get('context','')}\t"
+                    f"keywords:{meta.get('keywords',[])}\t"
+                    f"tags:{meta.get('tags',[])}\n"
+                )
 
-                        memory_str += f"memory_id:{doc_id}\ttalk start time:{metadata.get('timestamp', '')}\tmemory content: {metadata.get('content', '')}\tmemory context: {metadata.get('context', '')}\tmemory keywords: {str(metadata.get('keywords', []))}\tmemory tags: {str(metadata.get('tags', []))}\n"
-                        memory_ids.append(doc_id)
+                memory_ids.append(doc_id)
 
             return memory_str, memory_ids
         except Exception as e:

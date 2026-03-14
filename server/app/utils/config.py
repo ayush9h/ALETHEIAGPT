@@ -10,6 +10,7 @@ ENV_FILE = BASE_DIR / ".env"
 class Settings(BaseSettings):
     GROQ_API_KEY: SecretStr
     DB_POSTGRES_URL: str
+    PINECONE_API_KEY: str
 
     model_config = SettingsConfigDict(
         env_file=ENV_FILE,
