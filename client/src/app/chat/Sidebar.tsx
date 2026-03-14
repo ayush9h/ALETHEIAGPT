@@ -10,7 +10,8 @@ import {
 import {
   Pencil2Icon,
   DotsHorizontalIcon,
-  TrashIcon
+  TrashIcon,
+  DrawingPinIcon
 } from "@radix-ui/react-icons";
 import { PanelLeftIcon } from "lucide-react";
 
@@ -47,7 +48,7 @@ export default function Sidebar({
   };
 
   return (
-    <aside className={`font-paragraph p-4 border-r bg-stone-100 text-sm ${open ? 'cursor-pointer':'cursor-col-resize'}`} onClick={() => !open && onToggle(true)}>
+    <aside className={`font-paragraph p-4 border-r bg-stone-200/50 text-sm ${open ? 'cursor-pointer':'cursor-col-resize'}`} onClick={() => !open && onToggle(true)}>
       <div className={`flex items-center justify-between `}>
         <Image
           src="/logo.png"
@@ -68,7 +69,7 @@ export default function Sidebar({
 
       {/* New Chat */}
       <button
-        className="mt-4 flex w-full items-center gap-2 rounded-md p-2 hover:bg-stone-200"
+        className="mt-4 flex w-full items-center gap-2 rounded-md p-2 hover:bg-stone-200/50 cursor-pointer"
         onClick={handleNewChat}
       >
         <Pencil2Icon className="shrink-0" />
@@ -104,8 +105,8 @@ export default function Sidebar({
               ${
                 open
                   ? selectedSessionId === s.session_id
-                    ? "bg-stone-200"
-                    : "hover:bg-stone-200"
+                    ? "bg-stone-200/50"
+                    : "hover:bg-stone-200/50"
                   : "opacity-0"
               }
             `}
@@ -126,7 +127,7 @@ export default function Sidebar({
                   <button
                     className={`
                       ml-auto flex h-6 w-6 items-center justify-center rounded
-                      text-stone-500 hover:text-stone-800 hover:bg-stone-300 transition
+                      text-stone-600 hover:text-stone-800 hover:bg-stone-200 transition
                       ${open ? "opacity-0 group-hover:opacity-100" : "opacity-0"}
                     `}
                     onClick={(e) => e.stopPropagation()}
@@ -136,13 +137,28 @@ export default function Sidebar({
                 </DropdownMenuTrigger>
                     
                 <DropdownMenuContent
+                  className="font-paragraph"
                   side="right"
                   align="start"
                   onClick={(e) => e.stopPropagation()}
                 >
-
+                  
+                  {/* Pins a particular session */}
                   <DropdownMenuItem
-                    className="flex items-center gap-2 text-red-500 focus:text-red-600"
+                    className="flex items-center gap-2 text-stone-500 focus:text-stone-600 cursor-pointer"
+                    onSelect={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      // handlePinSession(s.session_id);   
+                    }}
+                  >
+                    <DrawingPinIcon className="h-4 w-4 text-stone-500 focus:text-stone-600" />
+                    Pin Chat
+                  </DropdownMenuItem>
+                  
+                  {/* Delete a particular session */}
+                  <DropdownMenuItem
+                    className="flex items-center gap-2 text-red-500 focus:text-red-600 cursor-pointer"
                     onSelect={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -152,6 +168,7 @@ export default function Sidebar({
                     <TrashIcon className="h-4 w-4 text-red-500 focus:text-red-600" />
                     Delete
                   </DropdownMenuItem>
+
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

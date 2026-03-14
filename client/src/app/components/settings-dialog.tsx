@@ -3,15 +3,17 @@
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
-import { FaceIcon } from "@radix-ui/react-icons";
+
 import { UserPrefProps } from "../types/userPref";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useSaveUserPreferences } from "../hooks/userUserPref";
+import { SETTING_SECTIONS } from "../config/userSettings";
+import { useState } from "react";
+import PersonalizationSettings from "./settings/personalization";
+import DataControls from "./settings/data-controls";
+import General from "./settings/general";
 
 type SettingsDialogProps = {
   open: boolean;
@@ -29,6 +31,8 @@ export function SettingsDialog({
 
   const { data: session } = useSession();
   const userId = session?.user?.id;
+  const [activeSection, setActiveSection]= useState<string>('personalization')
+
 
   const {savePreferences} = useSaveUserPreferences()
   const handleSave = async () => {
@@ -36,64 +40,41 @@ export function SettingsDialog({
    onOpenChange(false)
 }
 
+  function renderSection(){
+    switch(activeSection){
+      case 'personalization':
+        return (
+          <PersonalizationSettings userPref={userPref} setUserPref= {setUserPref} />  
+        )
+      case 'general':
+        return (<General/>)
+
+      case 'data-controls':
+        return (<DataControls/>)
+    }
+  }
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="font-paragraph">
-        <div className="flex  gap-4">
-          <aside className="w-28">
+      <DialogContent className="font-paragraph max-w-2xl h-[85%]">
+        <div className="flex gap-4">
+          <aside className="w-36">
             <div className="space-y-2 text-xs">
-              <button className="flex items-center w-full gap-1 rounded-md bg-stone-200 p-2">
-                <FaceIcon className="h-3 w-3" />
-                Personalization
-              </button>
-             
+
+              {SETTING_SECTIONS.map(section=>(
+                <button key={section.id}  
+                        onClick={() => setActiveSection(section.id)} 
+                        className={`flex items-center gap-2 p-2 rounded-md cursor-pointer ease-in-out transition-all w-full ${ activeSection === section.id ? "bg-stone-200" : ""}`}>
+                  <section.icon className="h-4 w-4"/>
+                  {section.label}
+                </button>
+              ))}
             </div>
           </aside>
 
           <main className="flex-1 overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="text-xl">
-                Personalization
-              </DialogTitle>
-              <DialogDescription>
-                Customize how the assistant responds to you.
-              </DialogDescription>
-            </DialogHeader>
-
-            <div className="mt-4 space-y-2">
-              <div className="space-y-2">
-                <label className="text-sm">Custom instructions</label>
-                <textarea
-                  className="w-full rounded-md border px-3 py-2 text-sm resize-none"
-                  onChange={(e)=>setUserPref({...userPref, userCustomInstruction:e.target.value})}
-                  rows={3}
-                  value={userPref.userCustomInstruction}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm">Nickname</label>
-                <input
-                  className="w-full rounded-md border px-3 py-2 text-sm"
-                  onChange={(e)=>(setUserPref({...userPref, userPronouns: e.target.value}))}
-                  value={userPref.userPronouns}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm">More about you</label>
-                <textarea
-                  className="w-full rounded-md border px-3 py-2 text-sm resize-none"
-                  onChange={(e) =>
-                    setUserPref({ ...userPref, userHobbies: e.target.value })
-                  }
-
-                  value={userPref.userHobbies}
-                  rows={3}  
-                />
-              </div>
-            </div>
+             {renderSection()}
           </main>
           
         </div>
