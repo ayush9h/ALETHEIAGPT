@@ -98,21 +98,18 @@ class MemoryManager:
 
             for match in results["matches"]:
                 meta = match["metadata"]
-                doc_id = meta["id"]
+                # doc_id = meta["id"]
 
-                memory = self.memories.get(doc_id)
-
-                if memory:
-                    memories.append(
-                        {
-                            "id": doc_id,
-                            "content": memory.content,
-                            "context": memory.context,
-                            "keywords": memory.keywords,
-                            "tags": memory.tags,
-                            "score": match["score"],
-                        }
-                    )
+                memories.append(
+                    {
+                        "id": meta["id"],
+                        "content": meta["content"],
+                        "context": meta.get("context"),
+                        "keywords": meta.get("keywords", []),
+                        "tags": meta.get("tags", []),
+                        "score": match["score"],
+                    }
+                )
             return memories[:k]
 
         except Exception as e:
@@ -137,8 +134,6 @@ class MemoryManager:
             self.retriever.add_document(memory.content, metadata, memory.id)
 
     def find_related_memories(self, query: str, k: int = 5) -> tuple[str, List[str]]:
-        if not self.memories:
-            return "", []
 
         try:
             results = self.retriever.search(query, k)
@@ -168,9 +163,6 @@ class MemoryManager:
 
     async def process_memory(self, note: MemoryNote) -> tuple[bool, MemoryNote]:
         """Process a memory note and determine if it should evolve"""
-
-        if not self.memories:
-            return False, note
 
         try:
             neighbors_text, memory_ids = self.find_related_memories(note.content, k=5)
@@ -215,23 +207,23 @@ class MemoryManager:
                                 min(len(memory_ids), len(new_tags_neighborhood))
                             ):
                                 memory_id = memory_ids[i]
-                                if memory_id not in self.memories:
+                                results = self.retriever.search(memory_id, k=5)
+
+                                if not results["matches"]:
                                     continue
 
-                                neighbor_memory = self.memories[memory_id]
+                                meta = results["matches"][0]["metadata"]
 
                                 if i < len(new_tags_neighborhood):
-                                    neighbor_memory.tags = new_tags_neighborhood[i]
+                                    meta["tags"] = new_tags_neighborhood[i]
 
                                 # Update context
                                 if i < len(new_context_neighborhood):
-                                    neighbor_memory.context = new_context_neighborhood[
-                                        i
-                                    ]
+                                    meta["context"] = new_context_neighborhood[i]
 
-                                # Save the updated memory back
-                                self.memories[memory_id] = neighbor_memory
-
+                                self.retriever.add_document(
+                                    meta["content"], meta, memory_id
+                                )
                 return should_evolve, note
 
             except Exception as e:
