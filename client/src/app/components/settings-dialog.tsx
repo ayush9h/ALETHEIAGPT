@@ -6,14 +6,13 @@ import {
 } from "@/components/ui/dialog";
 
 import { UserPrefProps } from "../types/userPref";
-import { Button } from "@/components/ui/button";
+
 import { useSession } from "next-auth/react";
 import { useSaveUserPreferences } from "../hooks/userUserPref";
 import { SETTING_SECTIONS } from "../config/userSettings";
 import { useState } from "react";
 import PersonalizationSettings from "./settings/personalization";
 import DataControls from "./settings/data-controls";
-import General from "./settings/general";
 
 type SettingsDialogProps = {
   open: boolean;
@@ -36,28 +35,26 @@ export function SettingsDialog({
 
   const {savePreferences} = useSaveUserPreferences()
   const handleSave = async () => {
-   await savePreferences(userId as string, userPref)
-   onOpenChange(false)
-}
+    await savePreferences(userId as string, userPref)
+    onOpenChange(false)
+  }
 
   function renderSection(){
     switch(activeSection){
       case 'personalization':
         return (
-          <PersonalizationSettings userPref={userPref} setUserPref= {setUserPref} />  
+          <PersonalizationSettings userPref={userPref} setUserPref= {setUserPref} handleSave={handleSave} onOpenChange={onOpenChange} />  
         )
-      case 'general':
-        return (<General/>)
 
       case 'data-controls':
-        return (<DataControls/>)
+        return (<DataControls userId={userId as string}/>)
     }
   }
 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="font-paragraph max-w-2xl h-[85%]">
+      <DialogContent className="font-paragraph max-w-2xl h-[85%] overflow-y-auto">
         <div className="flex gap-4">
           <aside className="w-36">
             <div className="space-y-2 text-xs">
@@ -78,14 +75,7 @@ export function SettingsDialog({
           </main>
           
         </div>
-        <div className="flex justify-end gap-2 cursor-pointer">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button className="bg-blue-500 hover:bg-blue-600 cursor-pointer" onClick={handleSave}>
-            Save
-          </Button>
-        </div>
+
       </DialogContent>
     </Dialog>
   );

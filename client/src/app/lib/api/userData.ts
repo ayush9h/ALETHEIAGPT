@@ -1,3 +1,4 @@
+import { UserPrefProps } from "@/app/types/userPref";
 import { api } from "./axiosRoute";
 export async function userChats(sessionId: number) {
   return api.get("/chats", {
@@ -28,12 +29,7 @@ export async function unpinSession(sessionId: number, userId: string) {
 }
 
 
-export async function saveUserPref(userPref: {
-  userId: string;
-  userCustomInstruction: string;
-  userPronouns: string;
-  userHobbies: string;
-}) {
+export async function saveUserPref(userPref: UserPrefProps) {
   return api.post("/users/preferences", userPref);
 }
 

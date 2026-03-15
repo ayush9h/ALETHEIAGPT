@@ -1,6 +1,8 @@
 export type UserPrefProps = {
   userId?:string;
-  userCustomInstruction: string;
-  userPronouns: string;
+  nickname:string;
+  occupation:string;
+  baseTone: string;
+  userCustomInstruction:string;
   userHobbies: string;
 };

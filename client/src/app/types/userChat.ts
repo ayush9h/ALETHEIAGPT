@@ -24,11 +24,7 @@ export type ChatAction =
   | { type: "DELETE_SESSION"; payload: number }
   | {
       type: "SET_USER_PREF";
-      payload?: {
-        userCustomInstruction?: string;
-        userPronouns?: string;
-        userHobbies?: string;
-      };
+      payload?: UserPrefProps
     };
 
 
@@ -40,8 +36,10 @@ export const InitialState: ChatState = {
   messages: [
   ],
   userPref: {
-  userCustomInstruction: "",
-  userPronouns: "",
-  userHobbies: "",
-}, 
+    nickname: "",
+    occupation: "",
+    baseTone: "efficient",
+    userCustomInstruction: "",
+    userHobbies: "",
+  },
 };

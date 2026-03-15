@@ -62,7 +62,9 @@ export const ChatReducer = (state: ChatState, action: ChatAction) => {
         ...state,
         userPref: {
         userCustomInstruction: action.payload?.userCustomInstruction ?? "",
-        userPronouns: action.payload?.userPronouns ?? "",
+        nickname: action.payload?.nickname ?? "",
+        baseTone: action.payload?.baseTone ?? "",
+        occupation: action.payload?.occupation?? "",
         userHobbies: action.payload?.userHobbies ?? "",
     },
       };

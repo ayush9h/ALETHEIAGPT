@@ -20,7 +20,9 @@ export function useUserPreferences(
           type: "SET_USER_PREF",
           payload: {
             userCustomInstruction: "",
-            userPronouns: "",
+            nickname:"",
+            occupation: "",
+            baseTone: "",
             userHobbies: "",
           },
         });
