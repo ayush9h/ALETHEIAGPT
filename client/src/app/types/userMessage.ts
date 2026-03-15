@@ -9,4 +9,5 @@ export type Message = {
 export type Session = {
   session_id: number;
   session_title: string;
+  is_pinned: boolean;
 };

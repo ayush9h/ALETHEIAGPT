@@ -15,6 +15,18 @@ export async function userSessions(userId: string) {
   });
 }
 
+export async function pinSession(sessionId: number, userId: string) {
+  return api.post(`/sessions/${sessionId}/toggle-pin-session`, null, {
+    params: { user_id: userId },
+  });
+}
+
+export async function unpinSession(sessionId: number, userId: string) {
+  return api.post(`/sessions/${sessionId}/unpin`, null, {
+    params: { user_id: userId },
+  });
+}
+
 
 export async function saveUserPref(userPref: {
   userId: string;

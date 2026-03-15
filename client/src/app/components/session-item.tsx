@@ -1,0 +1,99 @@
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem
+} from "@/components/ui/dropdown-menu";
+import {
+  DotsHorizontalIcon,
+  TrashIcon,
+  DrawingPinIcon
+} from "@radix-ui/react-icons";
+import { Session } from "../types/userMessage";
+
+
+
+interface SessionItemProps {
+  s: Session;
+  open: boolean;
+  selectedSessionId: number | null;
+  onSelectSession: (id: number) => void;
+  handlePinSession: (sessionId: number) => void | Promise<void>;
+  handleDeleteSession: (sessionId: number) => void | Promise<void>;
+}
+
+
+export function SessionItem({
+  s,
+  open,
+  selectedSessionId,
+  onSelectSession,
+  handlePinSession,
+  handleDeleteSession,
+}: SessionItemProps ) {
+  return (
+    <li
+      onClick={() => onSelectSession(s.session_id)}
+      className={`group rounded-md cursor-pointer ${
+        open
+          ? selectedSessionId === s.session_id
+            ? "bg-stone-200/50"
+            : "hover:bg-stone-200/50"
+          : "opacity-0"
+      }`}
+    >
+      <div className="flex w-full items-center gap-2 p-2">
+        <span
+          title={s.session_title}
+          className={`truncate whitespace-nowrap ${
+            open ? "max-w-[10rem] opacity-100" : "max-w-0 opacity-0"
+          }`}
+        >
+          {s.session_title || "New Chat"}
+        </span>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className={`ml-auto flex h-6 w-6 items-center justify-center rounded
+              text-stone-600 hover:text-stone-800 hover:bg-stone-200 transition
+              ${open ? "opacity-0 group-hover:opacity-100" : "opacity-0"}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <DotsHorizontalIcon />
+            </button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent
+            className="font-paragraph"
+            side="right"
+            align="start"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <DropdownMenuItem
+              className="flex items-center gap-2 cursor-pointer"
+              onSelect={(e) => {
+                e.preventDefault();
+                handlePinSession(s.session_id);
+              }}
+            >
+              <DrawingPinIcon className="h-4 w-4" />
+              {s.is_pinned ? "Unpin" : "Pin"}
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              className="flex items-center gap-2 text-red-500 cursor-pointer"
+              onSelect={(e) => {
+                e.preventDefault();
+                handleDeleteSession(s.session_id);
+              }}
+            >
+              <TrashIcon className="h-4 w-4" />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </li>
+  );
+}

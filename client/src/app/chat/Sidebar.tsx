@@ -1,24 +1,15 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem
-} from "@/components/ui/dropdown-menu";
-import {
-  Pencil2Icon,
-  DotsHorizontalIcon,
-  TrashIcon,
-  DrawingPinIcon
-} from "@radix-ui/react-icons";
 import { PanelLeftIcon } from "lucide-react";
-
-
 import { ChatAction } from "../types/userChat";
 import { Session } from "../types/userMessage";
 import { useChatSession } from "../hooks/useChatSession";
+import { pinSession, unpinSession } from "../lib/api/userData";
+import { SessionItem } from "../components/session-item";
+import { Pencil2Icon } from "@radix-ui/react-icons";
+
+
 interface SidebarProps {
   open: boolean;
   onToggle: (open: boolean) => void;
@@ -40,6 +31,23 @@ export default function Sidebar({
 
   const { data: auth } = useSession();
   const handleDeleteSession = useChatSession(auth?.user?.id, dispatch, selectedSessionId)
+
+  const handlePinSession = async (sessionId: number) => {
+    try {
+      const res = await pinSession(sessionId, auth?.user?.id as string);
+
+      dispatch({
+        type: "SET_SESSIONS",
+        payload: res.data,   
+      });
+    } catch (err) {
+      console.error("Pin failed", err);
+    }
+  };
+
+
+  const pinnedSessions = sessions.filter((s)=> s.is_pinned)
+  const normalSessions = sessions.filter((s)=> !s.is_pinned)
 
   const handleNewChat = () => {
     dispatch({ type: "SET_SELECTED_SESSION", payload: null });
@@ -84,96 +92,47 @@ export default function Sidebar({
       </button>
 
       
-
-      {/* Chats */}
-      <p
-        className={`
-          mt-5 text-xs text-stone-600 transition-all duration-300
-          ${open ? "max-h-6 opacity-100" : "max-h-0 opacity-0"}
-        `}
-      >
-        Your Chats
-      </p>
-
       <ul className="mt-2 space-y-1">
-        {sessions.map((s) => (
-          <li
-            key={s.session_id}
-            onClick={() => onSelectSession(s.session_id)}
-            className={`
-              group rounded-md cursor-pointer
-              ${
-                open
-                  ? selectedSessionId === s.session_id
-                    ? "bg-stone-200/50"
-                    : "hover:bg-stone-200/50"
-                  : "opacity-0"
-              }
-            `}
-          >
-            <div className="flex w-full items-center gap-2 p-2">
-              <span
-                title={s.session_title}
-                className={`
-                  truncate whitespace-nowrap transition-all duration-300
-                  ${open ? "max-w-[10rem] opacity-100" : "max-w-0 opacity-0"}
-                `}
-              >
-                {s.session_title || "New Chat"}
-              </span>
-                
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    className={`
-                      ml-auto flex h-6 w-6 items-center justify-center rounded
-                      text-stone-600 hover:text-stone-800 hover:bg-stone-200 transition
-                      ${open ? "opacity-0 group-hover:opacity-100" : "opacity-0"}
-                    `}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <DotsHorizontalIcon />
-                  </button>
-                </DropdownMenuTrigger>
-                    
-                <DropdownMenuContent
-                  className="font-paragraph"
-                  side="right"
-                  align="start"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  
-                  {/* Pins a particular session */}
-                  <DropdownMenuItem
-                    className="flex items-center gap-2 text-stone-500 focus:text-stone-600 cursor-pointer"
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      // handlePinSession(s.session_id);   
-                    }}
-                  >
-                    <DrawingPinIcon className="h-4 w-4 text-stone-500 focus:text-stone-600" />
-                    Pin Chat
-                  </DropdownMenuItem>
-                  
-                  {/* Delete a particular session */}
-                  <DropdownMenuItem
-                    className="flex items-center gap-2 text-red-500 focus:text-red-600 cursor-pointer"
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleDeleteSession(s.session_id);
-                    }}
-                  >
-                    <TrashIcon className="h-4 w-4 text-red-500 focus:text-red-600" />
-                    Delete
-                  </DropdownMenuItem>
 
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </li>
-        ))}
+          {pinnedSessions.length > 0 && (
+            <>
+              <p className={`mt-5 text-xs text-stone-600 ${open ? "opacity-100" : "opacity-0"}`}>
+                Pinned Chats
+              </p>
+          
+              <ul className="mt-2 space-y-1">
+                {pinnedSessions.map((s) => (
+                  <SessionItem
+                    key={s.session_id}
+                    s={s}
+                    open={open}
+                    selectedSessionId={selectedSessionId}
+                    onSelectSession={onSelectSession}
+                    handlePinSession={handlePinSession}
+                    handleDeleteSession={handleDeleteSession}
+                  />
+                ))}
+              </ul>
+            </>
+          )}
+
+          <p className={`mt-5 text-xs text-stone-600 ${open ? "opacity-100" : "opacity-0"}`}>
+            Recent Chats
+          </p>
+
+          <ul className="mt-2 space-y-1">
+            {normalSessions.map((s) => (
+              <SessionItem
+                key={s.session_id}
+                s={s}
+                open={open}
+                selectedSessionId={selectedSessionId}
+                onSelectSession={onSelectSession}
+                handlePinSession={handlePinSession}
+                handleDeleteSession={handleDeleteSession}
+              />
+            ))}
+          </ul>
       </ul>
     </aside>
   );
