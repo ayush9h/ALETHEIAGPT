@@ -12,8 +12,8 @@ export function useUserPreferences(
     if (!userId) return;
 
     getUserPref(userId)
-      .then((res) => {
-        dispatch({ type: "SET_USER_PREF", payload: res.data });
+    .then((res) => {
+      dispatch({ type: "SET_USER_PREF", payload: res.data });
       })
       .catch(() => {
         dispatch({

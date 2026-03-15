@@ -9,7 +9,7 @@ import { InitialState } from "../types/userChat";
 
 import { useInitLoad } from "../hooks/useInitLoad";
 import { useSendMessage } from "../hooks/useSendMessage";
-import { useUserPreferences } from "../hooks/userUserPref";
+import { useUserPreferences } from "../hooks/useUserPref";
 import { userChats } from "../lib/api/userData";
 
 export default function ChatPage() {

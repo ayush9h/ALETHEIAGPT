@@ -20,12 +20,9 @@ import { Button } from "@/components/ui/button";
 interface PersonalizedSettingProps {
   userPref: UserPrefProps;
   setUserPref: (pref: UserPrefProps) => void;
-  handleSave:any;
-  onOpenChange:any;
+  handleSave: () => Promise<void> | void;
+  onOpenChange: (open: boolean) => void;
 }
-
-
-
 
 export default function PersonalizationSettings({userPref, setUserPref,handleSave, onOpenChange}: PersonalizedSettingProps ){
 
@@ -39,8 +36,7 @@ export default function PersonalizationSettings({userPref, setUserPref,handleSav
       setDraft((prev) => ({ ...prev, [key]: value }));
     };
 
-
-    
+  
     return(
         <div className="space-y-8">
           <DialogHeader>
@@ -69,10 +65,10 @@ export default function PersonalizationSettings({userPref, setUserPref,handleSav
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="efficient">Efficient</SelectItem>
-                  <SelectItem value="balanced">Balanced</SelectItem>
-                  <SelectItem value="creative">Creative</SelectItem>
-                  <SelectItem value="technical">Technical</SelectItem>
+                  <SelectItem value="Efficient">Efficient</SelectItem>
+                  <SelectItem value="Balanced">Balanced</SelectItem>
+                  <SelectItem value="Creative">Creative</SelectItem>
+                  <SelectItem value="Technical">Technical</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -134,7 +130,11 @@ export default function PersonalizationSettings({userPref, setUserPref,handleSav
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700 cursor-pointer" onClick={handleSave}>
+            <Button className="bg-blue-600 hover:bg-blue-700 cursor-pointer" 
+              onClick={() => {
+                setUserPref(draft)
+                handleSave()
+              }}>
               Save
             </Button>
           </div>

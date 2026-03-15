@@ -8,7 +8,7 @@ import {
 import { UserPrefProps } from "../types/userPref";
 
 import { useSession } from "next-auth/react";
-import { useSaveUserPreferences } from "../hooks/userUserPref";
+import { useSaveUserPreferences } from "../hooks/useUserPref";
 import { SETTING_SECTIONS } from "../config/userSettings";
 import { useState } from "react";
 import PersonalizationSettings from "./settings/personalization";
