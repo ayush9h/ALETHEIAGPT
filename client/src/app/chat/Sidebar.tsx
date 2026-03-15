@@ -5,7 +5,7 @@ import { PanelLeftIcon } from "lucide-react";
 import { ChatAction } from "../types/userChat";
 import { Session } from "../types/userMessage";
 import { useChatSession } from "../hooks/useChatSession";
-import { pinSession, unpinSession } from "../lib/api/userData";
+import { pinSession } from "../lib/api/userData";
 import { SessionItem } from "../components/session-item";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 
