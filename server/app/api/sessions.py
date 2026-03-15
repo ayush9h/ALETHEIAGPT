@@ -1,8 +1,8 @@
+from datetime import datetime
 from typing import List
 
 from app.db_service.db import get_session
 from app.db_service.models import UserSessions
-from app.schemas.session_schema import CreateSessionRequest
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
@@ -33,6 +33,7 @@ async def users_session(
             "session_id": s.session_id,
             "session_title": s.session_title,
             "created_at": s.created_at,
+            "is_pinned": s.is_pinned,
         }
         for s in sessions
     ]
@@ -63,3 +64,32 @@ async def delete_session(
         }
     await session.delete(db_session)
     await session.commit()
+
+
+@session_router.post("/sessions/{session_id}/toggle-pin-session")
+async def pin_session(
+    session_id: int,
+    user_id: str,
+    session: AsyncSession = Depends(get_session),
+):
+    stmt = select(UserSessions).where(
+        UserSessions.session_id == session_id,
+        UserSessions.user_id == user_id,
+    )
+
+    result = await session.execute(stmt)
+    db_session = result.scalar_one_or_none()
+
+    if not db_session:
+        return []
+
+    if db_session.is_pinned:
+        db_session.is_pinned = False
+        db_session.pinned_at = None
+    else:
+        db_session.is_pinned = True
+        db_session.pinned_at = datetime.utcnow()
+
+    await session.commit()
+
+    return await users_session(user_id, session)
