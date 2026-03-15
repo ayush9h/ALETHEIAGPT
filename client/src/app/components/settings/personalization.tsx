@@ -32,7 +32,7 @@ export default function PersonalizationSettings({userPref, setUserPref,handleSav
       setDraft(userPref);
     }, [userPref]);
 
-    const update = (key: keyof UserPrefProps, value: any) => {
+    const update = (key: keyof UserPrefProps, value: string | undefined) => {
       setDraft((prev) => ({ ...prev, [key]: value }));
     };
 
