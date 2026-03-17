@@ -1,13 +1,11 @@
-
 @import "tailwindcss";
-
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-header: "Fjalla One", sans-serif;
-  --font-paragraph: "Outfit", sans-serif;
+  --font-header: var(--font-header);
+  --font-paragraph: var(--font-paragraph);
 }
 
 @theme inline {

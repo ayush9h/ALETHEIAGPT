@@ -1,8 +1,21 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { authProviders } from "../types/auth-provider";
 
 export default function Landing() {
+  
+  const {data: session} = useSession()
+  const router = useRouter()
+
+  useEffect( () => {
+    if(session) 
+      router.replace('/chat');
+    },
+    [session]);
+  
   return (
     <div className="flex min-h-screen flex-col px-4 py-8">
       <div className="flex flex-1 flex-col items-center justify-center">
@@ -26,34 +39,13 @@ export default function Landing() {
         </div>
 
         <div className="flex w-full flex-col justify-center gap-4 sm:w-auto sm:max-w-none sm:flex-row">
-          <button
-            onClick={() => signIn("google", { redirectTo: "/chat" })}
-            className="font-paragraph flex cursor-pointer items-center justify-center gap-2 rounded-md border border-stone-200 bg-stone-50 p-3 text-sm text-stone-800 transition-all ease-in-out duration-300 hover:bg-stone-200/50"
-          >
-            <Image
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              alt="Google logo"
-              width={15}
-              height={15}
-              loading="lazy"
-            />
-            <span>Sign in with Google</span>
-          </button>
 
-          {/* GitHub Button */}
-          <button
-            onClick={() => signIn("github", { redirectTo: "/chat" })}
-            className="font-paragraph flex cursor-pointer items-center justify-center gap-2 rounded-md border border-stone-200 bg-stone-50 p-3 text-sm text-stone-800 transition-all ease-in-out duration-300 hover:bg-stone-200/50"
-          >
-            <Image
-              src="https://www.svgrepo.com/show/512317/github-142.svg"
-              alt="GitHub logo"
-              width={15}
-              height={15}
-              loading="lazy"
-            />
-            <span>Sign in with Github</span>
-          </button>
+          {authProviders.map((item)=>(
+            <button key={item.id} onClick={()=>signIn(item.id, {redirectTo:"/chat"})} className="font-paragraph flex cursor-pointer items-center justify-center gap-2 rounded-md border border-stone-200 bg-stone-50 p-3 text-sm text-stone-800 transition-all ease-in-out duration-300 hover:bg-stone-200/50">
+                <Image src={item.icon} alt={item.title} width={15} height={15} loading="lazy"/>
+                <span>{item.label}</span>
+            </button>
+          ))}
         </div>
       </div>
 

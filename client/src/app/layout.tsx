@@ -20,8 +20,8 @@ const paragraphFont = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "Aletheia",
-  description: "Your assistant for your   daily tasks",
+  title:{default:'Aletheia', template:'%s | Aletheia'},
+  description: "Your assistant for your daily tasks", 
 };
 
 export default async function RootLayout({

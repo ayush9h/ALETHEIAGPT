@@ -3,7 +3,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogDescription,
-} from "@/components/ui/dialog";
+} from "@/app/components/ui/dialog";
 import { UserPrefProps } from "@/app/types/userPref";
 
 import {
@@ -12,10 +12,10 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@/components/ui/select";
+} from "@/app/components/ui/select";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/components/ui/button";
 
 interface PersonalizedSettingProps {
   userPref: UserPrefProps;

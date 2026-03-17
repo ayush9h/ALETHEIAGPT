@@ -3,7 +3,7 @@
 import {
   Dialog,
   DialogContent,
-} from "@/components/ui/dialog";
+} from "@/app/components/ui/dialog";
 
 import { UserPrefProps } from "../types/userPref";
 

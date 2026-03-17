@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionContent,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@/app/components/ui/accordion";
 import remarkGfm from "remark-gfm";
 import { memo, useCallback, useState } from "react";
 

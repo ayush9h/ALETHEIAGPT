@@ -1,4 +1,4 @@
-import { DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { deleteUserChatsAll } from "@/app/lib/api/userData"
 import { ChatAction } from "@/app/types/userChat";
 export default function DataControls({userId, dispatch}:{userId:string,   dispatch: React.Dispatch<ChatAction>;}){
