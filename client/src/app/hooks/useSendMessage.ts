@@ -18,6 +18,7 @@ type Params = {
   selectedSessionId: number | null;
   sessions: Session[];
   userId?: string;
+  tools:string[],
   dispatch: React.Dispatch<ChatAction>;
 };
 
@@ -29,6 +30,7 @@ export function useSendMessage(params: Params) {
     selectedSessionId,
     sessions,
     userId,
+    tools,
     dispatch,
   } = params;
 
@@ -57,14 +59,15 @@ export function useSendMessage(params: Params) {
     });
 
     dispatch({ type: "CLEAR_INPUT" });
-
+    dispatch({type:'SET_TOOLS', payload: []})
     try {
       const res = await sendChatMessage(
         selectedModel,
         trimmed,
         userPref,
         selectedSessionId,
-        userId
+        userId,
+        tools,
       );
 
       const newSession = res.data.session;
@@ -110,6 +113,7 @@ export function useSendMessage(params: Params) {
     selectedSessionId,
     sessions,
     userId,
+    tools,
     dispatch,
   ]);
 }

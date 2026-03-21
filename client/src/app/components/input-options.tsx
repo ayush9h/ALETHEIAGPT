@@ -11,30 +11,31 @@ import { BookOpenTextIcon } from "lucide-react";
 
 
 /** Options available to users (tools) */
-const options = [
+export const options = [
     {
-        id:1,
+        key:"web_search",
         toolLabel:"Web Search",
         toolIcon: GlobeIcon,
     },
     {
-        id:2,
+        key:"url_extractor",
         toolLabel:"URL Extractor",
         toolIcon: BookOpenTextIcon,
     }
 ]
 
 
-export default function InputOptions({setOptionList} : {setOptionList: any}){
+function InputOptions({tools, setTools} : {tools:string[],setTools: (tools: string[]) => void}){
 
-    const addOptions = (optionLabel:string)=>{
-        setOptionList(
-            (prev:string[]) => 
-                prev.includes(optionLabel) 
-                ? prev.filter(i => i!==optionLabel) 
-                :[...prev, optionLabel])
-        }
+    const addOptions = (optionKey: string) => {
 
+    //   Include the tool Key for backend parsing
+      if (tools.includes(optionKey)) {
+        setTools(tools.filter(i => i !== optionKey))
+      } else {
+        setTools([...tools, optionKey])
+      }
+    }
     return(
         <>
             <DropdownMenu>
@@ -48,7 +49,7 @@ export default function InputOptions({setOptionList} : {setOptionList: any}){
                     
                     {/* Rendering the list of tools available from the options */}
                     {options.map((option)=>(
-                        <DropdownMenuItem onClick={()=> addOptions(option.toolLabel)} key={option.id} className="flex items-center cursor-pointer">
+                        <DropdownMenuItem onClick={()=> addOptions(option.key)} key={option.key} className="flex items-center cursor-pointer">
                             <option.toolIcon className="h-4 w-4"/>
                             <h3 className="p-1">{option.toolLabel}</h3>
                         </DropdownMenuItem>
@@ -58,3 +59,4 @@ export default function InputOptions({setOptionList} : {setOptionList: any}){
         </>
     )
 }
+export default InputOptions;

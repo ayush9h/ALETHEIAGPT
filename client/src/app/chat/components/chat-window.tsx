@@ -48,6 +48,8 @@ export default function ChatWindow(ChatWindowProps: ChatWindowProps) {
         onChange={(v) =>
           ChatWindowProps.dispatch({ type: "SET_INPUT", payload: v })
         }
+        dispatch={ChatWindowProps.dispatch}
+        tools={ChatWindowProps.tools}
         onSend={ChatWindowProps.onSend}
       />
     </div>

@@ -76,6 +76,14 @@ export const ChatReducer = (state: ChatState, action: ChatAction) => {
           userHobbies: action.payload?.userHobbies ?? "",
         },
       };
+
+    // Selected Tools
+    case "SET_TOOLS":
+      return {
+        ...state,
+        selectedTools: action.payload
+      }
+    
     default:
       return state;
   }

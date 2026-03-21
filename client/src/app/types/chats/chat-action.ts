@@ -55,4 +55,12 @@ export type ChatAction =
   /**
    * Sets or clears personalization preferences.
    */
-  | { type: "SET_USER_PREF"; payload?: UserPrefProps };
+  | { type: "SET_USER_PREF"; payload?: UserPrefProps }
+
+  | {
+    /**
+     * Updates selected tool list for current message composer.
+     */
+    type: "SET_TOOLS"
+    payload: string[]
+  };

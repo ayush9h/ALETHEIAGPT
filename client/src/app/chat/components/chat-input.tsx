@@ -11,12 +11,15 @@
 import { ArrowUpIcon, Cross2Icon} from "@radix-ui/react-icons";
 import TextareaAutosize from "react-textarea-autosize";
 import { inputProps } from "@/app/types/chats/chats.type";
+
+import { options} from "@/app/components/input-options";
 import InputOptions from "@/app/components/input-options";
-import { useState } from "react";
-
 export default function ChatInput(inputProps: inputProps) {
+  const optionList = inputProps.tools
 
-  const [optionList, setOptionList] = useState<string[]>([])
+  const setOptionList = (tools: string[]) =>
+      inputProps.dispatch({ type: "SET_TOOLS", payload: tools })
+
 
   return (
     <div className="font-paragraph mx-auto w-full max-w-3xl rounded-2xl pb-2">
@@ -39,25 +42,33 @@ export default function ChatInput(inputProps: inputProps) {
         <div className="flex items-center justify-between">
           {/* Options Button */}
           <div className="flex items-center gap-3">
-          <InputOptions setOptionList = {setOptionList}/>
+          <InputOptions
+            tools={optionList}
+            setTools={setOptionList}
+          />
 
-          {optionList.map((item)=>(
+          {/* Show the tool label from the tools key */}
+          {optionList.map((item) => {
+            const tool = options.find(o => o.key === item)
+
+            return (
               <div
                 key={item}
                 className="flex items-center gap-1 text-xs bg-blue-200 px-2 py-1 rounded-md text-blue-600"
               >
-                <span>{item}</span>
+                <span>{tool?.toolLabel}</span>
 
                 <button
                   onClick={() =>
-                    setOptionList(prev => prev.filter(i => i !== item))
+                    setOptionList(optionList.filter(i => i !== item))
                   }
                   className="ml-1 hover:text-blue-800 cursor-pointer"
                 >
                   <Cross2Icon className="h-4 w-4" />
                 </button>
               </div>
-          ))}
+            )
+          })}
           </div>
 
           {/* Send */}

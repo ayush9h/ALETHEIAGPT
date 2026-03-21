@@ -7,7 +7,8 @@ export async function sendChatMessage(
   question: string,
   userPref: UserPrefProps,
   selectedSessionId: number | null,
-  userId: string
+  userId: string,
+  tools: string[]
 ) {
   return api.post("/chat", {
     model: selectedModel,
@@ -15,5 +16,6 @@ export async function sendChatMessage(
     userPref: userPref,
     selectedSessionId: selectedSessionId,
     userId: userId,
+    tools: tools,
   });
 }

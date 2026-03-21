@@ -8,6 +8,8 @@ export interface inputProps {
   value: string;
   onChange: (v: string) => void;
   onSend: () => void;
+  tools: string[]
+  dispatch: React.Dispatch<ChatAction>;
 }
 
 /* Chat Window Props */
@@ -20,4 +22,5 @@ export interface ChatWindowProps {
   userPref: UserPrefProps;
   onSend: () => void;
   userName: string;
+  tools:string[]
 }

@@ -53,6 +53,7 @@ export default function ChatPage() {
     userPref: state.userPref,
     selectedSessionId: state.selectedSessionId,
     sessions: state.sessions,
+    tools: state.selectedTools,
     userId,
     dispatch,
   });
@@ -97,6 +98,7 @@ export default function ChatPage() {
         dispatch={dispatch}
         onSend={handleSend}
         userName={session?.user?.name as string}
+        tools={state.selectedTools}
       />
     </div>
   );
