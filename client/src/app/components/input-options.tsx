@@ -17,11 +17,11 @@ export const options = [
         toolLabel:"Web Search",
         toolIcon: GlobeIcon,
     },
-    {
-        key:"url_extractor",
-        toolLabel:"URL Extractor",
-        toolIcon: BookOpenTextIcon,
-    }
+    // {
+    //     key:"url_extractor",
+    //     toolLabel:"URL Extractor",
+    //     toolIcon: BookOpenTextIcon,
+    // }
 ]
 
 
