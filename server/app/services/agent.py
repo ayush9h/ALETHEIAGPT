@@ -5,6 +5,7 @@ from app.prompts.orchestrator_prompt import ORCHESTRATOR_BASE_PROMPT
 from app.services.agent_state import AgentState
 from app.services.tools.web_search import web_search
 from app.utils.config import settings
+from app.utils.logger import logger
 from langchain.agents import create_agent
 from langchain_core.messages import SystemMessage
 from langchain_groq import ChatGroq
@@ -138,7 +139,9 @@ builder.add_node("orchestrator", orchestrator)
 builder.add_node("memory_store", memory_store)
 
 builder.add_edge(START, "generate_session_title")
-builder.add_edge("generate_session_title", "orchestrator")
-builder.add_edge("orchestrator", END)
+builder.add_edge("generate_session_title", "memory_retrieve")
+builder.add_edge("memory_retrieve", "orchestrator")
+builder.add_edge("orchestrator", "memory_store")
+builder.add_edge("memory_store", END)
 
 graph = builder.compile()
