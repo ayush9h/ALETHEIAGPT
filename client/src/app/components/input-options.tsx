@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/app/components/ui/dropdown-menu";
 import { PlusIcon, GlobeIcon } from "@radix-ui/react-icons"
-import { BookOpenTextIcon } from "lucide-react";
+// import { BookOpenTextIcon } from "lucide-react";
 
 
 /** Options available to users (tools) */
